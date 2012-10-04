@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Search</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="edit-find"/>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLineEdit" name="lineEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Search</string>
+        </property>
+        <property name="icon">
+         <iconset theme="edit-find"/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox">
+        <property name="frame">
+         <bool>true</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>by name</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>by maintainer</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableWidget_3">
+     <row>
+      <property name="text">
+       <string>1.</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>2.</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>3.</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>4.</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>5.</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>Category</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Version</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Votes</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Description</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Maintainer</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Out of Date</string>
+      </property>
+     </column>
+     <item row="0" column="0">
+      <property name="text">
+       <string>system</string>
+      </property>
+     </item>
+     <item row="0" column="1">
+      <property name="text">
+       <string>pkgbuilder</string>
+      </property>
+     </item>
+     <item row="0" column="2">
+      <property name="text">
+       <string>2.1.4.8-1</string>
+      </property>
+     </item>
+     <item row="0" column="3">
+      <property name="text">
+       <string>5</string>
+      </property>
+     </item>
+     <item row="0" column="4">
+      <property name="text">
+       <string>A Python AUR helper/library.</string>
+      </property>
+     </item>
+     <item row="0" column="5">
+      <property name="text">
+       <string>Kwpolska</string>
+      </property>
+     </item>
+     <item row="0" column="6">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
+     </item>
+     <item row="1" column="0">
+      <property name="text">
+       <string>system</string>
+      </property>
+     </item>
+     <item row="1" column="1">
+      <property name="text">
+       <string>pkgbuilder-git</string>
+      </property>
+     </item>
+     <item row="1" column="2">
+      <property name="text">
+       <string>20120930-1</string>
+      </property>
+     </item>
+     <item row="1" column="3">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </item>
+     <item row="1" column="4">
+      <property name="text">
+       <string>A Python AUR helper/library.  Version from git.</string>
+      </property>
+     </item>
+     <item row="1" column="5">
+      <property name="text">
+       <string>Kwpolska</string>
+      </property>
+     </item>
+     <item row="1" column="6">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
+     </item>
+     <item row="2" column="0">
+      <property name="text">
+       <string>system</string>
+      </property>
+     </item>
+     <item row="2" column="1">
+      <property name="text">
+       <string>trashman</string>
+      </property>
+     </item>
+     <item row="2" column="2">
+      <property name="text">
+       <string>1.0.3-1</string>
+      </property>
+     </item>
+     <item row="2" column="3">
+      <property name="text">
+       <string>1</string>
+      </property>
+     </item>
+     <item row="2" column="4">
+      <property name="text">
+       <string>A Python trash manager. Python 3 build.</string>
+      </property>
+     </item>
+     <item row="2" column="5">
+      <property name="text">
+       <string>Kwpolska</string>
+      </property>
+     </item>
+     <item row="2" column="6">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
+     </item>
+     <item row="3" column="0">
+      <property name="text">
+       <string>system</string>
+      </property>
+     </item>
+     <item row="3" column="1">
+      <property name="text">
+       <string>trashman-git</string>
+      </property>
+     </item>
+     <item row="3" column="2">
+      <property name="text">
+       <string>20120930-1</string>
+      </property>
+     </item>
+     <item row="3" column="3">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </item>
+     <item row="3" column="4">
+      <property name="text">
+       <string>A Python trash manager. Python 3 build, version from git.</string>
+      </property>
+     </item>
+     <item row="3" column="5">
+      <property name="text">
+       <string>Kwpolska</string>
+      </property>
+     </item>
+     <item row="3" column="6">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
+     </item>
+     <item row="4" column="0">
+      <property name="text">
+       <string>system</string>
+      </property>
+     </item>
+     <item row="4" column="1">
+      <property name="text">
+       <string>aurqt</string>
+      </property>
+     </item>
+     <item row="4" column="2">
+      <property name="text">
+       <string>0.1.0-1</string>
+      </property>
+     </item>
+     <item row="4" column="3">
+      <property name="text">
+       <string>41243242</string>
+      </property>
+     </item>
+     <item row="4" column="4">
+      <property name="text">
+       <string>A desktop AUR client, written in Qt.</string>
+      </property>
+     </item>
+     <item row="4" column="5">
+      <property name="text">
+       <string>Kwpolska</string>
+      </property>
+     </item>
+     <item row="4" column="6">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
+     </item>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

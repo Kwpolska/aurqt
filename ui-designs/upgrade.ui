@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Upgrade</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="system-software-update"/>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>The following packages can be upgraded:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableWidget">
+     <row>
+      <property name="text">
+       <string>1.</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>2.</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>Package</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Local Version</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>AUR Version</string>
+      </property>
+     </column>
+     <item row="0" column="0">
+      <property name="text">
+       <string>pkgbuilder</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item row="0" column="1">
+      <property name="text">
+       <string>2.1.4.9-1</string>
+      </property>
+     </item>
+     <item row="0" column="2">
+      <property name="text">
+       <string>2.1.5.0-1</string>
+      </property>
+     </item>
+     <item row="1" column="0">
+      <property name="text">
+       <string>aurqt</string>
+      </property>
+      <property name="checkState">
+       <enum>Checked</enum>
+      </property>
+     </item>
+     <item row="1" column="1">
+      <property name="text">
+       <string>0.1.0-1</string>
+      </property>
+     </item>
+     <item row="1" column="2">
+      <property name="text">
+       <string>0.1.1-1</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Choose the packages you want to upgrade and press OK.</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
