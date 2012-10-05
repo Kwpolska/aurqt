@@ -18,3 +18,5 @@ But I would love to see some help.  Here are the basic guidelines:
  * Code standards: PEP8, comments, docstrings, everything must be pretty.
  * If you want to contribute, throw a pull request or two and ask for
    contributor rights.
+
+Hint, hint: pyuic4.
