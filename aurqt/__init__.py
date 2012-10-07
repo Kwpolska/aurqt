@@ -62,15 +62,16 @@ __pbversion__ = pkgbuilder.__version__
 class AQError(Exception):
     """Exceptions raised by aurqt."""
 
-    def __init__(self, msg):
+    def __init__(self, src, inf, msg):
         """PBError init."""
-        DS.log.error('(auto PBError       ) ' + msg)
+        DS.log.error('(auto AQError) ' + '/'.join([src, inf, msg]))
+        self.src = src
+        self.inf = inf
         self.msg = msg
 
     def __str__(self):
         """You want to see error messages, don’t you?"""
         return self.msg
 
-
-#from .aqds import AQDS
-#DS = AQDS()
+from .aqds import AQDS
+DS = AQDS()

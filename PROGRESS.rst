@@ -41,3 +41,21 @@ So, we’ll be doing them soon.  I hope.  Because I have no working libraries,
 although those are not important now, and I have to work out how MDI windows
 work.  Or, if you want it that way, google, read, and then do some
 Ctrl+C-Alt+Tab-F10-i-Ctrl+Shift+V.  (F10 is mapped to paste mode in my .vimrc)
+
+Day 2
+=====
+
+2012-10-07
+----------
+
+Today, I made the login form.  Login/logout are in AQDS, because they can.
+
+Now, onto the harder part of this project: actually working on the MDI.  And I
+have a source to copy-paste things from.  The PyQT examples.  The file
+``/examples/mainwindows/mdi/mdi.py`` provides a very nice explanation and code
+for what I need.
+
+Also, I think I can destroy some of the progress bars I have scattered over the
+UI files.
+
+PS. Need a tagline ASAP.  Without it, I cannot do half of the stuff I want to.
