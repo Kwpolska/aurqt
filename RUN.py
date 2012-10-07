@@ -1,4 +1,5 @@
 #!/usr/bin/python3
-import aurqt.ui
+import aurqt.ui.main
+import sys
 
-aurqt.ui.main()
+sys.exit(aurqt.ui.main.main())
