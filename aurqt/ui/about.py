@@ -19,6 +19,7 @@ from PyQt4 import Qt, QtGui, QtCore
 
 
 class AboutDialog(QtGui.QDialog):
+    """The About window for aurqt."""
     def __init__(self, parent=None):
         """Initialize the dialog."""
         super(AboutDialog, self).__init__(parent)
@@ -27,13 +28,13 @@ class AboutDialog(QtGui.QDialog):
 
         aurqt = QtGui.QLabel('aurqt v{}'.format(__version__), self)
         tagline = QtGui.QLabel(_('INSERT TAGLINE HERE.'), self)
-        copyright = QtGui.QLabel('Copyright © 2012, Kwpolska.', self)
+        copy = QtGui.QLabel('Copyright © 2012, Kwpolska.', self)
         localetxt = _('LANG locale by AUTHOR <MAIL@IF.YOU.WANT')
         if localetxt == 'LANG locale by AUTHOR <MAIL@IF.YOU.WANT':
             localetxt = 'No locale in use.'
         locale = QtGui.QLabel(localetxt, self)
-        pb = QtGui.QLabel(_('Using PKGBUILDer v{}.').format(__pbversion__),
-                          self)
+        pbinf = QtGui.QLabel(_('Using PKGBUILDer v{}.').format(__pbversion__),
+                             self)
         okay = QtGui.QDialogButtonBox(self)
         okay.setStandardButtons(QtGui.QDialogButtonBox.Ok)
 
@@ -43,18 +44,19 @@ class AboutDialog(QtGui.QDialog):
         aurqt.setFont(font)
         aurqt.setAlignment(QtCore.Qt.AlignCenter)
         tagline.setAlignment(QtCore.Qt.AlignCenter)
-        copyright.setAlignment(QtCore.Qt.AlignCenter)
+        copy.setAlignment(QtCore.Qt.AlignCenter)
         locale.setAlignment(QtCore.Qt.AlignCenter)
-        pb.setAlignment(QtCore.Qt.AlignCenter)
+        pbinf.setAlignment(QtCore.Qt.AlignCenter)
 
         lay.addWidget(aurqt)
         lay.addWidget(tagline)
-        lay.addWidget(copyright)
+        lay.addWidget(copy)
         lay.addWidget(locale)
-        lay.addWidget(pb)
+        lay.addWidget(pbinf)
         lay.addWidget(okay)
 
         QtCore.QObject.connect(okay, QtCore.SIGNAL('accepted()'), self.accept)
+        QtCore.QObject.connect(okay, QtCore.SIGNAL('rejected()'), self.reject)
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.ApplicationModal)
