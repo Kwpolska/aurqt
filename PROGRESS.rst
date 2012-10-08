@@ -59,3 +59,11 @@ Also, I think I can destroy some of the progress bars I have scattered over the
 UI files.
 
 PS. Need a tagline ASAP.  Without it, I cannot do half of the stuff I want to.
+
+Day 3
+=====
+
+2012-10-08
+----------
+
+Upgrade is 75% done.  I need to get threads done.

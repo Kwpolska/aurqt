@@ -11,7 +11,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Upload</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="list-add"/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="3" column="0" colspan="4">
@@ -20,7 +23,9 @@
       <string>Submit</string>
      </property>
      <property name="icon">
-      <iconset theme="go-next"/>
+      <iconset theme="go-next">
+       <normaloff/>
+      </iconset>
      </property>
     </widget>
    </item>
@@ -92,7 +97,9 @@
       <string>Add</string>
      </property>
      <property name="icon">
-      <iconset theme="list-add"/>
+      <iconset theme="list-add">
+       <normaloff/>
+      </iconset>
      </property>
     </widget>
    </item>

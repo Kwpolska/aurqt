@@ -21,6 +21,7 @@ import webbrowser
 
 
 class LoginForm(QtGui.QDialog):
+    """The aurqt login form."""
     def __init__(self, parent=None):
         """Initialize the dialog."""
         super(LoginForm, self).__init__(parent)
