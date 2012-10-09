@@ -67,3 +67,11 @@ Day 3
 ----------
 
 Upgrade is 75% done.  I need to get threads done.
+
+Day 4
+=====
+
+2012-10-09
+----------
+
+Didn’t have much time, did almost nothing…

@@ -18,51 +18,34 @@ from .. import _
 from ..upgrade import Upgrade
 from PyQt4 import Qt, QtGui, QtCore
 
-class UpgradeListThread(QtCore.QThread):
-    def __init__(self):
-        """Init the thread."""
-        QtCore.QThread.__init__(self)
-
-    def run(self):
-        """Run the thread."""
-        upgrade = Upgrade()
-        ulist = upgrade.list()
-        ustr = '\n'.join('\\\\'.join(map(str,l)) for l in ulist)
-        self.emit(QtCore.SIGNAL('update(QString)'), ustr)
-
-    def __del__(self):
-        """Wait for it…"""
-        self.wait()
-
 
 class UpgradeDialog(QtGui.QDialog):
     """The upgrade window for aurqt."""
-    def parseupgrades(self, ustr):
-        """Parse the upgrades list.  ustr is a cheat."""
-        self.ulist = [i.split('\\\\') for i in ustr.split('\n')] #cheating…
-        self.ulist = [s for s in self.ulist[0] if s != '']
+    def refresh(self):
+        """Refresh the upgrades list."""
+        self.greet.setText(_('Searching for upgrades…'))
+        self.btn.setEnabled(False)
+        self.table.setEnabled(False)
+        upgrade = Upgrade()
+        self.ulist = upgrade.list()[0]
 
         if not self.ulist:
             self.greet.setText(_('No upgrades found.'))
             self.btn.setStandardButtons(QtGui.QDialogButtonBox.Close)
-            self.btn.setEnabled(True)
         else:
             self.epilog.show()
+            self.btn.setStandardButtons(QtGui.QDialogButtonBox.Ok |
+                                        QtGui.QDialogButtonBox.Cancel)
             self.greet.setText(_('Found the following upgrades:'))
             #TODO
-            self.btn.setEnabled(True)
+
+        self.btn.setEnabled(True)
 
     def install(self):
         """Install the selected upgrades."""
         #TODO: run users’ AUR helper with stuff.  Also, checkboxes.
         print(self.ulist)
-
-    def runthread(self):
-        """Run the upgrade list thread."""
-        t = UpgradeListThread()
-        self.connect(t, QtCore.SIGNAL('update(QString)'),
-                     self.parseupgrades)
-        t.start()
+        self.accept()
 
     def __init__(self, parent=None):
         """Initialize the dialog."""
@@ -70,28 +53,36 @@ class UpgradeDialog(QtGui.QDialog):
 
         lay = QtGui.QVBoxLayout(self)
 
-        self.greet = QtGui.QLabel(_('Searching for upgrades…'),
-                                  self)
+        refresh = QtGui.QPushButton(_('Refresh'), self)
+        refresh.setIcon(QtGui.QIcon.fromTheme('view-refresh'))
+        self.greet = QtGui.QLabel(_('Please hit Refresh to search for '
+                                    'upgrades.'), self)
         self.epilog = QtGui.QLabel(_('Choose the packages you want to '
                                      'upgrade and press OK.'), self)
+        self.greet.setWordWrap(True)
+        self.epilog.setWordWrap(True)
         self.epilog.hide()
         self.table = QtGui.QTableWidget(self) # TODO?
         self.table.setEnabled(False)
         self.btn = QtGui.QDialogButtonBox(self)
-        self.btn.setStandardButtons(QtGui.QDialogButtonBox.Ok |
-                                    QtGui.QDialogButtonBox.Cancel)
-        self.btn.setEnabled(False)
+        self.btn.setStandardButtons(QtGui.QDialogButtonBox.Close)
 
+        lay.addWidget(refresh)
         lay.addWidget(self.greet)
         lay.addWidget(self.table)
         lay.addWidget(self.epilog)
         lay.addWidget(self.btn)
 
-        QtCore.QObject.connect(self.btn, QtCore.SIGNAL('accepted()'), self.accept)
-        QtCore.QObject.connect(self.btn, QtCore.SIGNAL('rejected()'), self.reject)
+        QtCore.QObject.connect(self.btn, QtCore.SIGNAL('accepted()'),
+                               self.install)
+        QtCore.QObject.connect(self.btn, QtCore.SIGNAL('rejected()'),
+                               self.reject)
+        QtCore.QObject.connect(refresh, QtCore.SIGNAL('clicked()'),
+                               self.refresh)
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.ApplicationModal)
         self.setWindowTitle(_('Upgrade'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('system-software-update'))
+        self.resize(300, 400)
         self.show()
