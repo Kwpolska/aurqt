@@ -68,10 +68,10 @@ Day 3
 
 Upgrade is 75% done.  I need to get threads done.
 
-Day 4
-=====
+Day 4, 5, 6
+===========
 
-2012-10-09
-----------
+2012-10-09, 2012-10-10, 2012-10-11
+----------------------------------
 
-Didn’t have much time, did almost nothing…
+Didn’t have much time, did almost nothing…  Sorry.
