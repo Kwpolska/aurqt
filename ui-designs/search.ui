@@ -14,7 +14,9 @@
    <string>Search</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="edit-find"/>
+   <iconset theme="edit-find">
+    <normaloff/>
+   </iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -35,7 +37,9 @@
          <string>Search</string>
         </property>
         <property name="icon">
-         <iconset theme="edit-find"/>
+         <iconset theme="edit-find">
+          <normaloff/>
+         </iconset>
         </property>
        </widget>
       </item>
@@ -103,22 +107,17 @@
      </column>
      <column>
       <property name="text">
-       <string>Votes</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
        <string>Description</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Maintainer</string>
+       <string>Votes</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Out of Date</string>
+       <string>Maintainer</string>
       </property>
      </column>
      <item row="0" column="0">
@@ -135,28 +134,29 @@
       <property name="text">
        <string>2.1.4.8-1</string>
       </property>
+      <property name="foreground">
+       <brush brushstyle="NoBrush">
+        <color alpha="255">
+         <red>255</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </property>
      </item>
      <item row="0" column="3">
       <property name="text">
-       <string>5</string>
+       <string>A Python AUR helper/library.</string>
       </property>
      </item>
      <item row="0" column="4">
       <property name="text">
-       <string>A Python AUR helper/library.</string>
+       <string>5</string>
       </property>
      </item>
      <item row="0" column="5">
       <property name="text">
        <string>Kwpolska</string>
-      </property>
-     </item>
-     <item row="0" column="6">
-      <property name="text">
-       <string/>
-      </property>
-      <property name="checkState">
-       <enum>Unchecked</enum>
       </property>
      </item>
      <item row="1" column="0">
@@ -176,25 +176,17 @@
      </item>
      <item row="1" column="3">
       <property name="text">
-       <string>0</string>
+       <string>A Python AUR helper/library.  Version from git.</string>
       </property>
      </item>
      <item row="1" column="4">
       <property name="text">
-       <string>A Python AUR helper/library.  Version from git.</string>
+       <string>0</string>
       </property>
      </item>
      <item row="1" column="5">
       <property name="text">
        <string>Kwpolska</string>
-      </property>
-     </item>
-     <item row="1" column="6">
-      <property name="text">
-       <string/>
-      </property>
-      <property name="checkState">
-       <enum>Unchecked</enum>
       </property>
      </item>
      <item row="2" column="0">
@@ -206,6 +198,9 @@
       <property name="text">
        <string>trashman</string>
       </property>
+      <property name="flags">
+       <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+      </property>
      </item>
      <item row="2" column="2">
       <property name="text">
@@ -214,25 +209,17 @@
      </item>
      <item row="2" column="3">
       <property name="text">
-       <string>1</string>
+       <string>A Python trash manager. Python 3 build.</string>
       </property>
      </item>
      <item row="2" column="4">
       <property name="text">
-       <string>A Python trash manager. Python 3 build.</string>
+       <string>1</string>
       </property>
      </item>
      <item row="2" column="5">
       <property name="text">
        <string>Kwpolska</string>
-      </property>
-     </item>
-     <item row="2" column="6">
-      <property name="text">
-       <string/>
-      </property>
-      <property name="checkState">
-       <enum>Unchecked</enum>
       </property>
      </item>
      <item row="3" column="0">
@@ -252,25 +239,17 @@
      </item>
      <item row="3" column="3">
       <property name="text">
-       <string>0</string>
+       <string>A Python trash manager. Python 3 build, version from git.</string>
       </property>
      </item>
      <item row="3" column="4">
       <property name="text">
-       <string>A Python trash manager. Python 3 build, version from git.</string>
+       <string>0</string>
       </property>
      </item>
      <item row="3" column="5">
       <property name="text">
        <string>Kwpolska</string>
-      </property>
-     </item>
-     <item row="3" column="6">
-      <property name="text">
-       <string/>
-      </property>
-      <property name="checkState">
-       <enum>Unchecked</enum>
       </property>
      </item>
      <item row="4" column="0">
@@ -290,25 +269,17 @@
      </item>
      <item row="4" column="3">
       <property name="text">
-       <string>41243242</string>
+       <string>A desktop AUR client, written in Qt.</string>
       </property>
      </item>
      <item row="4" column="4">
       <property name="text">
-       <string>A desktop AUR client, written in Qt.</string>
+       <string>41243242</string>
       </property>
      </item>
      <item row="4" column="5">
       <property name="text">
        <string>Kwpolska</string>
-      </property>
-     </item>
-     <item row="4" column="6">
-      <property name="text">
-       <string/>
-      </property>
-      <property name="checkState">
-       <enum>Unchecked</enum>
       </property>
      </item>
     </widget>

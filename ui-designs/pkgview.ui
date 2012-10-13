@@ -21,6 +21,62 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QToolButton" name="toolButton">
+         <property name="text">
+          <string>Install</string>
+         </property>
+         <property name="icon">
+          <iconset theme="run-build-install"/>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>22</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::InstantPopup</enum>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonFollowStyle</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="toolButton_2">
+         <property name="text">
+          <string>Actions</string>
+         </property>
+         <property name="icon">
+          <iconset theme="view-form-action"/>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>22</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="popupMode">
+          <enum>QToolButton::MenuButtonPopup</enum>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonFollowStyle</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
      <widget class="QLabel" name="label">
       <property name="font">
        <font>
@@ -59,15 +115,6 @@
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
         <layout class="QFormLayout" name="formLayout">
-         <property name="fieldGrowthPolicy">
-          <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-         </property>
-         <property name="labelAlignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="formAlignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
          <property name="horizontalSpacing">
           <number>15</number>
          </property>
@@ -230,35 +277,6 @@ p, li { white-space: pre-wrap; }
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonFollowStyle</enum>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="action_Install"/>
-   <addaction name="separator"/>
-   <addaction name="actionVote"/>
-   <addaction name="actionNotify"/>
-   <addaction name="actionOut_of_Date"/>
-   <addaction name="separator"/>
-   <addaction name="actionComment"/>
-   <addaction name="separator"/>
-   <addaction name="actionDisown"/>
   </widget>
   <action name="actionComment">
    <property name="icon">
