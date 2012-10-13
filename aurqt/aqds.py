@@ -15,23 +15,22 @@
 """
 
 from . import AQError, _, __version__
+from .aurweb import aurweb
 import os
 import logging
 import configparser
 import requests
+import pickle
+import threading
 
 
 ### AQDS           AQ global data storage  ###
 class AQDS():
     """aurqt Data Storage."""
     ### STUFF NOT TO BE CHANGED BY HUMAN BEINGS.  EVER.
-    debug = False
-    console = None
     sid = None
     username = None
-    cookies = None  # TODO []?
-
-    aurweburl = 'https://aur.archlinux.org/'  # TODO?
+    w = aurweb()
 
     # Creating the configuration/log stuff...
     confhome = os.getenv('XDG_CONFIG_HOME')
@@ -60,28 +59,37 @@ class AQDS():
                         filename=os.path.join(confdir, 'aurqt.log'),
                         level=logging.DEBUG)
     log = logging.getLogger('aurqt')
+    console = logging.StreamHandler()
+    console.setLevel(logging.DEBUG)
+    console.setFormatter(logging.Formatter('[%(levelname)-7s] '
+                         ':%(name)-10s: %(message)s'))
     log.info('*** aurqt v' + __version__)
 
     # TODO config
 
-    def __init__(self):
-        """Additional initialization."""
-        # TODO load cookies here, if any.
+    # Remember mode.
+    sidfile = os.path.join(confdir, 'sid.pickle')
+    contstate = False
 
-    def debugmode(self, nochange=False):
-        """Print all the logged messages to stderr."""
-        if not self.debug:
-            self.console = logging.StreamHandler()
-            self.console.setLevel(logging.DEBUG)
-            self.console.setFormatter(logging.Formatter('[%(levelname)-7s] '
-                                      ':%(name)-10s: %(message)s'))
-            logging.getLogger('').addHandler(self.console)
-            self.debug = True
-        elif self.debug and nochange:
-            pass
-        else:
-            logging.getLogger('').removeHandler(self.console)
-            self.debug = False
+    def continue_session(self):
+        """Continue pre-existing session."""
+        try:
+            login_data = pickle.load(open(self.sidfile, 'rb'))
+            if self.w.loggedin(login_data[0]):
+                self.log.info('Using pre-existing login data: {}'.format(login_data))
+                self.remember = True
+                self.sid = login_data[0]
+                self.username = login_data[1]
+            else:
+                self.log.info('Session of {} expired.'.format(login_data))
+                os.remove(self.sidfile)
+                self.remember = False
+                self.sid = None
+                self.username = None
+        except IOError:
+            self.remember = False
+
+        self.contstate = True
 
     def login(self, username, password, remember):
         """Log into the AUR."""
@@ -94,21 +102,24 @@ class AQDS():
                                                'username or the password!'))
         else:
             try:
-                r = requests.post(self.aurweburl, data={'user': username,
-                                                        'passwd': password,
-                                                        'remember': remember})
-                c = r.cookies.get_dict()
-                self.sid = c['AURSID']
-                self.username = username
-            except:
+                login_data = self.w.login(username, password, remember)
+                self.sid = login_data[0]
+                self.username = login_data[1]
+                self.remember = remember
+                if remember:
+                    pickle.dump(login_data, open(self.sidfile, 'wb'))
+
+            except NotImplementedError:
                 raise AQError('login', 'error', _('Cannot log in (wrong '
                                                   'credentials?)'))
-
     def logout(self):
         """Log out of the AUR."""
         try:
-            r = requests.get(self.aurweburl + 'logout.php')
+            self.w.logout()
             self.sid = None
             self.username = None
+            if self.remember:
+                self.remember = False
+                os.remove(self.sidfile)
         except:
             raise AQError('logout', 'error', _('Cannot log out.'))

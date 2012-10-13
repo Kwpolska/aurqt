@@ -17,37 +17,20 @@
 from .. import __version__, DS, _, AQError
 from ..upgrade import Upgrade
 from .about import AboutDialog
+from .info import InfoBox
 from .loginform import LoginForm
+from .search import SearchDialog
 from .upgrade import UpgradeDialog
 from PyQt4 import QtGui, QtCore
 import sys
 import subprocess
-
-class UpgAThread(QtCore.QThread):
-    def __init__(self):
-        """Init the thread."""
-        QtCore.QThread.__init__(self)
-
-    def run(self):
-        """Run the thread."""
-        upgrade = Upgrade()
-        ulist = upgrade.list()
-        ustr = '\n'.join('\\\\'.join(map(str,l)) for l in ulist)
-        self.emit(QtCore.SIGNAL('update(QString)'), ustr)
-
-    def __del__(self):
-        """Wait for it…"""
-        self.wait()
+import threading
+import time
+import pickle
 
 
 class Main(QtGui.QMainWindow):
     """The main window."""
-    def runthread(self):
-        """Run the upgrade thread."""
-        t = UpgAThread()
-        self.connect(t, QtCore.SIGNAL('update(QString)'),
-                     self.upgradeagenerate, QtCore.Qt.QueuedConnection)
-        t.start()
 
     def logagenerate(self):
         """Generate the appropriate login/logout button."""
@@ -55,19 +38,18 @@ class Main(QtGui.QMainWindow):
             # TRANSLATORS: {} = username
             self.loga.setText(_('&Log out [{}]').format(DS.username))
             self.loga.setToolTip(_('Log out.'))
+            self.loga.setEnabled(True)
+            self.mypkgs.setEnabled(True)
         else:
             self.loga.setText(_('&Log in'))
             self.loga.setToolTip(_('Log in.'))
+            self.loga.setEnabled(True)
+            self.mypkgs.setEnabled(False)
 
-    def upgradeagenerate(self, ulist=None):
+    def upgradeagenerate(self):
         """Generate the appropriate upgrade button."""
-        if not ulist:
-            upgrade = Upgrade()
-            ulist = upgrade.list()[0]
-
-        if type(ulist) != list:
-            ulist = [i.split('\\\\') for i in ulist.split('\n')] #cheating…
-            ulist = [s for s in ulist[0] if s != '']
+        upgrade = Upgrade()
+        ulist = upgrade.list()[0]
 
         if ulist:
             self.upgradea.setText(_('&Upgrade ({})').format(len(ulist)))
@@ -78,66 +60,80 @@ class Main(QtGui.QMainWindow):
             self.upgradea.setToolTip(_('Upgrade installed packages.'
                 ).format(len(ulist)))
 
+        self.upgradea.setEnabled(True)
+
+    def sessiongenerate(self):
+        """Handle session re-generation."""
+        while not DS.contstate:
+            time.sleep(0.1)
+
+        self.logagenerate()
+
     def __init__(self):
         """Initialize the window."""
         super(Main, self).__init__()
 
-        # Actions.  TODO THOSE CONNECTIONS ARE WRONG
+        # Actions.
         self.upgradea = QtGui.QAction(
             QtGui.QIcon.fromTheme('system-software-update'),
-            _('&Upgrade'), self)
+            _('&Upgrade (…)'), self)
         self.upgradea.setShortcut('Ctrl+U')
-        self.upgradea.setToolTip(_('Upgrade installed packages.'))
-        self.upgradea.triggered.connect(self.upgrade)
+        self.upgradea.setToolTip(_('[Getting upgrade count…]'))
+        self.upgradea.setEnabled(False)
+        QtCore.QObject.connect(self.upgradea, QtCore.SIGNAL('triggered()'), self.upgrade)
 
         upload = QtGui.QAction(QtGui.QIcon.fromTheme('list-add'),
                                _('Upl&oad…'), self)
         upload.setShortcut('Ctrl+Shift+U')
         upload.setToolTip(_('Upload a package to the AUR.'))
-        upload.triggered.connect(self.upload)
+        QtCore.QObject.connect(upload, QtCore.SIGNAL('triggered()'), self.upload)
 
         search = QtGui.QAction(QtGui.QIcon.fromTheme('edit-find'),
                                _('&Search…'), self)
         search.setShortcut('Ctrl+S')
         search.setToolTip(_('Search the AUR.'))
-        search.triggered.connect(self.search)
+        QtCore.QObject.connect(search, QtCore.SIGNAL('triggered()'), self.search)
 
         prefs = QtGui.QAction(QtGui.QIcon.fromTheme('configure'),
                               _('&Preferences'), self)
         prefs.setShortcut('Ctrl+,')
         prefs.setToolTip(_('Open the preferences window for aurqt.'))
-        prefs.triggered.connect(self.prefs)
+        QtCore.QObject.connect(prefs, QtCore.SIGNAL('triggered()'), self.prefs)
 
         quit = QtGui.QAction(QtGui.QIcon.fromTheme('application-exit'),
                              _('&Quit'), self)
         quit.setShortcut('Ctrl+Q')
         quit.setToolTip(_('Quit aurqt.'))
-        quit.triggered.connect(QtGui.qApp.quit)
+        QtCore.QObject.connect(quit, QtCore.SIGNAL('triggered()'), QtGui.qApp.quit)
+
+        try:
+            loganame = _('&Log out [{}]').format(pickle.load(open(
+                DS.sidfile, 'rb'))[1])
+        except IOError:
+            loganame = _('&Log in')
 
         self.loga = QtGui.QAction(QtGui.QIcon.fromTheme('user-identity'),
-                                  '&L', self)
+                                  loganame, self)
         self.loga.setShortcut('Ctrl+L')
-        self.loga.setToolTip('Log in/out (not to be seen!)')
-        self.logagenerate()
-        self.loga.triggered.connect(self.log)
+        self.loga.setToolTip(_('[Working on authentication…]'))
+        QtCore.QObject.connect(self.loga, QtCore.SIGNAL('triggered()'), self.log)
+        self.loga.setEnabled(False)
 
-        mypkgs = QtGui.QAction(QtGui.QIcon.fromTheme('folder-tar'),
-                               _('&My packages'), self)
-        mypkgs.setShortcut('Ctrl+M')
-        mypkgs.setToolTip(_('Display my packages.'))
-        mypkgs.triggered.connect(self.mine)
+        self.mypkgs = QtGui.QAction(QtGui.QIcon.fromTheme('folder-tar'),
+                                    _('&My packages'), self)
+        self.mypkgs.setShortcut('Ctrl+M')
+        self.mypkgs.setToolTip(_('Display my packages.'))
+        QtCore.QObject.connect(self.mypkgs, QtCore.SIGNAL('triggered()'), self.mine)
 
         ohelp = QtGui.QAction(QtGui.QIcon.fromTheme('help-contents'),
                               _('Online &Help'), self)
         ohelp.setShortcut('F1')
         ohelp.setToolTip(_('Show the online help for aurqt.'))
-        ohelp.triggered.connect(self.halp)
+        QtCore.QObject.connect(ohelp, QtCore.SIGNAL('triggered()'), self.halp)
 
         about = QtGui.QAction(QtGui.QIcon.fromTheme('help-about'),
                               _('A&bout'), self)
-        about.setStatusTip('aurqt v{} — Copyright © 2012, Kwpolska.'.format(
-                           __version__))
-        about.triggered.connect(self.about)
+        QtCore.QObject.connect(about, QtCore.SIGNAL('triggered()'), self.about)
 
         # Menu.
         menu = self.menuBar()
@@ -153,24 +149,24 @@ class Main(QtGui.QMainWindow):
 
         accountmenu = menu.addMenu(_('&Account'))
         accountmenu.addAction(self.loga)
-        accountmenu.addAction(mypkgs)
+        accountmenu.addAction(self.mypkgs)
 
         helpmenu = menu.addMenu(_('&Help'))
         helpmenu.addAction(ohelp)
         helpmenu.addAction(about)
 
         # Toolbar.
-        toolbar = self.addToolBar(_('aurqt — main window'))
+        self.toolbar = self.addToolBar(_('aurqt Toolbar'))
 
-        toolbar.setIconSize(QtCore.QSize(22, 22))
-        toolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
-        toolbar.addAction(self.upgradea)
-        toolbar.addSeparator()
-        toolbar.addAction(upload)
-        toolbar.addAction(search)
-        toolbar.addSeparator()
-        toolbar.addAction(self.loga)
-        toolbar.addAction(quit)
+        self.toolbar.setIconSize(QtCore.QSize(22, 22))
+        self.toolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
+        self.toolbar.addAction(self.upgradea)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(upload)
+        self.toolbar.addAction(search)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.loga)
+        self.toolbar.addAction(quit)
 
         # MDI.
         self.mdiArea = QtGui.QMdiArea()
@@ -185,60 +181,75 @@ class Main(QtGui.QMainWindow):
         self.setWindowTitle('aurqt')
         self.setWindowIcon(QtGui.QIcon.fromTheme('go-home'))  # TODO.  When we
                                                               # have one.
+        threading.Thread(target=self.upgradeagenerate).start()
+        threading.Thread(target=DS.continue_session).start()
+        threading.Thread(target=self.sessiongenerate).start()
         self.show()
 
     def upload(self, *args):
         print('upload')
         print(args)
 
-    def search(self, *args):
-        print('search')
-        print(args)
+    def openpkg(self, pkgname):
+        """Show info about a package."""
+        p = InfoBox(self, pkgname=pkgname)
+        p.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        window = self.mdiArea.addSubWindow(p)
+        p.exec_()
+
+    def search(self):
+        """Open search dialog."""
+        s = SearchDialog(o=self.openpkg)
+        window = self.mdiArea.addSubWindow(s)
+        s.exec_()
 
     def prefs(self, *args):
         print('prefs')
         print(args)
 
-    def upgrade(self, *args):
+    def upgrade(self):
         """Upgrade installed packages."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
         u = UpgradeDialog()
+        window = self.mdiArea.addSubWindow(u)
+        u.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         u.exec_()
-        #TODO THREAD FOR UPGRADES (RUNTHREAD)
-        t = UpgAThread()
-        self.connect(t, QtCore.SIGNAL('update(QString)'),
-                     self.upgradeagenerate)
-        t.start()
+        self.mdiArea.removeSubWindow(window)
+        threading.Thread(target=self.upgradeagenerate).start()
 
-    def log(self, *args):
+    def log(self):
         """Log in or out."""
         if DS.sid:
             try:
                 DS.logout()
                 QtGui.QMessageBox.information(self, 'aurqt', _('Logged out.'))
             except AQError as e:
-                QtGui.QMessageBox.error(self, 'aurqt', e.msg,
-                                        QtGui.QMessageBox.Ok)
+                QtGui.QMessageBox.critical(self, 'aurqt', e.msg,
+                                           QtGui.QMessageBox.Ok)
             self.logagenerate()
         else:
             l = LoginForm()
             l.exec_()
             self.logagenerate()
 
-    def mine(self, *args):
-        self.runthread()
-        print('mine')
-        print(args)
+    def mine(self):
+        """Open search dialog with the users’ packages."""
+        s = SearchDialog(o=self.openpkg, q=DS.username, m=True, a=True)
+        s.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        window = self.mdiArea.addSubWindow(s)
+        s.exec_()
 
     def halp(self):
         """View the help (online)."""
         # import webbrowser fails miserably.
         subprocess.call(['xdg-open', 'http://aurqt.rtfd.org'])
 
-    def about(self, *args):
+    def about(self):
         """Show the about dialog."""
         a = AboutDialog(self)
         a.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         a.exec_()
+
 
 
 def main():

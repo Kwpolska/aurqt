@@ -76,3 +76,18 @@ Days 4—7
 
 Didn’t have much time, did almost nothing…  Sorry.  In the middle of the week,
 people LOVE to waste my time.
+
+Day 8
+=====
+
+2012-10-13
+----------
+
+There we go!  85% done!  Now, on to doing the stuff that is not done yet.  In
+particular:
+
+ * info box completion (comments, data — the form layout crashed the app!)
+ * preferences/config
+ * package uploading
+ * tagline (yes, could not think of one since 6 days)
+ * testers
