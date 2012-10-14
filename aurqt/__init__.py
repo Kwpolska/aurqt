@@ -49,13 +49,10 @@ __author__ = 'Kwpolska'
 __license__ = '3-clause BSD'
 __docformat__ = 'restructuredtext en'
 
-import pkgbuilder
 import gettext
 
 G = gettext.translation('aurqt', '/usr/share/locale', fallback='C')
 _ = G.gettext
-
-__pbversion__ = pkgbuilder.__version__
 
 
 ### AQError         errors raised here      ###
@@ -75,3 +72,9 @@ class AQError(Exception):
 
 from .aqds import AQDS
 DS = AQDS()
+
+# It’s here to get logging right.  If it was on the top, all the logs from
+# aurqt would go over to pkgbuilder.  Now, it’s the other way around.
+import pkgbuilder
+
+__pbversion__ = pkgbuilder.__version__
