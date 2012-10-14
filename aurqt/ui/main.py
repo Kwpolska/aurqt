@@ -15,19 +15,32 @@
 """
 
 from .. import __version__, DS, _, AQError
-from ..upgrade import Upgrade
-from .about import AboutDialog
-from .info import InfoBox
-from .loginform import LoginForm
-from .search import SearchDialog
-from .upgrade import UpgradeDialog
+DS.log.info('*** Importing in .ui.main…')
+DS.log.info('PyQt4')
 from PyQt4 import QtGui, QtCore
+DS.log.info('about')
+from .about import AboutDialog
+DS.log.info('account')
+from .account import AccountDialog
+DS.log.info('info')
+from .info import InfoBox
+DS.log.info('loginform')
+from .loginform import LoginForm
+DS.log.info('preferences')
+from .preferences import PreferencesDialog
+DS.log.info('search')
+from .search import SearchDialog
+DS.log.info('upgrade')
+from .upgrade import UpgradeDialog
+DS.log.info('external deps')
 import sys
 import subprocess
 import threading
 import time
 import pickle
-
+DS.log.info('pkgbuilder.upgrade')
+import pkgbuilder.upgrade
+DS.log.info('*** Importing done')
 
 class Main(QtGui.QMainWindow):
     """The main window."""
@@ -38,18 +51,29 @@ class Main(QtGui.QMainWindow):
             # TRANSLATORS: {} = username
             self.loga.setText(_('&Log out [{}]').format(DS.username))
             self.loga.setToolTip(_('Log out.'))
+            self.accedita.setText(_('Account se&ttings'))
+            self.accedita.setToolTip(_('Modify the settings of this '
+                                       'account.'))
+            self.accedita.setIcon(QtGui.QIcon.fromTheme(
+                                  'user-group-properties'))
             self.loga.setEnabled(True)
+            self.accedita.setEnabled(True)
             self.mypkgs.setEnabled(True)
         else:
             self.loga.setText(_('&Log in'))
             self.loga.setToolTip(_('Log in.'))
+            self.accedita.setText(_('Regis&ter'))
+            self.accedita.setToolTip(_('Register a new account.'))
+            self.accedita.setIcon(QtGui.QIcon.fromTheme('user-group-new'))
             self.loga.setEnabled(True)
+            self.accedita.setEnabled(True)
             self.mypkgs.setEnabled(False)
 
     def upgradeagenerate(self):
         """Generate the appropriate upgrade button."""
-        upgrade = Upgrade()
-        ulist = upgrade.list()[0]
+        DS.log.info('Checking AUR upgrades...')
+        u = pkgbuilder.upgrade.Upgrade()
+        ulist = u.list_upgradable(u.gather_foreign_pkgs())[0]
 
         if ulist:
             self.upgradea.setText(_('&Upgrade ({})').format(len(ulist)))
@@ -61,18 +85,21 @@ class Main(QtGui.QMainWindow):
                 ).format(len(ulist)))
 
         self.upgradea.setEnabled(True)
+        DS.log.info('AUR upgrades check done; {} found'.format(len(ulist)))
 
     def sessiongenerate(self):
         """Handle session re-generation."""
+        DS.log.info('Working on session re-generation...')
         while not DS.contstate:
             time.sleep(0.1)
 
         self.logagenerate()
+        DS.log.info('Session re-generation done.')
 
     def __init__(self):
         """Initialize the window."""
+        DS.log.info('Starting main window init...')
         super(Main, self).__init__()
-
         # Actions.
         self.upgradea = QtGui.QAction(
             QtGui.QIcon.fromTheme('system-software-update'),
@@ -122,8 +149,18 @@ class Main(QtGui.QMainWindow):
         self.mypkgs = QtGui.QAction(QtGui.QIcon.fromTheme('folder-tar'),
                                     _('&My packages'), self)
         self.mypkgs.setShortcut('Ctrl+M')
-        self.mypkgs.setToolTip(_('Display my packages.'))
-        QtCore.QObject.connect(self.mypkgs, QtCore.SIGNAL('triggered()'), self.mine)
+        self.mypkgs.setToolTip(_('Display the users’ packages.'))
+        QtCore.QObject.connect(self.mypkgs, QtCore.SIGNAL('triggered()'),
+                               self.mine)
+
+        self.accedita = QtGui.QAction(QtGui.QIcon.fromTheme(
+                                      'user-group-properties'),
+                                      _('A&ccount settings'), self)
+        self.accedita.setShortcut('Ctrl+Shift+C')
+        self.accedita.setToolTip(_('[Working on authentication…]'))
+        QtCore.QObject.connect(self.accedita, QtCore.SIGNAL('triggered()'),
+                               self.accedit)
+        self.accedita.setEnabled(False)
 
         ohelp = QtGui.QAction(QtGui.QIcon.fromTheme('help-contents'),
                               _('Online &Help'), self)
@@ -150,6 +187,7 @@ class Main(QtGui.QMainWindow):
         accountmenu = menu.addMenu(_('&Account'))
         accountmenu.addAction(self.loga)
         accountmenu.addAction(self.mypkgs)
+        accountmenu.addAction(self.accedita)
 
         helpmenu = menu.addMenu(_('&Help'))
         helpmenu.addAction(ohelp)
@@ -166,11 +204,18 @@ class Main(QtGui.QMainWindow):
         self.toolbar.addAction(search)
         self.toolbar.addSeparator()
         self.toolbar.addAction(self.loga)
+        self.toolbar.addAction(self.accedita)
+        self.toolbar.addSeparator()
         self.toolbar.addAction(quit)
 
         # MDI.
         self.mdiArea = QtGui.QMdiArea()
+        self.mdiArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
+        self.mdiArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.setCentralWidget(self.mdiArea)
+        self.windowMapper = QtCore.QSignalMapper(self)
+        self.windowMapper.mapped[QtGui.QWidget].connect(self.mdiArea.setActiveSubWindow)
+
 
         # Statusbar.
         self.statusBar().showMessage('aurqt v{} — Copyright © 2012, '
@@ -185,27 +230,29 @@ class Main(QtGui.QMainWindow):
         threading.Thread(target=DS.continue_session).start()
         threading.Thread(target=self.sessiongenerate).start()
         self.show()
+        DS.log.info('Main window ready!')
 
     def upload(self, *args):
-        print('upload')
-        print(args)
+        DS.log.info('upload')
+        DS.log.info(args)
 
     def openpkg(self, pkgname):
         """Show info about a package."""
         p = InfoBox(self, pkgname=pkgname)
         p.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         window = self.mdiArea.addSubWindow(p)
-        p.exec_()
+        p.show() #this, search and upgrade was exec — TODO
 
     def search(self):
         """Open search dialog."""
         s = SearchDialog(o=self.openpkg)
         window = self.mdiArea.addSubWindow(s)
-        s.exec_()
+        s.show()
 
     def prefs(self, *args):
-        print('prefs')
-        print(args)
+        """Show the preferences dialog."""
+        p = PreferencesDialog(self)
+        p.exec_()
 
     def upgrade(self):
         """Upgrade installed packages."""
@@ -213,8 +260,7 @@ class Main(QtGui.QMainWindow):
         u = UpgradeDialog()
         window = self.mdiArea.addSubWindow(u)
         u.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-        u.exec_()
-        self.mdiArea.removeSubWindow(window)
+        u.show()
         threading.Thread(target=self.upgradeagenerate).start()
 
     def log(self):
@@ -231,6 +277,12 @@ class Main(QtGui.QMainWindow):
             l = LoginForm()
             l.exec_()
             self.logagenerate()
+
+    def accedit(self):
+        """Show the account modification/registration form."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        e = AccountDialog(self)
+        e.exec_()
 
     def mine(self):
         """Open search dialog with the users’ packages."""

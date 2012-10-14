@@ -85,4 +85,3 @@ class InfoBox(QtGui.QDialog):
         self.setWindowModality(Qt.Qt.WindowModal)
         self.setWindowTitle(infostring)
         self.setWindowIcon(QtGui.QIcon.fromTheme('dialog-information'))
-        self.show()

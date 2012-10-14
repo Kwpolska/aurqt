@@ -15,6 +15,7 @@
 """
 
 from .. import DS, AQError, _
+from .account import AccountDialog
 from PyQt4 import Qt, QtGui, QtCore
 import requests
 import webbrowser
@@ -33,7 +34,10 @@ class LoginForm(QtGui.QDialog):
         self.uname = QtGui.QLineEdit(self)
         self.pwd = QtGui.QLineEdit(self)
         self.pwd.setEchoMode(QtGui.QLineEdit.Password)
-        self.remember = QtGui.QCheckBox(_('Remember me.'), self)
+        self.remember = QtGui.QCheckBox(_('Remember me'), self)
+
+        if DS.config['aurqt']['remember'] == 'no':
+            self.remember.setEnabled(False)
 
         forgot = QtGui.QPushButton(_('Forgot password'), self)
         register = QtGui.QPushButton(_('Register'), self)
@@ -83,7 +87,7 @@ class LoginForm(QtGui.QDialog):
             self.remember.setEnabled(True)
 
     def forgot(self):
-        """Forgot password form."""
+        """Show the forgot password form."""
         email, ok = QtGui.QInputDialog.getText(self, _('Forgot password'),
                                                _('E-mail address:'))
         if ok:
@@ -108,15 +112,6 @@ class LoginForm(QtGui.QDialog):
                                                QtGui.QMessageBox.Ok)
 
     def register(self):
-        """Registration form."""
-        QtGui.QMessageBox.information(self, _('Register'), _('Opening the '
-                                      'registration page in a browser.'),
-                                      QtGui.QMessageBox.Ok)
-
-        # TODO -- can support simillarly to account settings, which we will
-        # implement in the Preferences window.  The form has a few fields that
-        # are hidden and that make the difference.  So we need to take care.
-        # This means that we need to do some webscraping on the account
-        # settings form.
-
-        webbrowser.open('https://aur.archlinux.org/account.php')
+        """Show the registration form."""
+        r = AccountDialog(self)
+        r.exec_()

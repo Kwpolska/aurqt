@@ -43,6 +43,7 @@ class SearchDialog(QtGui.QDialog):
         self.qtype.insertItem(0, _('Name/Description'))
         self.qtype.insertItem(1, _('Maintainer'))
         btn = QtGui.QPushButton(_('Search'), frame)
+        btn.setDefault(True)
         btn.setIcon(QtGui.QIcon.fromTheme('edit-find'))
 
         self.table = QtGui.QTableWidget()
@@ -67,19 +68,12 @@ class SearchDialog(QtGui.QDialog):
             if a:
                 self.search()
 
-        # Workaround.
-        searchaction = QtGui.QAction(self)
-        searchaction.setShortcut('Enter')
-
         QtCore.QObject.connect(btn, QtCore.SIGNAL('clicked()'), self.search)
-        QtCore.QObject.connect(searchaction, QtCore.SIGNAL('triggered()'),
-                               self.search)
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.WindowModal)
         self.setWindowTitle(_('Search'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('edit-find'))
-        self.show()
 
     def openpkg(self, item):
         for i in self.itemstorage.keys():

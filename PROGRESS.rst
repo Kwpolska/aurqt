@@ -91,3 +91,21 @@ particular:
  * package uploading
  * tagline (yes, could not think of one since 6 days)
  * testers
+
+Day 9
+=====
+
+2012-10-14
+----------
+
+Further ahead.  Preferences, config, and account registration/modification are
+done (although the account magic was not tested yet).  Also, minimizing of MDI
+windows works properly now.
+
+Stuff to do that I forgot about before or invented lately:
+
+ * Window menu (copy over from PyQt examples)
+ * logging
+ * notifications about users’ packages (OutOfDate status change, new comments)
+
+And probably more.

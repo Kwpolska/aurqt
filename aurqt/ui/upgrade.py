@@ -15,10 +15,11 @@
 """
 
 from .. import _
-from ..upgrade import Upgrade
 from PyQt4 import Qt, QtGui, QtCore
 import threading
 import time
+#import pkgbuilder.upgrade
+
 
 class UpgradeDialog(QtGui.QDialog):
     """The upgrade window for aurqt."""
@@ -32,8 +33,15 @@ class UpgradeDialog(QtGui.QDialog):
         """Refresh the upgrades list."""
         self.greet.setText(_('Searching for upgrades…'))
         self.table.clear()
-        upgrade = Upgrade()
-        ulist = upgrade.list()[0]
+        dwn = self.dwnmode.checkState() == 2
+        vcsup = self.vcsmode.checkState() == 2
+        u = pkgbuilder.upgrade.Upgrade()
+        ulist = u.list_upgradable(u.gather_foreign_pkgs(), vcsup)
+
+        if dwn:
+            ulist = ulist[0] + ulist[1]
+        else:
+            ulist = ulist[0]
 
         if ulist:
             self.greet.setText(_('Found the following upgrades:'))
@@ -81,11 +89,19 @@ class UpgradeDialog(QtGui.QDialog):
         self.greet.setWordWrap(True)
         self.epilog.setWordWrap(True)
         self.epilog.hide()
+        modeg = QtGui.QGroupBox(_('Show:'), self)
+        modelay = QtGui.QVBoxLayout(modeg)
+        self.dwnmode = QtGui.QCheckBox(_('Downgrades'), modeg)
+        self.vcsmode = QtGui.QCheckBox(_('VCS packages'), modeg)
+        modelay.addWidget(self.dwnmode)
+        modelay.addWidget(self.vcsmode)
+
         self.table = QtGui.QTableWidget(self)
         self.btn = QtGui.QDialogButtonBox(self)
         self.btn.setStandardButtons(QtGui.QDialogButtonBox.Ok)
 
         lay.addWidget(refresh)
+        lay.addWidget(modeg)
         lay.addWidget(self.greet)
         lay.addWidget(self.table)
         lay.addWidget(self.epilog)
@@ -104,6 +120,4 @@ class UpgradeDialog(QtGui.QDialog):
         self.setWindowIcon(QtGui.QIcon.fromTheme('system-software-update'))
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.refresh()
-        self.resize(300, 400)
-        self.show()
         QtGui.QApplication.restoreOverrideCursor()
