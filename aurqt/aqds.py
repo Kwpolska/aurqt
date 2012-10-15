@@ -19,7 +19,6 @@ from .aurweb import AurWeb
 import os
 import logging
 import configparser
-import requests
 import pickle
 import threading
 

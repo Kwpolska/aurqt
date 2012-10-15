@@ -142,7 +142,7 @@ class Main(QtGui.QMainWindow):
         self.loga = QtGui.QAction(QtGui.QIcon.fromTheme('user-identity'),
                                   loganame, self)
         self.loga.setShortcut('Ctrl+L')
-        self.loga.setToolTip(_('[Working on authentication…]'))
+        self.loga.setToolTip(_('Working on authentication…'))
         QtCore.QObject.connect(self.loga, QtCore.SIGNAL('triggered()'), self.log)
         self.loga.setEnabled(False)
 
@@ -155,9 +155,9 @@ class Main(QtGui.QMainWindow):
 
         self.accedita = QtGui.QAction(QtGui.QIcon.fromTheme(
                                       'user-group-properties'),
-                                      _('A&ccount settings'), self)
-        self.accedita.setShortcut('Ctrl+Shift+C')
-        self.accedita.setToolTip(_('[Working on authentication…]'))
+                                      _('Account se&ttings'), self)
+        self.accedita.setShortcut('Ctrl+T')
+        self.accedita.setToolTip(_('Working on authentication…'))
         QtCore.QObject.connect(self.accedita, QtCore.SIGNAL('triggered()'),
                                self.accedit)
         self.accedita.setEnabled(False)

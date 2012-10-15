@@ -100,8 +100,9 @@ class LoginForm(QtGui.QDialog):
                     self.forgot()
             else:
                 try:
-                    r = requests.post(DS.aurweburl + 'passreset.php',  # TODO?
+                    r = requests.post(DS.aurweburl + 'passreset.php',
                                       data={'email': email})
+                    r.raise_for_status()
                     QtGui.QMessageBox.information(self, _('Forgot password'),
                                                   _('Check your mailbox.'),
                                                   QtGui.QMessageBox.Ok)
