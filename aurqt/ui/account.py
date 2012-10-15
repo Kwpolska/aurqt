@@ -14,7 +14,7 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import DS, _
+from .. import DS, _, AQError
 from PyQt4 import Qt, QtGui, QtCore
 
 
@@ -87,7 +87,7 @@ class AccountDialog(QtGui.QDialog):
         """Load data from the aurweb."""
         try:
             data = DS.w.get_account_data()
-        except:
+        except NotImplementedError:
             QtGui.QMessageBox.critical(self, _('Account settings') +
                 ' — aurqt', _('Something went wrong.  Cannot make a '
                 'request to the AURweb.  Try again.'), QtGui.QMessageBox.Ok)
@@ -108,7 +108,6 @@ class AccountDialog(QtGui.QDialog):
                 ' — aurqt', 'I am insane, no UID and no register.  '
                 'Try again.', QtGui.QMessageBox.Ok)
             self.reject()
-        #TODO GET DATA HERE AND THEN IF PASSWORD ETC.
 
         username = self.username.text()
         pwd = self.pwd.text()
@@ -126,5 +125,16 @@ class AccountDialog(QtGui.QDialog):
             QtGui.QMessageBox.critical(self, 'aurqt', _('Mail address is empty.'),
                                        QtGui.QMessageBox.Ok)
         else:
-            DS.w.account_edit(self.rtype, username, pwd, mail, rname, irc)
-            self.accept()
+            QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                                 QtCore.Qt.WaitCursor))
+            try:
+                e = DS.w.account_edit(self.rtype, username, pwd, mail, rname,
+                                      irc)
+                QtGui.QMessageBox.info(e.strip())
+            except AQError as e:
+                QtGui.QMessageBox.critical(self, 'aurqt', e.msg,
+                                           QtGui.QMessageBox.Ok)
+            else:
+                self.accept()
+            finally:
+                QtGui.QApplication.restoreOverrideCursor()

@@ -109,3 +109,18 @@ Stuff to do that I forgot about before or invented lately:
  * notifications about users’ packages (OutOfDate status change, new comments)
 
 And probably more.
+
+Day 10
+======
+
+2012-10-15
+----------
+
+Mostly testing and small fixes.  Also, a little fix to the design for Upload.
+
+And tomorrow will be spent on doing the aforementioned Upload.
+
+Bad news time: lxml is broken, and this bug completely breaks
+``.aurweb.AurWeb().get_account_data``, i.e. data that contain spaces are not
+returned fully and weird workarounds need to be used to make it work. (see
+<https://bugs.launchpad.net/lxml/+bug/1067004>; Launchpad sucks.)
