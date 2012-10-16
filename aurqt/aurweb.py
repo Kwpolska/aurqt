@@ -48,7 +48,7 @@ class AurWeb():
 
         r = requests.get(self.url, cookies=cookies)
         r.raise_for_status()
-        if logout in r.text:
+        if 'logout' in r.text:
             return True
         else:
             return False
@@ -92,3 +92,7 @@ class AurWeb():
             raise AQError('aurweb', 'accedit', error[0].text_content())
         else:
             return body.text_content()
+
+    def upload(self, filename):
+        """Upload a file."""
+        raise NotImplementedError('not yet')
