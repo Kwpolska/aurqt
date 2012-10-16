@@ -124,3 +124,13 @@ Bad news time: lxml is broken, and this bug completely breaks
 ``.aurweb.AurWeb().get_account_data``, i.e. data that contain spaces are not
 returned fully and weird workarounds need to be used to make it work. (see
 <https://bugs.launchpad.net/lxml/+bug/1067004>; Launchpad sucks.)
+
+Day 11
+======
+
+2012-10-16
+----------
+
+Upload’s UI is done, I just need to implement the AurWeb magic and the UI–AUR
+link properly (so it doesn’t lag and the progress bar will update like in a
+civilised app which I want aurqt to be but I seem to fail at.)

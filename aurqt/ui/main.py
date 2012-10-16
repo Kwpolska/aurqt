@@ -32,6 +32,8 @@ DS.log.info('search')
 from .search import SearchDialog
 DS.log.info('upgrade')
 from .upgrade import UpgradeDialog
+DS.log.info('upload')
+from .upload import UploadDialog
 DS.log.info('external deps')
 import sys
 import subprocess
@@ -59,6 +61,7 @@ class Main(QtGui.QMainWindow):
             self.loga.setEnabled(True)
             self.accedita.setEnabled(True)
             self.mypkgs.setEnabled(True)
+            self.uploada.setEnabled(True)
         else:
             self.loga.setText(_('&Log in'))
             self.loga.setToolTip(_('Log in.'))
@@ -68,6 +71,7 @@ class Main(QtGui.QMainWindow):
             self.loga.setEnabled(True)
             self.accedita.setEnabled(True)
             self.mypkgs.setEnabled(False)
+            self.uploada.setEnabled(False)
 
     def upgradeagenerate(self):
         """Generate the appropriate upgrade button."""
@@ -109,11 +113,12 @@ class Main(QtGui.QMainWindow):
         self.upgradea.setEnabled(False)
         QtCore.QObject.connect(self.upgradea, QtCore.SIGNAL('triggered()'), self.upgrade)
 
-        upload = QtGui.QAction(QtGui.QIcon.fromTheme('list-add'),
-                               _('Upl&oad…'), self)
-        upload.setShortcut('Ctrl+Shift+U')
-        upload.setToolTip(_('Upload a package to the AUR.'))
-        QtCore.QObject.connect(upload, QtCore.SIGNAL('triggered()'), self.upload)
+        self.uploada = QtGui.QAction(QtGui.QIcon.fromTheme('list-add'),
+                                     _('Upl&oad…'), self)
+        self.uploada.setShortcut('Ctrl+Shift+U')
+        self.uploada.setToolTip(_('Upload a package to the AUR.'))
+        self.uploada.setEnabled(False)
+        QtCore.QObject.connect(self.uploada, QtCore.SIGNAL('triggered()'), self.upload)
 
         search = QtGui.QAction(QtGui.QIcon.fromTheme('edit-find'),
                                _('&Search…'), self)
@@ -178,7 +183,7 @@ class Main(QtGui.QMainWindow):
 
         filemenu.addAction(self.upgradea)
         filemenu.addSeparator()
-        filemenu.addAction(upload)
+        filemenu.addAction(self.uploada)
         filemenu.addAction(search)
         filemenu.addSeparator()
         filemenu.addAction(prefs)
@@ -200,7 +205,7 @@ class Main(QtGui.QMainWindow):
         self.toolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
         self.toolbar.addAction(self.upgradea)
         self.toolbar.addSeparator()
-        self.toolbar.addAction(upload)
+        self.toolbar.addAction(self.uploada)
         self.toolbar.addAction(search)
         self.toolbar.addSeparator()
         self.toolbar.addAction(self.loga)
@@ -233,15 +238,16 @@ class Main(QtGui.QMainWindow):
         DS.log.info('Main window ready!')
 
     def upload(self, *args):
-        DS.log.info('upload')
-        DS.log.info(args)
+        """Show the upload dialog."""
+        u = UploadDialog(self)
+        u.exec_()
 
     def openpkg(self, pkgname):
         """Show info about a package."""
         p = InfoBox(self, pkgname=pkgname)
         p.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         window = self.mdiArea.addSubWindow(p)
-        p.show() #this, search and upgrade was exec — TODO
+        p.show()
 
     def search(self):
         """Open search dialog."""
