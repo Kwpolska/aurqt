@@ -46,30 +46,28 @@ class UploadDialog(QtGui.QDialog):
         addbtn = QtGui.QPushButton(_('Add'), self)
         addbtn.setIcon(QtGui.QIcon.fromTheme('list-add'))
         lay.addWidget(addbtn, 2, 4, 1, 1)
-        currupl = QtGui.QLabel(_('Currently uploading:'), self)
-        lay.addWidget(currupl, 3, 0, 1, 1)
-        fname = QtGui.QLabel('[fn]', self)
-        lay.addWidget(fname, 4, 0, 1, 4)
-        tprog = QtGui.QLabel(_('Total progress:'), self)
-        lay.addWidget(tprog, 5, 0, 1, 1)
+        upbtn = QtGui.QPushButton(_('Upload'), self)
+        upbtn.setIcon(QtGui.QIcon.fromTheme('go-next'))
+        lay.addWidget(upbtn, 3, 0, 1, 5)
         self.pbar = QtGui.QProgressBar(self)
-        self.pbar.setProperty("value", 24) #TODO
-        lay.addWidget(self.pbar, 6, 0, 1, 5)
+        self.pbar.hide()
+        #self.pbar.setProperty('value', 24) #TODO
+        lay.addWidget(self.pbar, 4, 0, 1, 5)
 
         for i in pkgbuilder.DS.categories[1:]:
             self.category.addItem(i)
 
         btn = QtGui.QDialogButtonBox(self)
-        btn.setStandardButtons(QtGui.QDialogButtonBox.Ok |
-                               QtGui.QDialogButtonBox.Cancel)
+        btn.setStandardButtons(QtGui.QDialogButtonBox.Close)
 
-        lay.addWidget(btn, 7, 0, 1, 5)
+        lay.addWidget(btn, 5, 0, 1, 5)
 
-        QtCore.QObject.connect(btn, QtCore.SIGNAL('accepted()'), self.accept)
+        #QtCore.QObject.connect(btn, QtCore.SIGNAL('accepted()'), self.accept)
         QtCore.QObject.connect(btn, QtCore.SIGNAL('rejected()'), self.reject)
 
         QtCore.QObject.connect(addbtn, QtCore.SIGNAL('pressed()'), self.add)
         QtCore.QObject.connect(browse, QtCore.SIGNAL('pressed()'), self.browse)
+        QtCore.QObject.connect(upbtn, QtCore.SIGNAL('pressed()'), self.upload)
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.ApplicationModal)
@@ -123,3 +121,13 @@ class UploadDialog(QtGui.QDialog):
 
             self.fname.setText('')
             self.category.setCurrentIndex(0)
+
+    def run_upload(self):
+        """Do the actual upload magic."""
+        self.pbar.show()
+        for i in self.queue:
+            print(i[0], i[1]) #TODO
+
+    def upload(self):
+        """Run the upload thread."""
+        self.run_upload() #TODO

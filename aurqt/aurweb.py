@@ -17,6 +17,7 @@
 from . import AQError
 import requests
 import lxml.html
+import re # IT IS NOT FOR HTML PARSING!
 
 ### AurWeb         Access the aurweb       ###
 class AurWeb():
@@ -93,6 +94,28 @@ class AurWeb():
         else:
             return body.text_content()
 
-    def upload(self, filename):
+    def upload(self, filename, category):
         """Upload a file."""
-        raise NotImplementedError('not yet')
+        cookies = {'AURSID': self.sid}
+        r = requests.post(self.url + 'pkgsubmit.php', cookies=cookies,
+                data={'pkgsubmit': 1, 'token': self.sid, 'category': category},
+                files={'pfile': open(filename, 'rb')})
+        r.raise_for_status()
+
+        root = lxml.html.document_fromstring(str(r.content))
+
+        if r.url.startswith('https://aur.archlinux.org/packages.php'):
+            title = root.head.find('title')
+            match = re.match('AUR \(.*\) - ', title)
+            # see?  That is what re is used for over here.  I am not an idiot
+            # and I do not do HTML parsing with regexps.  And you do know the
+            # StackOverflow HTML parsing post, right?  http://kwpl.tk/WAlq5b
+            pkgname = title[match.end():]
+            # Although I do understand that it is a cheat, but this is the best
+            # method to do this.  AUR does not allow for info-by-pkgid and this
+            # part of the code is not bothering with webscraping it from the
+            # page contents.
+            return [True, pkgname]
+        else:
+            error = root.find_class('pkgoutput')[0].text_content()
+            return [False, error]
