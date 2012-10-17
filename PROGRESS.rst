@@ -134,3 +134,12 @@ Day 11
 Upload’s UI is done, I just need to implement the AurWeb magic and the UI–AUR
 link properly (so it doesn’t lag and the progress bar will update like in a
 civilised app which I want aurqt to be but I seem to fail at.)
+
+Day 12
+======
+
+2012-10-17
+----------
+
+Upload magic done, UI–magic link not yet (but (1/99999999999999999999999999)%
+of code is already here)
