@@ -71,10 +71,8 @@ class LoginForm(QtGui.QDialog):
 
     def login(self):
         """Log into the AUR."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
         try:
-            self.uname.setEnabled(False)
-            self.pwd.setEnabled(False)
-            self.remember.setEnabled(False)
             DS.login(self.uname.text(), self.pwd.text(),
                      self.remember.checkState())
             self.accept()
@@ -82,9 +80,12 @@ class LoginForm(QtGui.QDialog):
             QtGui.QMessageBox.critical(self, _('Cannot log in (wrong '
                                                'credentials?)'),
                                        e.msg, QtGui.QMessageBox.Ok)
-            self.uname.setEnabled(True)
-            self.pwd.setEnabled(True)
-            self.remember.setEnabled(True)
+        except:
+            QtGui.QMessageBox.critical(self, 'aurqt',
+                                       _('Something went wrong.'),
+                                       QtGui.QMessageBox.Ok)
+        finally:
+            QtGui.QApplication.restoreOverrideCursor()
 
     def forgot(self):
         """Show the forgot password form."""

@@ -14,10 +14,33 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import _
+from .. import DS, _
 from PyQt4 import Qt, QtGui, QtCore
 import pkgbuilder
+import threading
 
+QUEUE = []
+
+class UpThread(QtCore.QThread):
+    """The Upload thread."""
+    def __init__(self):
+        """Initializing the thread."""
+        QtCore.QThread.__init__(self)
+
+    def __del__(self):
+        self.wait()
+
+    def run(self):
+        global QUEUE
+        item = QUEUE.pop()
+        print(item[0], item[1])
+        up = DS.w.upload(item[0], item[1])
+        if up[0]:
+            status = _('Success')
+        else:
+            status = _('Failure: {}').format(up[1])
+        self.emit(QtCore.SIGNAL('update(QString)'), status)
+        return
 
 class UploadDialog(QtGui.QDialog):
     """The upload dialog for aurqt."""
@@ -25,6 +48,7 @@ class UploadDialog(QtGui.QDialog):
         """Initialize the dialog."""
         super(UploadDialog, self).__init__(parent)
         self.queue = []
+        self.thread_pool = []
         self.itemstorage = {}
 
         lay = QtGui.QGridLayout(self)
@@ -34,6 +58,9 @@ class UploadDialog(QtGui.QDialog):
                                               _('Status')])
 
         lay.addWidget(self.table, 0, 0, 1, 5)
+        upbtn = QtGui.QPushButton(_('Upload'), self)
+        upbtn.setIcon(QtGui.QIcon.fromTheme('go-next'))
+        lay.addWidget(upbtn, 3, 0, 1, 5)
         delbtn = QtGui.QPushButton(_('Remove selected'), self)
         delbtn.setIcon(QtGui.QIcon.fromTheme('list-remove'))
         lay.addWidget(delbtn, 1, 0, 1, 5)
@@ -46,12 +73,8 @@ class UploadDialog(QtGui.QDialog):
         addbtn = QtGui.QPushButton(_('Add'), self)
         addbtn.setIcon(QtGui.QIcon.fromTheme('list-add'))
         lay.addWidget(addbtn, 2, 4, 1, 1)
-        upbtn = QtGui.QPushButton(_('Upload'), self)
-        upbtn.setIcon(QtGui.QIcon.fromTheme('go-next'))
-        lay.addWidget(upbtn, 3, 0, 1, 5)
         self.pbar = QtGui.QProgressBar(self)
         self.pbar.hide()
-        #self.pbar.setProperty('value', 24) #TODO
         lay.addWidget(self.pbar, 4, 0, 1, 5)
 
         for i in pkgbuilder.DS.categories[1:]:
@@ -87,6 +110,15 @@ class UploadDialog(QtGui.QDialog):
 
     def add(self):
         """Add a file to queue."""
+        global QUEUE # Sorry.
+        self.queue = QUEUE
+
+        if not self.queue:
+            self.pbar.hide()
+            self.table.clear()
+            self.table.setColumnCount(3)
+            self.table.setHorizontalHeaderLabels([_('File'), _('Category'),
+                                                  _('Status')])
         cat = self.category.currentIndex() + 1
         fname = self.fname.text()
         if not fname:
@@ -122,12 +154,20 @@ class UploadDialog(QtGui.QDialog):
             self.fname.setText('')
             self.category.setCurrentIndex(0)
 
-    def run_upload(self):
-        """Do the actual upload magic."""
-        self.pbar.show()
-        for i in self.queue:
-            print(i[0], i[1]) #TODO
+        QUEUE = self.queue
+
+    def setstatus(self, inp):
+        """Set the status."""
+        print('ss')
+        print(inp)
 
     def upload(self):
-        """Run the upload thread."""
-        self.run_upload() #TODO
+        """Run the upload threads."""
+        global QUEUE
+        QUEUE = self.queue
+        self.oldqueue = self.queue
+        for i in QUEUE:
+            self.thread_pool.append(UpThread())
+            self.connect(self.thread_pool[len(self.thread_pool)-1],
+                         QtCore.SIGNAL("update(QString)"), self.setstatus)
+            self.thread_pool[len(self.thread_pool)-1].start()
