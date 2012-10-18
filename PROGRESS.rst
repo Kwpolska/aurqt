@@ -143,3 +143,17 @@ Day 12
 
 Upload magic done, UI–magic link not yet (but (1/99999999999999999999999999)%
 of code is already here)
+
+Day 13
+======
+
+2012-10-18
+----------
+
+I love when shit breaks for me.  Today’s breakage is brought to you by
+Requests.  https://github.com/kennethreitz/requests/issues/883 and we can’t
+progress.  I did some magic in order to let myself work on Upload, but it ain’t
+gonna be tested properly.  Why does it have to break so easily?  Currently,
+requests won’t work with both 3.1 and 3.3.  3.2 is working, but I can’t
+downgrade.  And about running in a virtualenv, it might be hard to do.  So I
+can’t do anything about it but wait.  And wait.  And wait.
