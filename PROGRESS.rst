@@ -157,3 +157,25 @@ gonna be tested properly.  Why does it have to break so easily?  Currently,
 requests won’t work with both 3.1 and 3.3.  3.2 is working, but I can’t
 downgrade.  And about running in a virtualenv, it might be hard to do.  So I
 can’t do anything about it but wait.  And wait.  And wait.
+
+---
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Development is temporarily paused until the problems are removed.  And the
+whole thing started even before aurqt’s development.  I might produce some
+code, but it will be untested.
+
+2012-10-19                                          Chris Warrick/Kwpolska
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iQEcBAEBAgAGBQJQgZ4uAAoJEHECPb1equoWsFgIAIKRWsq6gecH2oJLyzj3gG36
+1MlMmDwpjworZpK7rmp8F3Q/psb52deMLHFu1EQAp8Pn4UIygEz9wG62qCSsPT/j
+r8Tz5BfJ5a66FYa/buRO4QTXQdTs87kKYqYRoMge3SMAgbVrl8IrxSu0aIBkEOi3
+H5SjaQS6CQskd30O27fsSC8G91Rb40U6w/QZ3ljsq3PFak2CKzFpkpAQ02WZJop2
+z9lEuUaybcM3BDSzz2rtO6qMK/KI88a3yzc08KvwUCEy4ZJfKInT6r/z9sU5FES5
+UQKoNMfiQ3R2TWt49PRGlWuU5LP6W9FHRF34vpRCSxdOpmkXJCYJ3/ZSEHqfcaI=
+=d72c
+-----END PGP SIGNATURE-----
