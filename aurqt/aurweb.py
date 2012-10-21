@@ -16,7 +16,7 @@
 
 from . import AQError
 import requests
-import lxml.html
+import bs4
 import re # IT IS NOT FOR HTML PARSING!
 
 ### AurWeb         Access the aurweb       ###
@@ -59,14 +59,11 @@ class AurWeb():
         r = requests.get(self.url + 'account.php', cookies=cookies)
         r.raise_for_status()
         if 'logout' in r.text:
-            root = lxml.html.document_fromstring(str(r.content))
-            form = root.find_class('pgboxbody')[0].forms[0]
-            v = form.form_values()
-            # v = {i[0]: i[1] for i in v} — TODO, see:
-            # https://bugs.launchpad.net/lxml/+bug/1067004
-            v = {i[0].strip('\\\''): i[1].strip('\\\'') for i in v}
-            # But this is still wrong for fields containing spaces,
-            # as envisioned in the bug report linked above.
+            soup = bs4.BeautifulSoup(r.text, 'html.parser')
+            form = soup.find(class_='pbgoxbody').find('form')
+            v = {}
+            for i in form.find_all('input'):
+                v.update({i.name: i.value})
             return {'id': v['ID'], 'username': v['U'], 'mail': v['E'],
                     'rname': v['R'], 'irc': v['I']}
         else:
@@ -86,13 +83,13 @@ class AurWeb():
 
         r = requests.post(self.url + 'account.php', data=data, cookies=cookies)
         r.raise_for_status()
-        root = lxml.html.document_fromstring(str(r.content))
-        body = root.find_class('pgboxbody')[0]
-        error = body.find_class('error')
+        soup = bs4.BeautifulSoup(r.text, 'html.parser')
+        body = soup.find(class_='pgboxbody')
+        error = body.find(class_='error').string
         if error:
-            raise AQError('aurweb', 'accedit', error[0].text_content())
+            raise AQError('aurweb', 'accedit', error)
         else:
-            return body.text_content()
+            return body.prettify()
 
     def upload(self, filename, category):
         """Upload a file."""
@@ -102,11 +99,11 @@ class AurWeb():
                 files={'pfile': open(filename, 'rb')})
         r.raise_for_status()
 
-        root = lxml.html.document_fromstring(str(r.content))
+        soup = bs4.BeautifulSoup(r.text, 'html.parser')
 
         if r.url.startswith('https://aur.archlinux.org/packages.php'):
-            title = root.head.find('title')
-            match = re.match('AUR \(.*\) - ', title)
+            title = root.head.title
+            match = re.match('AUR \(.*\) - ', title.string)
             # see?  That is what re is used for over here.  I am not an idiot
             # and I do not do HTML parsing with regexps.  And you do know the
             # StackOverflow HTML parsing post, right?  http://kwpl.tk/WAlq5b
@@ -117,5 +114,19 @@ class AurWeb():
             # page contents.
             return [True, pkgname]
         else:
-            error = root.find_class('pkgoutput')[0].text_content()
-            return [False, error]
+            return [False, soup.find(class_='pkgoutput').string]
+
+    def fetchpkg(self, pkgid):
+        """Fetch the aurweb page for a package."""
+        url = self.url + 'packages.php?ID={}&comments=all'.format(pkgid)
+        cookies = {'AURSID': self.sid}
+        r = requests.get(url, cookies=cookies)
+        return bs4.BeautifulSoup(r.text, 'html.parser')
+
+    def fetchcomments(self, soup):
+        """Fetch the comments."""
+        cbox = soup.find_all(class_='pgbox')[-2]
+        if cbox.find_all(class_='comment-header'):
+            return cbox
+        else:
+            return None

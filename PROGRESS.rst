@@ -152,13 +152,17 @@ Day 13
 
 I love when shit breaks for me.  Today’s breakage is brought to you by
 Requests.  https://github.com/kennethreitz/requests/issues/883 and we can’t
-progress.  I did some magic in order to let myself work on Upload, but it ain’t
-gonna be tested properly.  Why does it have to break so easily?  Currently,
-requests won’t work with both 3.1 and 3.3.  3.2 is working, but I can’t
-downgrade.  And about running in a virtualenv, it might be hard to do.  So I
-can’t do anything about it but wait.  And wait.  And wait.
+progress.  I did some magic in order to let myself work on Upload, but it
+ain’t gonna be tested properly.  Why does it have to break so easily?
+Currently, requests won’t work with both 3.1 and 3.3.  3.2 is working, but I
+can’t downgrade.  And about running in a virtualenv, it might be hard to do.
+So I can’t do anything about it but wait.  And wait.  And wait.
 
----
+Day 14
+======
+
+2012-10-19
+----------
 
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
@@ -179,3 +183,34 @@ z9lEuUaybcM3BDSzz2rtO6qMK/KI88a3yzc08KvwUCEy4ZJfKInT6r/z9sU5FES5
 UQKoNMfiQ3R2TWt49PRGlWuU5LP6W9FHRF34vpRCSxdOpmkXJCYJ3/ZSEHqfcaI=
 =d72c
 -----END PGP SIGNATURE-----
+
+Day 15
+======
+
+2012-10-20
+----------
+
+Logo done!
+
+![aurqt logo](https://raw.github.com/Kwpolska/aurqt/master/logo.png)
+
+In other news: info mostly done.  But it is broken because of the bug from day
+10, I think.  Need to do the dates based on system (KDE) locale.  But that’s
+not a thing I am doing today.
+
+And upgrade is 100% done!  Yay~~
+
+Day 16
+======
+
+2012-10-21
+----------
+
+Officially decided to ditch LXML and use something else.  So, Beautiful Soup 4
+(python-beautifulsoup4) with the help of html.parser is the way to go.  And it
+is done.  And much, MUCH more human-friendly in terms of code.
+
+Info is even further.  Still need to do the dates and the topbar.  And
+threading.
+
+(Yesterdays’ changes didn’t get commited somehow.)

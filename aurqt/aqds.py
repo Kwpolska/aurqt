@@ -21,6 +21,8 @@ import logging
 import configparser
 import pickle
 import threading
+import pkgbuilder
+import subprocess
 
 
 ### AQDS           AQ global data storage  ###
@@ -74,6 +76,25 @@ class AQDS():
         config['aurqt']['watch'] = 'yes'
         config['aurqt']['mail-generation'] = 'yes'
 
+        config['term'] = {}
+
+        if os.path.exists('/usr/bin/konsole'):
+            config['term']['name'] = 'konsole'
+        elif os.path.exists('/usr/bin/mate-terminal'):
+            config['term']['name'] = 'mate-terminal'
+        elif os.path.exists('/usr/bin/gnome-terminal'):
+            config['term']['name'] = 'gnome-terminal'
+        elif os.path.exists('/usr/bin/terminal'):
+            config['term']['name'] = 'terminal'
+        elif os.path.exists('/usr/bin/lxterminal'):
+            config['term']['name'] = 'lxterminal'
+        elif os.path.exists('/usr/bin/urxvt'):
+            config['term']['name'] = 'urxvt'
+        elif os.path.exists('/usr/bin/xterm'):
+            config['term']['name'] = 'xterm'
+
+        config['term']['args'] = '-e'
+
         config['helper'] = {}
         config['helper']['name'] = 'pkgbuilder'
         config['helper']['args'] = '-S'
@@ -83,6 +104,18 @@ class AQDS():
     # Remember mode.
     sidfile = os.path.join(confdir, 'sid.pickle')
     contstate = False
+
+    def pkginst(self, pkgs):
+        """Install specified AUR packages."""
+        subprocess.call(' '.join([self.config['term']['name'],
+                         self.config['term']['args'],
+                         self.config['helper']['name'],
+                         self.config['helper']['args']] + pkgs + ['&']),
+                         shell=True)
+
+    def runpacman(self, args):
+        """Run pacman."""
+        pkgbuilder.DS.sudo(pkgbuilder.DS.paccommand, args)
 
     def continue_session(self):
         """Continue pre-existing session."""

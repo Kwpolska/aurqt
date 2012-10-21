@@ -64,7 +64,7 @@ class Main(QtGui.QMainWindow):
             self.uploada.setEnabled(True)
         else:
             self.loga.setText(_('&Log in'))
-            self.loga.setToolTip(_('Log in.'))
+            self.loga.setToolTip(('Log in.'))
             self.accedita.setText(_('Regis&ter'))
             self.accedita.setToolTip(_('Register a new account.'))
             self.accedita.setIcon(QtGui.QIcon.fromTheme('user-group-new'))
@@ -85,11 +85,17 @@ class Main(QtGui.QMainWindow):
                 '  ({} upgrades available)').format(len(ulist)))
         else:
             self.upgradea.setText(_('&Upgrade').format(len(ulist)))
-            self.upgradea.setToolTip(_('Upgrade installed packages.'
+            self.upgrade.setToolTip(_('Upgrade installed packages.'
                 ).format(len(ulist)))
 
         self.upgradea.setEnabled(True)
         DS.log.info('AUR upgrades check done; {} found'.format(len(ulist)))
+
+    def upgraderefresh(self):
+        """Run self.upgradeagenerate(), human-friendly mode."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        self.upgradeagenerate()
+        QtGui.QApplication.restoreOverrideCursor()
 
     def sessiongenerate(self):
         """Handle session re-generation."""
@@ -104,39 +110,51 @@ class Main(QtGui.QMainWindow):
         """Initialize the window."""
         DS.log.info('Starting main window init...')
         super(Main, self).__init__()
+
+        # MDI.
+        self.mdiArea = QtGui.QMdiArea()
+        self.mdiArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
+        self.mdiArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
+        self.setCentralWidget(self.mdiArea)
+        self.windowMapper = QtCore.QSignalMapper(self)
+        self.windowMapper.mapped[QtGui.QWidget].connect(self.mdiArea.setActiveSubWindow)
+
         # Actions.
         self.upgradea = QtGui.QAction(
             QtGui.QIcon.fromTheme('system-software-update'),
-            _('&Upgrade (…)'), self)
-        self.upgradea.setShortcut('Ctrl+U')
-        self.upgradea.setToolTip(_('[Getting upgrade count…]'))
-        self.upgradea.setEnabled(False)
-        QtCore.QObject.connect(self.upgradea, QtCore.SIGNAL('triggered()'), self.upgrade)
+                                  _('&Upgrade (…)'), self,
+                                  shortcut='Ctrl+U',
+                                  toolTip=_('Fetching upgrades list…'),
+                                  enabled=False, triggered=self.upgrade)
+
+        upgrefresh = QtGui.QAction(
+            QtGui.QIcon.fromTheme('view-refresh'), _('&Refresh upgrades'),
+                                  self, shortcut='Ctrl+Shift+R',
+                                  toolTip=_('Refresh the upgrade counter.'),
+                                  enabled=True, triggered=self.upgraderefresh,
+                                  priority=QtGui.QAction.LowPriority)
 
         self.uploada = QtGui.QAction(QtGui.QIcon.fromTheme('list-add'),
-                                     _('Upl&oad…'), self)
-        self.uploada.setShortcut('Ctrl+Shift+U')
-        self.uploada.setToolTip(_('Upload a package to the AUR.'))
-        self.uploada.setEnabled(False)
-        QtCore.QObject.connect(self.uploada, QtCore.SIGNAL('triggered()'), self.upload)
+                                     _('Upl&oad…'), self,
+                                     shortcut='Ctrl+Shift+U',
+                                     toolTip=_('Upload a package to the '
+                                     'AUR.'), enabled=False,
+                                     triggered=self.upload)
 
         search = QtGui.QAction(QtGui.QIcon.fromTheme('edit-find'),
-                               _('&Search…'), self)
-        search.setShortcut('Ctrl+S')
-        search.setToolTip(_('Search the AUR.'))
-        QtCore.QObject.connect(search, QtCore.SIGNAL('triggered()'), self.search)
+                               _('&Search…'), self, shortcut='Ctrl+S',
+                               toolTip=_('Search the AUR.'),
+                               triggered=self.search)
 
         prefs = QtGui.QAction(QtGui.QIcon.fromTheme('configure'),
-                              _('&Preferences'), self)
-        prefs.setShortcut('Ctrl+,')
-        prefs.setToolTip(_('Open the preferences window for aurqt.'))
-        QtCore.QObject.connect(prefs, QtCore.SIGNAL('triggered()'), self.prefs)
+                              _('&Preferences'), self, shortcut='Ctrl+,',
+                              toolTip=_('Open the Preferences window.'),
+                              triggered=self.prefs)
 
         quit = QtGui.QAction(QtGui.QIcon.fromTheme('application-exit'),
-                             _('&Quit'), self)
-        quit.setShortcut('Ctrl+Q')
-        quit.setToolTip(_('Quit aurqt.'))
-        QtCore.QObject.connect(quit, QtCore.SIGNAL('triggered()'), QtGui.qApp.quit)
+                             _('&Quit'), self, shortcut='Ctrl+Q',
+                             toolTip=_('Quit aurqt'),
+                             triggered=QtGui.qApp.quit)
 
         try:
             loganame = _('&Log out [{}]').format(pickle.load(open(
@@ -145,43 +163,67 @@ class Main(QtGui.QMainWindow):
             loganame = _('&Log in')
 
         self.loga = QtGui.QAction(QtGui.QIcon.fromTheme('user-identity'),
-                                  loganame, self)
-        self.loga.setShortcut('Ctrl+L')
-        self.loga.setToolTip(_('Working on authentication…'))
-        QtCore.QObject.connect(self.loga, QtCore.SIGNAL('triggered()'), self.log)
-        self.loga.setEnabled(False)
+                                  loganame, self, shortcut='CTRL+L',
+                                  toolTip=_('Working on authentication…'),
+                                  enabled=False, triggered=self.log)
 
         self.mypkgs = QtGui.QAction(QtGui.QIcon.fromTheme('folder-tar'),
-                                    _('&My packages'), self)
-        self.mypkgs.setShortcut('Ctrl+M')
-        self.mypkgs.setToolTip(_('Display the users’ packages.'))
-        QtCore.QObject.connect(self.mypkgs, QtCore.SIGNAL('triggered()'),
-                               self.mine)
+                                    _('&My packages'), self,
+                                    shortcut='Ctrl+M',
+                                    toolTip=_('Display packages maintained'
+                                        'by the current user'),
+                                    triggered=self.mine)
 
         self.accedita = QtGui.QAction(QtGui.QIcon.fromTheme(
                                       'user-group-properties'),
-                                      _('Account se&ttings'), self)
-        self.accedita.setShortcut('Ctrl+T')
-        self.accedita.setToolTip(_('Working on authentication…'))
-        QtCore.QObject.connect(self.accedita, QtCore.SIGNAL('triggered()'),
-                               self.accedit)
-        self.accedita.setEnabled(False)
+                                      _('Account se&ttings'), self,
+                                      shortcut='Ctrl+T',
+                                      toolTip=_('Working on authentication'
+                                      '…'), enabled=False,
+                                      triggered=self.accedit)
 
         ohelp = QtGui.QAction(QtGui.QIcon.fromTheme('help-contents'),
-                              _('Online &Help'), self)
-        ohelp.setShortcut('F1')
-        ohelp.setToolTip(_('Show the online help for aurqt.'))
-        QtCore.QObject.connect(ohelp, QtCore.SIGNAL('triggered()'), self.halp)
+                              _('Online &Help'), self, shortcut=('F1'),
+                              toolTip=_('Show the online help for aurqt.'),
+                              triggered=self.halp)
 
         about = QtGui.QAction(QtGui.QIcon.fromTheme('help-about'),
-                              _('A&bout'), self)
-        QtCore.QObject.connect(about, QtCore.SIGNAL('triggered()'), self.about)
+                              _('A&bout'), self, triggered=self.about)
+
+        self.closeAct = QtGui.QAction(_('Cl&ose'), self,
+                statusTip=_('Close the active window'),
+                triggered=self.mdiArea.closeActiveSubWindow)
+
+        self.closeAllAct = QtGui.QAction(_('Close &All'), self,
+                statusTip=_('Close all the windows'),
+                triggered=self.mdiArea.closeAllSubWindows)
+
+        self.tileAct = QtGui.QAction(_('&Tile'), self,
+                statusTip=_('Tile the windows'),
+                triggered=self.mdiArea.tileSubWindows)
+
+        self.cascadeAct = QtGui.QAction(_('&Cascade'), self,
+                statusTip=_('Cascade the windows'),
+                triggered=self.mdiArea.cascadeSubWindows)
+
+        self.nextAct = QtGui.QAction(_('Ne&xt'), self,
+                shortcut=QtGui.QKeySequence.NextChild,
+                statusTip=_('Move the focus to the next window'),
+                triggered=self.mdiArea.activateNextSubWindow)
+
+        self.previousAct = QtGui.QAction(_('Pre&vious'), self,
+                shortcut=QtGui.QKeySequence.PreviousChild,
+                statusTip=_('Move the focus to the previous window'),
+                triggered=self.mdiArea.activatePreviousSubWindow)
+
+
 
         # Menu.
         menu = self.menuBar()
         filemenu = menu.addMenu(_('&File'))
 
         filemenu.addAction(self.upgradea)
+        filemenu.addAction(upgrefresh)
         filemenu.addSeparator()
         filemenu.addAction(self.uploada)
         filemenu.addAction(search)
@@ -194,6 +236,12 @@ class Main(QtGui.QMainWindow):
         accountmenu.addAction(self.mypkgs)
         accountmenu.addAction(self.accedita)
 
+        self.windowmenu = menu.addMenu(_('&Window'))
+        self.update_window_menu()
+        QtCore.QObject.connect(self.windowmenu,
+                               QtCore.SIGNAL('aboutToShow()'),
+                               self.update_window_menu)
+
         helpmenu = menu.addMenu(_('&Help'))
         helpmenu.addAction(ohelp)
         helpmenu.addAction(about)
@@ -204,6 +252,7 @@ class Main(QtGui.QMainWindow):
         self.toolbar.setIconSize(QtCore.QSize(22, 22))
         self.toolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
         self.toolbar.addAction(self.upgradea)
+        self.toolbar.addAction(upgrefresh)
         self.toolbar.addSeparator()
         self.toolbar.addAction(self.uploada)
         self.toolbar.addAction(search)
@@ -213,21 +262,12 @@ class Main(QtGui.QMainWindow):
         self.toolbar.addSeparator()
         self.toolbar.addAction(quit)
 
-        # MDI.
-        self.mdiArea = QtGui.QMdiArea()
-        self.mdiArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        self.mdiArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        self.setCentralWidget(self.mdiArea)
-        self.windowMapper = QtCore.QSignalMapper(self)
-        self.windowMapper.mapped[QtGui.QWidget].connect(self.mdiArea.setActiveSubWindow)
-
-
         # Statusbar.
         self.statusBar().showMessage('aurqt v{} — Copyright © 2012, '
                                      'Kwpolska.'.format(__version__))
 
         # Almost done...
-        self.resize(800, 600)
+        self.resize(950, 800)
         self.setWindowTitle('aurqt')
         self.setWindowIcon(QtGui.QIcon.fromTheme('go-home'))  # TODO.  When we
                                                               # have one.
@@ -236,6 +276,43 @@ class Main(QtGui.QMainWindow):
         threading.Thread(target=self.sessiongenerate).start()
         self.show()
         DS.log.info('Main window ready!')
+
+    @property
+    def active_child(self):
+        """Return the active MDI child."""
+        child = self.mdiArea.activeSubWindow()
+        return child.widget() if child else None
+
+    def update_window_menu(self):
+        """Update the Window menu."""
+        self.windowmenu.clear()
+        self.windowmenu.addAction(self.closeAct)
+        self.windowmenu.addAction(self.closeAllAct)
+        self.windowmenu.addSeparator()
+        self.windowmenu.addAction(self.tileAct)
+        self.windowmenu.addAction(self.cascadeAct)
+        self.windowmenu.addSeparator()
+        self.windowmenu.addAction(self.nextAct)
+        self.windowmenu.addAction(self.previousAct)
+        self.windowmenu.addSeparator()
+
+        windows = self.mdiArea.subWindowList()
+        if len(windows) != 0:
+            self.windowmenu.addSeparator()
+
+        for i, window in enumerate(windows):
+            child = window
+
+            text = "%d %s" % (i + 1, child.windowTitle())
+            if i < 9:
+                text = '&' + text
+
+            action = self.windowmenu.addAction(text)
+            action.setCheckable(True)
+            action.setChecked(child.widget() is self.active_child)
+            action.triggered.connect(self.windowMapper.map)
+            self.windowMapper.setMapping(action, window)
+
 
     def upload(self, *args):
         """Show the upload dialog."""
@@ -264,9 +341,7 @@ class Main(QtGui.QMainWindow):
         """Upgrade installed packages."""
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
         u = UpgradeDialog()
-        window = self.mdiArea.addSubWindow(u)
-        u.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-        u.show()
+        u.exec_()
         threading.Thread(target=self.upgradeagenerate).start()
 
     def log(self):

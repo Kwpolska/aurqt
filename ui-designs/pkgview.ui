@@ -10,6 +10,12 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>pkgbuilder 2.1.4.8-1</string>
   </property>
@@ -22,6 +28,12 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QFrame" name="frame">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -35,7 +47,9 @@
           <string>Install</string>
          </property>
          <property name="icon">
-          <iconset theme="run-build-install"/>
+          <iconset theme="run-build-install">
+           <normaloff/>
+          </iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -57,7 +71,9 @@
           <string>Actions</string>
          </property>
          <property name="icon">
-          <iconset theme="view-form-action"/>
+          <iconset theme="view-form-action">
+           <normaloff/>
+          </iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -78,6 +94,12 @@
     </item>
     <item>
      <widget class="QLabel" name="label">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="font">
        <font>
         <pointsize>20</pointsize>
@@ -93,6 +115,12 @@
     </item>
     <item>
      <widget class="QLabel" name="label_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="font">
        <font>
         <pointsize>10</pointsize>
