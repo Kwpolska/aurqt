@@ -32,12 +32,10 @@ class AccountDialog(QtGui.QDialog):
         # TRANSLATORS: see aurweb.
         labels = [_('Username'), _('Email Address'), _('Password'),
                   _('Re-type password'), _('Real Name'), _('IRC Nick')]
-        labelobjects = []
 
-        for i in range(len(labels)):
-            labelobjects.append(QtGui.QLabel(labels[i]))
-            lay.setWidget(i, QtGui.QFormLayout.LabelRole,
-                          labelobjects[i])
+        for i, j in enumerate(labels):
+            lay.setWidget(i, QtGui.QFormLayout.LabelRole, QtGui.QLabel(j,
+                          self))
 
         self.username = QtGui.QLineEdit(self)
         self.mail = QtGui.QLineEdit(self)
@@ -87,7 +85,7 @@ class AccountDialog(QtGui.QDialog):
         """Load data from the aurweb."""
         try:
             data = DS.w.get_account_data()
-        except NotImplementedError:
+        except:
             QtGui.QMessageBox.critical(self, _('Account settings') +
                 ' — aurqt', _('Something went wrong.  Cannot make a '
                 'request to the AURweb.  Try again.'), QtGui.QMessageBox.Ok)

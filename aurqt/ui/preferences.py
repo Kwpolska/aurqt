@@ -52,7 +52,32 @@ class PreferencesDialog(QtGui.QDialog):
         aurqtl.addWidget(self.watch)
         aurqtl.addWidget(self.generation)
 
-        # Group 2: favorite helper
+        # Group 2: terminal emulator
+        termg = QtGui.QGroupBox(_('Terminal emulator'), self)
+        terml = QtGui.QGridLayout(termg)
+
+        self.tname = QtGui.QComboBox(termg)
+        self.tname.setEditable(True)
+        self.tname.setToolTip(_('command'))
+        self.tname.addItem('konsole')
+        self.tname.addItem('gnome-terminal')
+        self.tname.addItem('lxterminal')
+        self.tname.addItem('mate-terminal')
+        self.tname.addItem('terminal')  # (Xfce)
+        self.tname.addItem('urxvt')
+        self.tname.addItem('xterm')
+
+        self.targs = QtGui.QLineEdit(termg)
+        self.targs.setToolTip(_('arguments used to run a command in the '
+                                'terminal emulator of choice (-e in the '
+                                'most popular ones'))
+        tlabel = QtGui.QLabel(_('command to execute'), termg)
+
+        self.terml.addWidget(self.tname)
+        self.terml.addWidget(self.targs)
+        self.terml.addWidget(tlabel)
+
+        # Group 3: favorite helper
         helperg = QtGui.QGroupBox(_('AUR helper'), self)
         helperl = QtGui.QGridLayout(helperg)
 
@@ -89,6 +114,7 @@ class PreferencesDialog(QtGui.QDialog):
 
 
         lay.addWidget(aurqtg)
+        lay.addWidget(termg)
         lay.addWidget(helperg)
         lay.addWidget(btn)
 
@@ -136,6 +162,9 @@ class PreferencesDialog(QtGui.QDialog):
                                                  save=True)
         DS.config['aurqt']['mail-generation'] = (
         self.parse(self.generation.checkState(), save=True))
+
+        DS.config['term']['name'] = self.tname.currentText()
+        DS.config['term']['args'] = self.targs.text()
 
         DS.config['helper']['name'] = self.hname.currentText()
         DS.config['helper']['args'] = self.hargs.text()

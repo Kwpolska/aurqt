@@ -4,7 +4,8 @@ aurqt.  INSERT TAGLINE HERE.
 
 .. note::
     This documentation is compatible with version |release| of
-    aurqt
+    aurqt.
+
     The current version on your system can be checked in the About window.
 
     Most of the documentation is likely compatible with previous
@@ -21,12 +22,10 @@ Table of Contents
 .. toctree::
    :numbered:
 
-   README for aurqt <README>
-   localization
+   README
+   CONTRIBUTING
    LICENSE
    CHANGELOG
-   CONTRIBUTING
-   TODO
 
 Indices and tables
 ------------------

@@ -14,9 +14,38 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import _
+from .. import DS, _, __version__
 from PyQt4 import Qt, QtGui, QtCore
 from pkgbuilder.utils import Utils
+import pkgbuilder
+
+
+class CommentDialog(QtGui.QDialog):
+    """The comment dialog for aurqt."""
+    def __init__(self, parent=None):
+        """Initialize the dialog."""
+        super(CommentDialog, self).__init__(parent)
+
+        lay = QtGui.QVBoxLayout(self)
+
+        self.box = QtGui.QTextEdit(self)
+
+        btn = QtGui.QDialogButtonBox(self)
+        btn.setStandardButtons(QtGui.QDialogButtonBox.Save |
+                               QtGui.QDialogButtonBox.Cancel)
+
+        lay.addWidget(self.box)
+        lay.addWidget(btn)
+
+        QtCore.QObject.connect(btn, QtCore.SIGNAL('accepted()'), self.accept)
+        QtCore.QObject.connect(btn, QtCore.SIGNAL('rejected()'), self.reject)
+        QtCore.QMetaObject.connectSlotsByName(self)
+
+        self.setWindowModality(Qt.Qt.ApplicationModal)
+        self.setWindowTitle(_('Comment…'))
+        self.setWindowIcon(QtGui.QIcon.fromTheme('document-edit'))
+        self.show()
+
 
 class InfoBox(QtGui.QDialog):
     """The package information box for aurqt."""
@@ -27,13 +56,16 @@ class InfoBox(QtGui.QDialog):
         super(InfoBox, self).__init__(parent)
 
         lay = QtGui.QVBoxLayout(self)
-
-        pkg = Utils().info([pkgname])[0]
-        infostring = pkg['Name'] + ' ' + pkg['Version']
+        size_policy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred,
+                                        QtGui.QSizePolicy.Fixed)
+        self.pkg = Utils().info([pkgname])[0]
+        self.fetchpkg(self.pkg['ID'])
+        infostring = self.pkg['Name'] + ' ' + self.pkg['Version']
 
         topbar = QtGui.QFrame(self)
         topbar.setFrameShape(QtGui.QFrame.StyledPanel)
         topbar.setFrameShadow(QtGui.QFrame.Raised)
+        topbar.setSizePolicy(size_policy)
         topbarlay = QtGui.QHBoxLayout(topbar)
 
         self.insta = QtGui.QToolButton(topbar)
@@ -57,31 +89,122 @@ class InfoBox(QtGui.QDialog):
         font = QtGui.QFont()
         font.setPointSize(20)
         name.setFont(font)
+        name.setSizePolicy(size_policy)
         name.setAlignment(QtCore.Qt.AlignCenter)
 
-        desc = QtGui.QLabel(pkg['Description'], self)
+        desc = QtGui.QLabel(self.pkg['Description'], self)
         desc.setAlignment(QtCore.Qt.AlignCenter)
+        desc.setSizePolicy(size_policy)
 
-        data = QtGui.QGroupBox(self)
-        #datalay = QtGui.QFormLayout(desc)
-        #datalay.setHorizontalSpacing(15)
-        #datalay.setVerticalSpacing(7)
+        data = QtGui.QGroupBox(_('Data'), self)
+        datalay = QtGui.QFormLayout(data)
+        datalay.setHorizontalSpacing(15)
+        datalay.setVerticalSpacing(7)
 
-        #comments = QtGui.QLabel('comments', self) #GOES DOWN TODO
+        datalabels = [_('Category'), _('AUR URL'), _('Project URL'),
+                      _('Maintainer'), _('Votes'),
+                      _('First submitted'), _('Last updated')]
 
-        #datalay.setWidget(0, QtGui.QFormLayout.LabelRole, desc)
-        #datalay.setWidget(0, QtGui.QFormLayout.FieldRole, comments)
+        aururl = 'https://aur.archlinux.org/packages.php?ID={}'.format(
+                 self.pkg['ID'])
+        fields = [None, '<a href="{0}">{0}</a>'.format(aururl),
+                  '<a href="{0}">{0}</a>'.format(self.pkg['URL']),
+                  self.pkg['Maintainer'], self.pkg['NumVotes'],
+                  'TODO DATE', 'TODO DATE'] #TODO
 
-        comments = QtGui.QLabel('comments', self)
+        for i, j in enumerate(datalabels):
+            datalay.setWidget(i, QtGui.QFormLayout.LabelRole,
+                              QtGui.QLabel(j, data))
+
+        for i, j in enumerate(fields):
+            if j:
+                datalay.setWidget(i, QtGui.QFormLayout.FieldRole,
+                                  QtGui.QLabel(j, data))
+
+        c = int(self.pkg['CategoryID'])
+        if DS.username == self.pkg['Maintainer']:
+            self.catbox = QtGui.QComboBox(data, frame=False)
+            for i in pkgbuilder.DS.categories[1:]:
+                self.catbox.addItem(i)
+
+            self.catbox.setCurrentIndex(c - 1)
+
+            datalay.setWidget(0, QtGui.QFormLayout.FieldRole, self.catbox)
+        else:
+            datalay.setWidget(0, QtGui.QFormLayout.FieldRole,
+                              QtGui.QLabel(pkgbuilder.DS.categories[c], data))
+
+        self.cgroup = QtGui.QGroupBox(_('Comments'), self)
+        clay = QtGui.QVBoxLayout(self.cgroup)
+        # TODO button
+        cadd = QtGui.QPushButton(_('Add a comment…'), self,
+                                 icon=QtGui.QIcon.fromTheme('document-edit'))
+        self.comments = QtGui.QTextBrowser(self.cgroup)
+
+        self.fetchcomments() #TODO
+        clay.addWidget(cadd)
+        clay.addWidget(self.comments)
 
         lay.addWidget(topbar)
         lay.addWidget(name)
         lay.addWidget(desc)
         lay.addWidget(data)
-        lay.addWidget(comments)
+        lay.addWidget(self.cgroup)
 
-        #QtCore.QMetaObject.connectSlotsByName(self)
+        QtCore.QObject.connect(cadd, QtCore.SIGNAL('clicked()'), self.comment)
+
+        QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.WindowModal)
         self.setWindowTitle(infostring)
         self.setWindowIcon(QtGui.QIcon.fromTheme('dialog-information'))
+
+    def comment(self):
+        """Make a comment."""
+        c = CommentDialog()
+        c.exec_()
+        self.fetchpkg(self.pkg['ID'])
+        self.fetchcomments()
+
+    def fetchpkg(self, pkgid):
+        """Fetch the package data."""
+        self.awpkg = DS.w.fetchpkg(pkgid)
+
+    def fetchcomments(self):
+        """Load the comments."""
+        self.comments.setText("""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+.aq {}color: #888; text-align: right;{}
+</style>
+</head>
+<body>
+<p>{}</p>
+<p class="aq">aurqt v{}</p>
+</body>
+</html>""".format('{', '}', _('Loading…'), __version__))
+
+        c = DS.w.fetchcomments(self.awpkg)
+
+        if c:
+            self.cgroup.setEnabled(True)
+            self.comments.setText(c.prettify())
+        else:
+            self.comments.setText("""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+.aq {}color: #888; text-align: right;{}
+</style>
+</head>
+<body>
+<p>{}</p>
+<p>{}</p>
+<p class="aq">aurqt v{}</p>
+</body>
+</html>""".format('{', '}', _('There are currently no comments for this '
+    'package.'), _('In order to add one, hit the button above.'),
+    __version__))

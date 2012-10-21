@@ -1,7 +1,7 @@
-==================================
-Appendix B. License for PKGBUILDer
-==================================
-:Info: This is the license for PKGBUILDer.
+=============================
+Appendix B. License for aurqt
+=============================
+:Info: This is the license for aurqt.
 :Author: Kwpolska <kwpolska@kwpolska.tk>
 :Date: 2012-10-06
 :Version: 2.1.5.1
