@@ -21,6 +21,7 @@ import threading
 
 QUEUE = []
 
+
 class UpThread(QtCore.QThread):
     """The Upload thread."""
     def __init__(self):
@@ -41,6 +42,7 @@ class UpThread(QtCore.QThread):
             status = _('Failure: {}').format(up[1])
         self.emit(QtCore.SIGNAL('update(QString)'), status)
         return
+
 
 class UploadDialog(QtGui.QDialog):
     """The upload dialog for aurqt."""
@@ -101,16 +103,17 @@ class UploadDialog(QtGui.QDialog):
     def browse(self):
         """Browse for files."""
 
-        fname = QtGui.QFileDialog.getOpenFileName(self,
-               _('Browse for source packages'), '',
-               _('Source packages') + '(*.src.tar.gz)')
+        fname = QtGui.QFileDialog.getOpenFileName(self, _('Browse for source '
+                                                  'packages'), '', _('Source '
+                                                  ' packages') +
+                                                  '(*.src.tar.gz)')
 
         if fname:
             self.fname.setText(fname)
 
     def add(self):
         """Add a file to queue."""
-        global QUEUE # Sorry.
+        global QUEUE  # Sorry.
         self.queue = QUEUE
 
         if not self.queue:
@@ -133,19 +136,19 @@ class UploadDialog(QtGui.QDialog):
 
             item = QtGui.QTableWidgetItem()
             item.setText(fname)
-            item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+            item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
             self.table.setItem(slot, 0, item)
             storageitem.append(item)
 
             item = QtGui.QTableWidgetItem()
             item.setText(pkgbuilder.DS.categories[cat])
-            item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+            item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
             self.table.setItem(slot, 1, item)
             storageitem.append(item)
 
             item = QtGui.QTableWidgetItem()
             item.setText(_('Waiting'))
-            item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+            item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
             self.table.setItem(slot, 2, item)
             storageitem.append(item)
 
@@ -168,6 +171,6 @@ class UploadDialog(QtGui.QDialog):
         self.oldqueue = self.queue
         for i in QUEUE:
             self.thread_pool.append(UpThread())
-            self.connect(self.thread_pool[len(self.thread_pool)-1],
+            self.connect(self.thread_pool[len(self.thread_pool) - 1],
                          QtCore.SIGNAL("update(QString)"), self.setstatus)
-            self.thread_pool[len(self.thread_pool)-1].start()
+            self.thread_pool[len(self.thread_pool) - 1].start()

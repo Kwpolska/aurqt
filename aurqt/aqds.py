@@ -62,7 +62,7 @@ class AQDS():
                         level=logging.DEBUG)
     log = logging.getLogger('aurqt')
     console = logging.StreamHandler()
-    console.setLevel(logging.INFO) # Don’t want the requests spam.
+    console.setLevel(logging.INFO)  # Don’t want the requests spam.
     console.setFormatter(logging.Formatter('[%(levelname)-7s] '
                          ':%(name)-10s: %(message)s'))
     logging.getLogger('').addHandler(console)
@@ -108,10 +108,10 @@ class AQDS():
     def pkginst(self, pkgs):
         """Install specified AUR packages."""
         subprocess.call(' '.join([self.config['term']['name'],
-                         self.config['term']['args'],
-                         self.config['helper']['name'],
-                         self.config['helper']['args']] + pkgs + ['&']),
-                         shell=True)
+                        self.config['term']['args'],
+                        self.config['helper']['name'],
+                        self.config['helper']['args']] + pkgs + ['&']),
+                        shell=True)
 
     def runpacman(self, args):
         """Run pacman."""
@@ -123,7 +123,8 @@ class AQDS():
             login_data = pickle.load(open(self.sidfile, 'rb'))
             self.w.sid = login_data[0]
             if self.w.loggedin:
-                self.log.info('Using pre-existing login data: {}'.format(login_data))
+                self.log.info('Using pre-existing login data: {}'.format(
+                              login_data))
                 self.remember = True
                 self.sid = login_data[0]
                 self.username = login_data[1]
@@ -161,6 +162,7 @@ class AQDS():
             except NotImplementedError:
                 raise AQError('login', 'error', _('Cannot log in (wrong '
                                                   'credentials?)'))
+
     def logout(self):
         """Log out of the AUR."""
         try:

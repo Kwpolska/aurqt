@@ -44,9 +44,9 @@ DS.log.info('pkgbuilder.upgrade')
 import pkgbuilder.upgrade
 DS.log.info('*** Importing done')
 
+
 class Main(QtGui.QMainWindow):
     """The main window."""
-
     def logagenerate(self):
         """Generate the appropriate login/logout button."""
         if DS.sid:
@@ -82,18 +82,20 @@ class Main(QtGui.QMainWindow):
         if ulist:
             self.upgradea.setText(_('&Upgrade ({})').format(len(ulist)))
             self.upgradea.setToolTip(_('Upgrade installed packages.  '
-                '  ({} upgrades available)').format(len(ulist)))
+                                       '  ({} upgrades available)').format(
+                                     len(ulist)))
         else:
             self.upgradea.setText(_('&Upgrade').format(len(ulist)))
-            self.upgrade.setToolTip(_('Upgrade installed packages.'
-                ).format(len(ulist)))
+            self.upgrade.setToolTip(_('Upgrade installed packages.').format(
+                                    len(ulist)))
 
         self.upgradea.setEnabled(True)
         DS.log.info('AUR upgrades check done; {} found'.format(len(ulist)))
 
     def upgraderefresh(self):
-        """Run self.upgradeagenerate(), human-friendly mode."""
-        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        """self.upgradeagenerate(), human-friendly mode."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
         self.upgradeagenerate()
         QtGui.QApplication.restoreOverrideCursor()
 
@@ -112,37 +114,38 @@ class Main(QtGui.QMainWindow):
         super(Main, self).__init__()
 
         # MDI.
-        self.mdiArea = QtGui.QMdiArea()
-        self.mdiArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        self.mdiArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        self.setCentralWidget(self.mdiArea)
+        self.mdiA = QtGui.QMdiArea()
+        self.mdiA.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
+        self.mdiA.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
+        self.setCentralWidget(self.mdiA)
         self.windowMapper = QtCore.QSignalMapper(self)
-        self.windowMapper.mapped[QtGui.QWidget].connect(self.mdiArea.setActiveSubWindow)
+        self.windowMapper.mapped[QtGui.QWidget].connect(
+            self.mdiA.setActiveSubWindow)
 
         # Actions.
-        self.upgradea = QtGui.QAction(
-            QtGui.QIcon.fromTheme('system-software-update'),
-                                  _('&Upgrade (…)'), self,
-                                  shortcut='Ctrl+U',
-                                  toolTip=_('Fetching upgrades list…'),
-                                  enabled=False, triggered=self.upgrade)
+        self.upgradea = QtGui.QAction(QtGui.QIcon.fromTheme(
+                                      'system-software-update'),
+                                      _('&Upgrade (…)'), self,
+                                      shortcut='Ctrl+U',
+                                      toolTip=_('Fetching upgrades list…'),
+                                      enabled=False, triggered=self.upgrade)
 
-        upgrefresh = QtGui.QAction(
-            QtGui.QIcon.fromTheme('view-refresh'), _('&Refresh upgrades'),
-                                  self, shortcut='Ctrl+Shift+R',
-                                  toolTip=_('Refresh the upgrade counter.'),
-                                  enabled=True, triggered=self.upgraderefresh,
-                                  priority=QtGui.QAction.LowPriority)
+        upgrefresh = QtGui.QAction(QtGui.QIcon.fromTheme('view-refresh'),
+                                   _('&Refresh upgrades'),
+                                   self, shortcut='Ctrl+Shift+R',
+                                   toolTip=_('Refresh the upgrade counter.'),
+                                   enabled=True, triggered=self.upgraderefresh,
+                                   priority=QtGui.QAction.LowPriority)
 
         self.uploada = QtGui.QAction(QtGui.QIcon.fromTheme('list-add'),
                                      _('Upl&oad…'), self,
-                                     shortcut='Ctrl+Shift+U',
+                                     shortcut='Ctrl+Shift+A',
                                      toolTip=_('Upload a package to the '
                                      'AUR.'), enabled=False,
                                      triggered=self.upload)
 
         search = QtGui.QAction(QtGui.QIcon.fromTheme('edit-find'),
-                               _('&Search…'), self, shortcut='Ctrl+S',
+                               _('&Search…'), self, shortcut='Ctrl+F',
                                toolTip=_('Search the AUR.'),
                                triggered=self.search)
 
@@ -171,7 +174,7 @@ class Main(QtGui.QMainWindow):
                                     _('&My packages'), self,
                                     shortcut='Ctrl+M',
                                     toolTip=_('Display packages maintained'
-                                        'by the current user'),
+                                              'by the current user'),
                                     triggered=self.mine)
 
         self.accedita = QtGui.QAction(QtGui.QIcon.fromTheme(
@@ -179,7 +182,7 @@ class Main(QtGui.QMainWindow):
                                       _('Account se&ttings'), self,
                                       shortcut='Ctrl+T',
                                       toolTip=_('Working on authentication'
-                                      '…'), enabled=False,
+                                                '…'), enabled=False,
                                       triggered=self.accedit)
 
         ohelp = QtGui.QAction(QtGui.QIcon.fromTheme('help-contents'),
@@ -190,33 +193,33 @@ class Main(QtGui.QMainWindow):
         about = QtGui.QAction(QtGui.QIcon.fromTheme('help-about'),
                               _('A&bout'), self, triggered=self.about)
 
-        self.closeAct = QtGui.QAction(_('Cl&ose'), self,
-                statusTip=_('Close the active window'),
-                triggered=self.mdiArea.closeActiveSubWindow)
+        self.cls = QtGui.QAction(_('Cl&ose'), self,
+                                 statusTip=_('Close the active window'),
+                                 triggered=self.mdiA.closeActiveSubWindow)
 
-        self.closeAllAct = QtGui.QAction(_('Close &All'), self,
-                statusTip=_('Close all the windows'),
-                triggered=self.mdiArea.closeAllSubWindows)
+        self.clsa = QtGui.QAction(_('Close &All'), self,
+                                  statusTip=_('Close all the windows'),
+                                  triggered=self.mdiA.closeAllSubWindows)
 
-        self.tileAct = QtGui.QAction(_('&Tile'), self,
-                statusTip=_('Tile the windows'),
-                triggered=self.mdiArea.tileSubWindows)
+        self.tile = QtGui.QAction(_('&Tile'), self,
+                                     statusTip=_('Tile the windows'),
+                                     triggered=self.mdiA.tileSubWindows)
 
-        self.cascadeAct = QtGui.QAction(_('&Cascade'), self,
-                statusTip=_('Cascade the windows'),
-                triggered=self.mdiArea.cascadeSubWindows)
+        self.csc = QtGui.QAction(_('&Cascade'), self,
+                                 statusTip=_('Cascade the windows'),
+                                 triggered=self.mdiA.cascadeSubWindows)
 
-        self.nextAct = QtGui.QAction(_('Ne&xt'), self,
-                shortcut=QtGui.QKeySequence.NextChild,
-                statusTip=_('Move the focus to the next window'),
-                triggered=self.mdiArea.activateNextSubWindow)
+        self.nxtw = QtGui.QAction(_('Ne&xt'), self,
+                                  shortcut=QtGui.QKeySequence.NextChild,
+                                  statusTip=_('Move the focus to the next'
+                                  'window'),
+                                  triggered=self.mdiA.activateNextSubWindow)
 
-        self.previousAct = QtGui.QAction(_('Pre&vious'), self,
-                shortcut=QtGui.QKeySequence.PreviousChild,
-                statusTip=_('Move the focus to the previous window'),
-                triggered=self.mdiArea.activatePreviousSubWindow)
-
-
+        self.pw = QtGui.QAction(_('Pre&vious'), self,
+                                shortcut=QtGui.QKeySequence.PreviousChild,
+                                statusTip=_('Move the focus to the previous '
+                                'window'),
+                                triggered=self.mdiA.activatePreviousSubWindow)
 
         # Menu.
         menu = self.menuBar()
@@ -280,23 +283,23 @@ class Main(QtGui.QMainWindow):
     @property
     def active_child(self):
         """Return the active MDI child."""
-        child = self.mdiArea.activeSubWindow()
+        child = self.mdiA.activeSubWindow()
         return child.widget() if child else None
 
     def update_window_menu(self):
         """Update the Window menu."""
         self.windowmenu.clear()
-        self.windowmenu.addAction(self.closeAct)
-        self.windowmenu.addAction(self.closeAllAct)
+        self.windowmenu.addAction(self.cls)
+        self.windowmenu.addAction(self.clsa)
         self.windowmenu.addSeparator()
-        self.windowmenu.addAction(self.tileAct)
-        self.windowmenu.addAction(self.cascadeAct)
+        self.windowmenu.addAction(self.tile)
+        self.windowmenu.addAction(self.csc)
         self.windowmenu.addSeparator()
-        self.windowmenu.addAction(self.nextAct)
-        self.windowmenu.addAction(self.previousAct)
+        self.windowmenu.addAction(self.nxtw)
+        self.windowmenu.addAction(self.pw)
         self.windowmenu.addSeparator()
 
-        windows = self.mdiArea.subWindowList()
+        windows = self.mdiA.subWindowList()
         if len(windows) != 0:
             self.windowmenu.addSeparator()
 
@@ -313,7 +316,6 @@ class Main(QtGui.QMainWindow):
             action.triggered.connect(self.windowMapper.map)
             self.windowMapper.setMapping(action, window)
 
-
     def upload(self, *args):
         """Show the upload dialog."""
         u = UploadDialog(self)
@@ -323,13 +325,13 @@ class Main(QtGui.QMainWindow):
         """Show info about a package."""
         p = InfoBox(self, pkgname=pkgname)
         p.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-        window = self.mdiArea.addSubWindow(p)
+        window = self.mdiA.addSubWindow(p)
         p.show()
 
     def search(self):
         """Open search dialog."""
         s = SearchDialog(o=self.openpkg)
-        window = self.mdiArea.addSubWindow(s)
+        window = self.mdiA.addSubWindow(s)
         s.show()
 
     def prefs(self, *args):
@@ -339,7 +341,8 @@ class Main(QtGui.QMainWindow):
 
     def upgrade(self):
         """Upgrade installed packages."""
-        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
         u = UpgradeDialog()
         u.exec_()
         threading.Thread(target=self.upgradeagenerate).start()
@@ -349,7 +352,9 @@ class Main(QtGui.QMainWindow):
         if DS.sid:
             try:
                 DS.logout()
-                QtGui.QMessageBox.information(self, 'aurqt', _('Logged out.'))
+                QtGui.QMessageBox.information(self, 'aurqt',
+                                              _('Logged out.'),
+                                              QtGui.QMessageBox.Ok)
             except AQError as e:
                 QtGui.QMessageBox.critical(self, 'aurqt', e.msg,
                                            QtGui.QMessageBox.Ok)
@@ -361,7 +366,8 @@ class Main(QtGui.QMainWindow):
 
     def accedit(self):
         """Show the account modification/registration form."""
-        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
         e = AccountDialog(self)
         e.exec_()
 
@@ -369,7 +375,7 @@ class Main(QtGui.QMainWindow):
         """Open search dialog with the users’ packages."""
         s = SearchDialog(o=self.openpkg, q=DS.username, m=True, a=True)
         s.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-        window = self.mdiArea.addSubWindow(s)
+        window = self.mdiA.addSubWindow(s)
         s.exec_()
 
     def halp(self):
@@ -382,7 +388,6 @@ class Main(QtGui.QMainWindow):
         a = AboutDialog(self)
         a.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         a.exec_()
-
 
 
 def main():
