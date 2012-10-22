@@ -17,6 +17,7 @@
 from .. import DS, _, __version__
 from PyQt4 import Qt, QtGui, QtCore
 from pkgbuilder.utils import Utils
+from datetime import datetime  # preventing redundancy.
 import pkgbuilder
 
 
@@ -78,7 +79,7 @@ class InfoBox(QtGui.QDialog):
         actionb = QtGui.QToolButton(topbar)
         actionb.setIcon(QtGui.QIcon.fromTheme('system-run'))
         actionb.setIconSize(QtCore.QSize(22, 22))
-        actionb.setPopupMode(QtGui.QToolButton.MenuButtonPopup) # TODO menus
+        actionb.setPopupMode(QtGui.QToolButton.MenuButtonPopup)  # TODO menus
         actionb.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
         actionb.setText(_('Actions'))
 
@@ -107,10 +108,18 @@ class InfoBox(QtGui.QDialog):
 
         aururl = 'https://aur.archlinux.org/packages.php?ID={}'.format(
                  self.pkg['ID'])
+
         fields = [None, '<a href="{0}">{0}</a>'.format(aururl),
                   '<a href="{0}">{0}</a>'.format(self.pkg['URL']),
-                  self.pkg['Maintainer'], self.pkg['NumVotes'],
-                  'TODO DATE', 'TODO DATE'] #TODO
+                  self.pkg['Maintainer'], self.pkg['NumVotes']]
+
+        sdate = QtCore.QDateTime()
+        sdate = sdate.fromTime_t(int(self.pkg['FirstSubmitted']))
+        fields.append(sdate.toString(QtCore.Qt.SystemLocaleLongDate))
+
+        mdate = QtCore.QDateTime()
+        mdate = mdate.fromTime_t(int(self.pkg['LastModified']))
+        fields.append(mdate.toString(QtCore.Qt.SystemLocaleLongDate))
 
         for i, j in enumerate(datalabels):
             datalay.setWidget(i, QtGui.QFormLayout.LabelRole,
@@ -130,18 +139,21 @@ class InfoBox(QtGui.QDialog):
             self.catbox.setCurrentIndex(c - 1)
 
             datalay.setWidget(0, QtGui.QFormLayout.FieldRole, self.catbox)
+
+            QtCore.QObject.connect(self.catbox,
+                                   QtCore.SIGNAL('currentIndexChanged(int)'),
+                                   self.changecat)
         else:
             datalay.setWidget(0, QtGui.QFormLayout.FieldRole,
                               QtGui.QLabel(pkgbuilder.DS.categories[c], data))
 
         self.cgroup = QtGui.QGroupBox(_('Comments'), self)
         clay = QtGui.QVBoxLayout(self.cgroup)
-        # TODO button
         cadd = QtGui.QPushButton(_('Add a comment…'), self,
                                  icon=QtGui.QIcon.fromTheme('document-edit'))
         self.comments = QtGui.QTextBrowser(self.cgroup)
 
-        self.fetchcomments() #TODO
+        self.fetchcomments()  # TODO
         clay.addWidget(cadd)
         clay.addWidget(self.comments)
 
@@ -150,8 +162,6 @@ class InfoBox(QtGui.QDialog):
         lay.addWidget(desc)
         lay.addWidget(data)
         lay.addWidget(self.cgroup)
-
-        QtCore.QObject.connect(cadd, QtCore.SIGNAL('clicked()'), self.comment)
 
         QtCore.QMetaObject.connectSlotsByName(self)
 
@@ -165,6 +175,15 @@ class InfoBox(QtGui.QDialog):
         c.exec_()
         self.fetchpkg(self.pkg['ID'])
         self.fetchcomments()
+
+    def changecat(self, cat):
+        """Change the category."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
+        cat += 1
+        print(cat)  #TODO
+        QtGui.QApplication.restoreOverrideCursor()
+
 
     def fetchpkg(self, pkgid):
         """Fetch the package data."""
@@ -206,5 +225,5 @@ class InfoBox(QtGui.QDialog):
 <p class="aq">aurqt v{}</p>
 </body>
 </html>""".format('{', '}', _('There are currently no comments for this '
-    'package.'), _('In order to add one, hit the button above.'),
-    __version__))
+                  'package.'), _('In order to add one, hit the button '
+                  'above.'), __version__))

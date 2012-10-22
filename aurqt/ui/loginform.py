@@ -71,7 +71,8 @@ class LoginForm(QtGui.QDialog):
 
     def login(self):
         """Log into the AUR."""
-        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
         try:
             DS.login(self.uname.text(), self.pwd.text(),
                      self.remember.checkState())

@@ -30,7 +30,8 @@ class PreferencesDialog(QtGui.QDialog):
         aurqtg = QtGui.QGroupBox('aurqt', self)
         aurqtl = QtGui.QVBoxLayout(aurqtg)
 
-        self.noremember = QtGui.QCheckBox(_('Block session remembering'), aurqtg)
+        self.noremember = QtGui.QCheckBox(_('Block session remembering'),
+                                          aurqtg)
         self.noremember.setToolTip(_('The “Remember me” button in the '
                                      'login window will be disabled.\n'
                                      'All existing sessions will be '
@@ -112,7 +113,6 @@ class PreferencesDialog(QtGui.QDialog):
         btn.setStandardButtons(QtGui.QDialogButtonBox.Ok |
                                QtGui.QDialogButtonBox.Cancel)
 
-
         lay.addWidget(aurqtg)
         lay.addWidget(termg)
         lay.addWidget(helperg)
@@ -155,13 +155,12 @@ class PreferencesDialog(QtGui.QDialog):
         self.hargs.setText(DS.config['helper']['args'])
 
     def save(self):
-        DS.config['aurqt']['remember'] = (
-        self.parse(self.noremember.checkState(), save=True,
-                   reverse=True))
+        DS.config['aurqt']['remember'] = self.parse(
+            self.noremember.checkState(), save=True, reverse=True)
         DS.config['aurqt']['watch'] = self.parse(self.watch.checkState(),
                                                  save=True)
-        DS.config['aurqt']['mail-generation'] = (
-        self.parse(self.generation.checkState(), save=True))
+        DS.config['aurqt']['mail-generation'] = self.parse(
+            self.generation.checkState(), save=True)
 
         DS.config['term']['name'] = self.tname.currentText()
         DS.config['term']['args'] = self.targs.text()

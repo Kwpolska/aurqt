@@ -20,6 +20,7 @@ import pkgbuilder
 import pkgbuilder.aur
 import threading
 
+
 class SearchDialog(QtGui.QDialog):
     """The Search dialog for aurqt."""
     def __init__(self, parent=None, o=None, q=None, m=False, a=False):
@@ -28,7 +29,7 @@ class SearchDialog(QtGui.QDialog):
         if o:
             self.o = o
         else:
-            raise AQError('search', 'oNotPresent', '`o` not present')
+            raise AQError('search', 'oNotPresent', '“o” not present')
         self.a = pkgbuilder.aur.AUR()
 
         lay = QtGui.QVBoxLayout(self)
@@ -49,10 +50,13 @@ class SearchDialog(QtGui.QDialog):
         self.table = QtGui.QTableWidget()
         self.table.setColumnCount(6)
         self.table.setHorizontalHeaderLabels([_('Category'), _('Name'),
-        _('Version'), _('Votes'), _('Description'), _('Maintainer')])
+                                              _('Version'), _('Votes'),
+                                              _('Description'),
+                                              _('Maintainer')])
         QtCore.QObject.connect(self.table,
-                QtCore.SIGNAL('itemDoubleClicked(QTableWidgetItem *)'),
-                self.openpkg)
+                               QtCore.SIGNAL('itemDoubleClicked('
+                                             'QTableWidgetItem *)'),
+                               self.openpkg)
 
         top.addWidget(self.query)
         top.addWidget(self.qtype)
@@ -85,7 +89,8 @@ class SearchDialog(QtGui.QDialog):
 
     def search(self):
         """Perform the search."""
-        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(QtCore.Qt.WaitCursor))
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+            QtCore.Qt.WaitCursor))
         if self.qtype.currentIndex() == 0:
             qtype = 'search'
         else:
@@ -98,14 +103,16 @@ class SearchDialog(QtGui.QDialog):
         self.table.setColumnCount(6)
         self.table.setRowCount(0)
         self.table.setHorizontalHeaderLabels([_('Category'), _('Name'),
-        _('Version'), _('Votes'), _('Description'), _('Maintainer')])
+                                              _('Version'), _('Votes'),
+                                              _('Description'),
+                                              _('Maintainer')])
 
         if len(query) == 0:
-            pass #Ignore, because I have nothing to do.
+            pass  # Ignore, because I have nothing to do.
         elif len(query) == 1:
                 QtGui.QApplication.restoreOverrideCursor()
-                QtGui.QMessageBox.critical(self, 'aurqt', _('Your query is too '
-                                           'short.'), QtGui.QMessageBox.Ok)
+                QtGui.QMessageBox.critical(self, 'aurqt', _('Your query is too'
+                                           ' short.'), QtGui.QMessageBox.Ok)
         else:
             results = self.a.request(qtype, query)
             if results['type'] != 'error':
@@ -115,44 +122,51 @@ class SearchDialog(QtGui.QDialog):
                 for i in results:
                     storageitem = []
                     item = QtGui.QTableWidgetItem()
-                    item.setText(pkgbuilder.DS.categories[int(i['CategoryID'])])
-                    item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+                    item.setText(pkgbuilder.DS.categories[int(
+                                 i['CategoryID'])])
+                    item.setFlags(QtCore.Qt.ItemIsSelectable |
+                                  QtCore.Qt.ItemIsEnabled)
                     self.table.setItem(j, 0, item)
                     storageitem.append(item)
 
                     item = QtGui.QTableWidgetItem()
                     item.setText(i['Name'])
-                    item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+                    item.setFlags(QtCore.Qt.ItemIsSelectable |
+                                  QtCore.Qt.ItemIsEnabled)
                     self.table.setItem(j, 1, item)
                     storageitem.append(item)
 
                     item = QtGui.QTableWidgetItem()
                     item.setText(i['Version'])
-                    item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+                    item.setFlags(QtCore.Qt.ItemIsSelectable |
+                                  QtCore.Qt.ItemIsEnabled)
 
                     if i['OutOfDate'] == '1':
-                           brush = QtGui.QBrush(QtGui.QColor(255, 0, 0))
-                           brush.setStyle(QtCore.Qt.NoBrush)
-                           item.setForeground(brush)
+                        brush = QtGui.QBrush(QtGui.QColor(255, 0, 0))
+                        brush.setStyle(QtCore.Qt.NoBrush)
+                        item.setForeground(brush)
 
                     self.table.setItem(j, 2, item)
                     storageitem.append(item)
 
                     item = QtGui.QTableWidgetItem()
                     item.setText(i['NumVotes'])
-                    item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+                    item.setFlags(QtCore.Qt.ItemIsSelectable |
+                                  QtCore.Qt.ItemIsEnabled)
                     self.table.setItem(j, 3, item)
                     storageitem.append(item)
 
                     item = QtGui.QTableWidgetItem()
                     item.setText(i['Description'])
-                    item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+                    item.setFlags(QtCore.Qt.ItemIsSelectable |
+                                  QtCore.Qt.ItemIsEnabled)
                     self.table.setItem(j, 4, item)
                     storageitem.append(item)
 
                     item = QtGui.QTableWidgetItem()
                     item.setText(i['Maintainer'])
-                    item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEnabled)
+                    item.setFlags(QtCore.Qt.ItemIsSelectable |
+                                  QtCore.Qt.ItemIsEnabled)
                     self.table.setItem(j, 5, item)
                     storageitem.append(item)
 

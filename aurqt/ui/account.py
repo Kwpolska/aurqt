@@ -87,8 +87,9 @@ class AccountDialog(QtGui.QDialog):
             data = DS.w.get_account_data()
         except:
             QtGui.QMessageBox.critical(self, _('Account settings') +
-                ' — aurqt', _('Something went wrong.  Cannot make a '
-                'request to the AURweb.  Try again.'), QtGui.QMessageBox.Ok)
+                                       ' — aurqt', _('Something went wrong.'
+                                       '  Cannot make a request to the AUR.'
+                                       '  Try again.'), QtGui.QMessageBox.Ok)
             QtGui.QApplication.restoreOverrideCursor()
             self.reject()
         else:
@@ -103,8 +104,8 @@ class AccountDialog(QtGui.QDialog):
         # Sanity checks.
         if not self.uid and register:
             QtGui.QMessageBox.critical(self, _('Account settings') +
-                ' — aurqt', 'I am insane, no UID and no register.  '
-                'Try again.', QtGui.QMessageBox.Ok)
+                                       ' — aurqt', _('Something went '
+                                       'wrong.'), QtGui.QMessageBox.Ok)
             self.reject()
 
         username = self.username.text()
@@ -120,8 +121,8 @@ class AccountDialog(QtGui.QDialog):
             QtGui.QMessageBox.critical(self, 'aurqt', _('Username is empty.'),
                                        QtGui.QMessageBox.Ok)
         elif not mail:
-            QtGui.QMessageBox.critical(self, 'aurqt', _('Mail address is empty.'),
-                                       QtGui.QMessageBox.Ok)
+            QtGui.QMessageBox.critical(self, 'aurqt', _('Mail address is '
+                                       'empty.'), QtGui.QMessageBox.Ok)
         else:
             QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                                  QtCore.Qt.WaitCursor))

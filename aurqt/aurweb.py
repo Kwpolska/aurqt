@@ -17,7 +17,8 @@
 from . import AQError
 import requests
 import bs4
-import re # IT IS NOT FOR HTML PARSING!
+import re  # IT IS NOT FOR HTML PARSING!
+
 
 ### AurWeb         Access the aurweb       ###
 class AurWeb():
@@ -95,8 +96,9 @@ class AurWeb():
         """Upload a file."""
         cookies = {'AURSID': self.sid}
         r = requests.post(self.url + 'pkgsubmit.php', cookies=cookies,
-                data={'pkgsubmit': 1, 'token': self.sid, 'category': category},
-                files={'pfile': open(filename, 'rb')})
+                          data={'pkgsubmit': 1, 'token': self.sid,
+                                'category': category},
+                          files={'pfile': open(filename, 'rb')})
         r.raise_for_status()
 
         soup = bs4.BeautifulSoup(r.text, 'html.parser')
