@@ -16,6 +16,7 @@
 
 from .. import DS, _
 from PyQt4 import Qt, QtGui, QtCore
+from collections import OrderedDict
 import pkgbuilder
 import threading
 
@@ -34,12 +35,12 @@ class UpThread(QtCore.QThread):
     def run(self):
         global QUEUE
         item = QUEUE.pop()
-        print(item[0], item[1])
         up = DS.w.upload(item[0], item[1])
         if up[0]:
-            status = _('Success')
+            status = item[0] + '\n|\n' + _('Success')
         else:
-            status = _('Failure: {}').format(up[1])
+            status = item[0] + '\n|\n' + _('Failure: {}').format(up[1])
+
         self.emit(QtCore.SIGNAL('update(QString)'), status)
         return
 
@@ -50,8 +51,9 @@ class UploadDialog(QtGui.QDialog):
         """Initialize the dialog."""
         super(UploadDialog, self).__init__(parent)
         self.queue = []
-        self.thread_pool = []
-        self.itemstorage = {}
+        self.itemstorage = OrderedDict()
+        self.oldqueue = []
+        self.done = []
 
         lay = QtGui.QGridLayout(self)
         self.table = QtGui.QTableWidget(self)
@@ -82,13 +84,12 @@ class UploadDialog(QtGui.QDialog):
         for i in pkgbuilder.DS.categories[1:]:
             self.category.addItem(i)
 
-        btn = QtGui.QDialogButtonBox(self)
-        btn.setStandardButtons(QtGui.QDialogButtonBox.Close)
+        self.btn = QtGui.QDialogButtonBox(self)
+        self.btn.setStandardButtons(QtGui.QDialogButtonBox.Close)
 
-        lay.addWidget(btn, 5, 0, 1, 5)
+        lay.addWidget(self.btn, 5, 0, 1, 5)
 
-        #QtCore.QObject.connect(btn, QtCore.SIGNAL('accepted()'), self.accept)
-        QtCore.QObject.connect(btn, QtCore.SIGNAL('rejected()'), self.reject)
+        QtCore.QObject.connect(self.btn, QtCore.SIGNAL('rejected()'), self.reject)
 
         QtCore.QObject.connect(addbtn, QtCore.SIGNAL('pressed()'), self.add)
         QtCore.QObject.connect(browse, QtCore.SIGNAL('pressed()'), self.browse)
@@ -102,10 +103,9 @@ class UploadDialog(QtGui.QDialog):
 
     def browse(self):
         """Browse for files."""
-
         fname = QtGui.QFileDialog.getOpenFileName(self, _('Browse for source '
                                                   'packages'), '', _('Source '
-                                                  ' packages') +
+                                                  'packages') +
                                                   '(*.src.tar.gz)')
 
         if fname:
@@ -118,6 +118,7 @@ class UploadDialog(QtGui.QDialog):
 
         if not self.queue:
             self.pbar.hide()
+            self.pbar.setValue(0)
             self.table.clear()
             self.table.setColumnCount(3)
             self.table.setHorizontalHeaderLabels([_('File'), _('Category'),
@@ -129,10 +130,10 @@ class UploadDialog(QtGui.QDialog):
                                        QtGui.QMessageBox.Ok)
         else:
             slot = len(self.queue)
-            self.queue.append([fname, cat])
+            self.queue.append([fname, cat, slot])
             self.table.setRowCount(len(self.queue))
 
-            storageitem = []
+            storageitem = [slot]
 
             item = QtGui.QTableWidgetItem()
             item.setText(fname)
@@ -161,16 +162,48 @@ class UploadDialog(QtGui.QDialog):
 
     def setstatus(self, inp):
         """Set the status."""
-        print('ss')
-        print(inp)
+        fname, status = inp.split('\n|\n')
+        for i in self.oldqueue:
+            if i[0] == fname:
+                slot = i[2]
+
+        self.table.takeItem(slot, 2)
+
+        item = QtGui.QTableWidgetItem()
+        item.setText(status)
+        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
+        self.table.setItem(slot, 2, item)
+        st = self.itemstorage[fname]
+        st[2] = item
+
+        self.itemstorage.update({fname: st})
+
+        self.done.append(fname)
+        value = (len(self.done) / len(self.oldqueue)) * 100
+        self.pbar.setValue(value)
+
+        if value == 100:
+            self.btn.setEnabled(True)
 
     def upload(self):
         """Run the upload threads."""
+        self.pbar.show()
+        self.btn.setEnabled(False)
         global QUEUE
         QUEUE = self.queue
-        self.oldqueue = self.queue
-        for i in QUEUE:
+        self.thread_pool = []
+        self.oldqueue = [i for i in self.queue]  # Cheat.  Sorry.
+        for i in self.queue:
             self.thread_pool.append(UpThread())
+
+        for i in self.queue:
             self.connect(self.thread_pool[len(self.thread_pool) - 1],
                          QtCore.SIGNAL("update(QString)"), self.setstatus)
             self.thread_pool[len(self.thread_pool) - 1].start()
+            for slot in range(len(self.thread_pool)):
+                self.table.takeItem(slot, 2)
+                item = QtGui.QTableWidgetItem()
+                item.setText(_('Uploading…'))
+                item.setFlags(QtCore.Qt.ItemIsSelectable |
+                              QtCore.Qt.ItemIsEnabled)
+                self.table.setItem(slot, 2, item)

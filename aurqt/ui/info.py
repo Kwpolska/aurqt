@@ -21,6 +21,21 @@ from datetime import datetime  # preventing redundancy.
 import pkgbuilder
 
 
+class CThread(QtCore.QThread):
+    """The Comment retrieval thread.."""
+    def __init__(self):
+        """Initializing the thread."""
+        QtCore.QThread.__init__(self)
+
+    def __del__(self):
+        self.wait()
+
+    def run(self):
+        pkg = self.fetchpkg()
+        self.emit(QtCore.SIGNAL('update(QString)'), pkg)
+        return
+
+
 class CommentDialog(QtGui.QDialog):
     """The comment dialog for aurqt."""
     def __init__(self, parent=None):
@@ -38,7 +53,7 @@ class CommentDialog(QtGui.QDialog):
         lay.addWidget(self.box)
         lay.addWidget(btn)
 
-        QtCore.QObject.connect(btn, QtCore.SIGNAL('accepted()'), self.accept)
+        QtCore.QObject.connect(btn, QtCore.SIGNAL('accepted()'), self.add)
         QtCore.QObject.connect(btn, QtCore.SIGNAL('rejected()'), self.reject)
         QtCore.QMetaObject.connectSlotsByName(self)
 
@@ -46,6 +61,11 @@ class CommentDialog(QtGui.QDialog):
         self.setWindowTitle(_('Comment…'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('document-edit'))
         self.show()
+
+    def add(self):
+        """Add a comment."""
+        print('cannot.')
+        self.accept()
 
 
 class InfoBox(QtGui.QDialog):
@@ -153,44 +173,6 @@ class InfoBox(QtGui.QDialog):
                                  icon=QtGui.QIcon.fromTheme('document-edit'))
         self.comments = QtGui.QTextBrowser(self.cgroup)
 
-        self.fetchcomments()  # TODO
-        clay.addWidget(cadd)
-        clay.addWidget(self.comments)
-
-        lay.addWidget(topbar)
-        lay.addWidget(name)
-        lay.addWidget(desc)
-        lay.addWidget(data)
-        lay.addWidget(self.cgroup)
-
-        QtCore.QMetaObject.connectSlotsByName(self)
-
-        self.setWindowModality(Qt.Qt.WindowModal)
-        self.setWindowTitle(infostring)
-        self.setWindowIcon(QtGui.QIcon.fromTheme('dialog-information'))
-
-    def comment(self):
-        """Make a comment."""
-        c = CommentDialog()
-        c.exec_()
-        self.fetchpkg(self.pkg['ID'])
-        self.fetchcomments()
-
-    def changecat(self, cat):
-        """Change the category."""
-        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
-                                             QtCore.Qt.WaitCursor))
-        cat += 1
-        print(cat)  #TODO
-        QtGui.QApplication.restoreOverrideCursor()
-
-
-    def fetchpkg(self, pkgid):
-        """Fetch the package data."""
-        self.awpkg = DS.w.fetchpkg(pkgid)
-
-    def fetchcomments(self):
-        """Load the comments."""
         self.comments.setText("""<!DOCTYPE html>
 <html>
 <head>
@@ -205,6 +187,52 @@ class InfoBox(QtGui.QDialog):
 </body>
 </html>""".format('{', '}', _('Loading…'), __version__))
 
+        clay.addWidget(cadd)
+        clay.addWidget(self.comments)
+
+        lay.addWidget(topbar)
+        lay.addWidget(name)
+        lay.addWidget(desc)
+        lay.addWidget(data)
+        lay.addWidget(self.cgroup)
+
+        QtCore.QMetaObject.connectSlotsByName(self)
+
+        self.getcomments()
+        self.setWindowModality(Qt.Qt.WindowModal)
+        self.setWindowTitle(infostring)
+        self.setWindowIcon(QtGui.QIcon.fromTheme('dialog-information'))
+        QtGui.QApplication.restoreOverrideCursor()
+
+    def comment(self):
+        """Make a comment."""
+        c = CommentDialog()
+        c.exec_()
+        self.getcomments()
+
+    def changecat(self, cat):
+        """Change the category."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
+        cat += 1
+        print(cat)  #TODO
+        QtGui.QApplication.restoreOverrideCursor()
+
+
+    def fetchpkg(self, pkgid):
+        """Fetch the package data."""
+        self.awpkg = DS.w.fetchpkg(pkgid)
+
+    def getcomments(self):
+        """Get the comments."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
+        self.fetchpkg(self.pkg['ID'])
+        self.fetchcomments()
+        QtGui.QApplication.restoreOverrideCursor()
+
+    def fetchcomments(self):
+        """Load the comments."""
         c = DS.w.fetchcomments(self.awpkg)
 
         if c:
