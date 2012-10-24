@@ -320,9 +320,12 @@ class Main(QtGui.QMainWindow):
         """Show the upload dialog."""
         u = UploadDialog(self)
         u.exec_()
+        del u
 
     def openpkg(self, pkgname):
         """Show info about a package."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
         p = InfoBox(self, pkgname=pkgname)
         p.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         window = self.mdiA.addSubWindow(p)

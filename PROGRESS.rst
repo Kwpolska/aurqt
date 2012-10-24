@@ -233,3 +233,11 @@ System failure recovery (broken on day 17, right before pushing the changes.)
 I needed just a ``mkinitcpio -p linux``, but (a) it is hard to get Windows to
 put an ISO on a thumbdrive; and (b) I had no time thanks to third parties.
 
+Day 19
+======
+
+2012-10-24
+----------
+
+Upload is more workable.  But I cannot test it, see day 13.  Info is also a bit
+further.
