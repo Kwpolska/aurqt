@@ -214,3 +214,22 @@ Info is even further.  Still need to do the dates and the topbar.  And
 threading.
 
 (Yesterdays’ changes didn’t get commited somehow.)
+
+Day 17
+======
+
+2012-10-22
+----------
+
+Little fixes and PEP 8 compliance.
+
+Day 18
+======
+
+2012-10-23
+----------
+
+System failure recovery (broken on day 17, right before pushing the changes.)
+I needed just a ``mkinitcpio -p linux``, but (a) it is hard to get Windows to
+put an ISO on a thumbdrive; and (b) I had no time thanks to third parties.
+
