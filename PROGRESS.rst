@@ -241,3 +241,20 @@ Day 19
 
 Upload is more workable.  But I cannot test it, see day 13.  Info is also a bit
 further.
+
+Day 20
+======
+
+2012-10-25
+----------
+
+Testing day!  Also, small fixes to get stuff done better.  And flake8.
+
+:ESTIMATED TIME OF COMPLETION: Tuesday 2012-11-06, after 32 days in
+                               development.
+
+Note that the d13 problems will make it unworkable by then, but I will
+do all the final testing magic in a virtualenv.  Then, a closed beta,
+and we release 0.1.0.
+
+PS. in-program version number changed to 0.0.1.

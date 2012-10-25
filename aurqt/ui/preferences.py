@@ -55,7 +55,7 @@ class PreferencesDialog(QtGui.QDialog):
 
         # Group 2: terminal emulator
         termg = QtGui.QGroupBox(_('Terminal emulator'), self)
-        terml = QtGui.QGridLayout(termg)
+        terml = QtGui.QHBoxLayout(termg)
 
         self.tname = QtGui.QComboBox(termg)
         self.tname.setEditable(True)
@@ -74,9 +74,9 @@ class PreferencesDialog(QtGui.QDialog):
                                 'most popular ones'))
         tlabel = QtGui.QLabel(_('command to execute'), termg)
 
-        self.terml.addWidget(self.tname)
-        self.terml.addWidget(self.targs)
-        self.terml.addWidget(tlabel)
+        terml.addWidget(self.tname)
+        terml.addWidget(self.targs)
+        terml.addWidget(tlabel)
 
         # Group 3: favorite helper
         helperg = QtGui.QGroupBox(_('AUR helper'), self)
@@ -153,6 +153,9 @@ class PreferencesDialog(QtGui.QDialog):
 
         self.hname.setEditText(DS.config['helper']['name'])
         self.hargs.setText(DS.config['helper']['args'])
+
+        self.tname.setEditText(DS.config['term']['name'])
+        self.targs.setText(DS.config['term']['args'])
 
     def save(self):
         DS.config['aurqt']['remember'] = self.parse(

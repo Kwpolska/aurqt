@@ -14,11 +14,10 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import _
+from .. import AQError, _
 from PyQt4 import Qt, QtGui, QtCore
 import pkgbuilder
 import pkgbuilder.aur
-import threading
 
 
 class SearchDialog(QtGui.QDialog):
@@ -85,7 +84,7 @@ class SearchDialog(QtGui.QDialog):
                 pkgname = i
                 break
 
-        self.o(pkgname)
+        self.o(pkgname, self.results[pkgname])
 
     def search(self):
         """Perform the search."""
@@ -114,12 +113,12 @@ class SearchDialog(QtGui.QDialog):
                 QtGui.QMessageBox.critical(self, 'aurqt', _('Your query is too'
                                            ' short.'), QtGui.QMessageBox.Ok)
         else:
-            results = self.a.request(qtype, query)
-            if results['type'] != 'error':
-                results = results['results']
-                self.table.setRowCount(len(results))
+            self.results = self.a.request(qtype, query)
+            if self.results['type'] != 'error':
+                self.results = self.results['results']
+                self.table.setRowCount(len(self.results))
                 j = 0
-                for i in results:
+                for i in self.results:
                     storageitem = []
                     item = QtGui.QTableWidgetItem()
                     item.setText(pkgbuilder.DS.categories[int(

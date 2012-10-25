@@ -202,8 +202,8 @@ class Main(QtGui.QMainWindow):
                                   triggered=self.mdiA.closeAllSubWindows)
 
         self.tile = QtGui.QAction(_('&Tile'), self,
-                                     statusTip=_('Tile the windows'),
-                                     triggered=self.mdiA.tileSubWindows)
+                                  statusTip=_('Tile the windows'),
+                                  triggered=self.mdiA.tileSubWindows)
 
         self.csc = QtGui.QAction(_('&Cascade'), self,
                                  statusTip=_('Cascade the windows'),
@@ -322,19 +322,19 @@ class Main(QtGui.QMainWindow):
         u.exec_()
         del u
 
-    def openpkg(self, pkgname):
+    def openpkg(self, pkgname, pkgobj=None):
         """Show info about a package."""
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
-        p = InfoBox(self, pkgname=pkgname)
+        p = InfoBox(self, pkgname=pkgname, pkgobj=pkgobj)
         p.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-        window = self.mdiA.addSubWindow(p)
+        self.mdiA.addSubWindow(p)
         p.show()
 
     def search(self):
         """Open search dialog."""
         s = SearchDialog(o=self.openpkg)
-        window = self.mdiA.addSubWindow(s)
+        self.mdiA.addSubWindow(s)
         s.show()
 
     def prefs(self, *args):
@@ -378,7 +378,7 @@ class Main(QtGui.QMainWindow):
         """Open search dialog with the users’ packages."""
         s = SearchDialog(o=self.openpkg, q=DS.username, m=True, a=True)
         s.setAttribute(QtCore.Qt.WA_DeleteOnClose)
-        window = self.mdiA.addSubWindow(s)
+        self.mdiA.addSubWindow(s)
         s.exec_()
 
     def halp(self):

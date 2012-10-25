@@ -26,8 +26,8 @@ class AccountDialog(QtGui.QDialog):
 
         lay = QtGui.QFormLayout()
 
-        register = DS.sid is None
-        uid = None
+        self.register = DS.sid is None
+        self.uid = None
 
         # TRANSLATORS: see aurweb.
         labels = [_('Username'), _('Email Address'), _('Password'),
@@ -68,7 +68,7 @@ class AccountDialog(QtGui.QDialog):
 
         self.setWindowModality(Qt.Qt.ApplicationModal)
 
-        if register:
+        if self.register:
             self.rtype = 'NewAccount'
             self.setWindowTitle(_('Register'))
             self.setWindowIcon(QtGui.QIcon.fromTheme('user-group-new'))
@@ -102,7 +102,7 @@ class AccountDialog(QtGui.QDialog):
     def save(self):
         """Save the form."""
         # Sanity checks.
-        if not self.uid and register:
+        if not self.uid and self.register:
             QtGui.QMessageBox.critical(self, _('Account settings') +
                                        ' — aurqt', _('Something went '
                                        'wrong.'), QtGui.QMessageBox.Ok)

@@ -104,7 +104,7 @@ class AurWeb():
         soup = bs4.BeautifulSoup(r.text, 'html.parser')
 
         if r.url.startswith('https://aur.archlinux.org/packages.php'):
-            title = root.head.title
+            title = soup.head.title
             match = re.match('AUR \(.*\) - ', title.string)
             # see?  That is what re is used for over here.  I am not an idiot
             # and I do not do HTML parsing with regexps.  And you do know the

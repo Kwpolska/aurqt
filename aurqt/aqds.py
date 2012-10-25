@@ -20,7 +20,6 @@ import os
 import logging
 import configparser
 import pickle
-import threading
 import pkgbuilder
 import subprocess
 
