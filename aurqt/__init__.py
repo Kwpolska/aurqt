@@ -44,7 +44,7 @@
 """
 
 __title__ = 'aurqt'
-__version__ = '0.1.0/test'
+__version__ = '0.0.1/alpha'
 __author__ = 'Kwpolska'
 __license__ = '3-clause BSD'
 __docformat__ = 'restructuredtext en'

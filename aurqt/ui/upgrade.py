@@ -16,8 +16,6 @@
 
 from .. import DS, _
 from PyQt4 import Qt, QtGui, QtCore
-import threading
-import time
 import pkgbuilder.upgrade
 
 

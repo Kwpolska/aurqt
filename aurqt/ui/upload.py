@@ -18,7 +18,6 @@ from .. import DS, _
 from PyQt4 import Qt, QtGui, QtCore
 from collections import OrderedDict
 import pkgbuilder
-import threading
 
 QUEUE = []
 
@@ -89,7 +88,8 @@ class UploadDialog(QtGui.QDialog):
 
         lay.addWidget(self.btn, 5, 0, 1, 5)
 
-        QtCore.QObject.connect(self.btn, QtCore.SIGNAL('rejected()'), self.reject)
+        QtCore.QObject.connect(self.btn, QtCore.SIGNAL('rejected()'),
+                               self.reject)
 
         QtCore.QObject.connect(addbtn, QtCore.SIGNAL('pressed()'), self.add)
         QtCore.QObject.connect(browse, QtCore.SIGNAL('pressed()'), self.browse)

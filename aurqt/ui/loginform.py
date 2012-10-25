@@ -18,7 +18,6 @@ from .. import DS, AQError, _
 from .account import AccountDialog
 from PyQt4 import Qt, QtGui, QtCore
 import requests
-import webbrowser
 
 
 class LoginForm(QtGui.QDialog):

@@ -14,10 +14,9 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import DS, _, __version__
+from .. import AQError, DS, _, __version__
 from PyQt4 import Qt, QtGui, QtCore
 from pkgbuilder.utils import Utils
-from datetime import datetime  # preventing redundancy.
 import pkgbuilder
 
 
@@ -70,7 +69,7 @@ class CommentDialog(QtGui.QDialog):
 
 class InfoBox(QtGui.QDialog):
     """The package information box for aurqt."""
-    def __init__(self, parent=None, pkgname=None):
+    def __init__(self, parent=None, pkgname=None, pkgobj=None):
         """Initialize the box."""
         if not pkgname:
             raise AQError('info', 'pkgnameNotPresent', '`pkgname` not present')
@@ -79,7 +78,10 @@ class InfoBox(QtGui.QDialog):
         lay = QtGui.QVBoxLayout(self)
         size_policy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred,
                                         QtGui.QSizePolicy.Fixed)
-        self.pkg = Utils().info([pkgname])[0]
+        if pkgobj:
+            self.pkg = pkgobj
+        else:
+            self.pkg = Utils().info([pkgname])[0]
         self.fetchpkg(self.pkg['ID'])
         infostring = self.pkg['Name'] + ' ' + self.pkg['Version']
 
@@ -171,6 +173,7 @@ class InfoBox(QtGui.QDialog):
         clay = QtGui.QVBoxLayout(self.cgroup)
         cadd = QtGui.QPushButton(_('Add a comment…'), self,
                                  icon=QtGui.QIcon.fromTheme('document-edit'))
+        QtCore.QObject.connect(cadd, QtCore.SIGNAL('pressed()'), self.comment)
         self.comments = QtGui.QTextBrowser(self.cgroup)
 
         self.comments.setText("""<!DOCTYPE html>
@@ -215,9 +218,8 @@ class InfoBox(QtGui.QDialog):
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
         cat += 1
-        print(cat)  #TODO
+        print(cat)  # TODO
         QtGui.QApplication.restoreOverrideCursor()
-
 
     def fetchpkg(self, pkgid):
         """Fetch the package data."""
