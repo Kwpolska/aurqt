@@ -14,7 +14,7 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import __version__, DS, _, AQError
+from .. import DS, _, AQError
 DS.log.info('*** Importing in .ui.main…')
 DS.log.info('PyQt4')
 from PyQt4 import QtGui, QtCore
@@ -25,7 +25,9 @@ from .account import AccountDialog
 DS.log.info('info')
 from .info import InfoBox
 DS.log.info('loginform')
-from .loginform import LoginForm
+from .login import LoginForm
+DS.log.info('notifications')
+from .notifications import NotificationsDialog
 DS.log.info('preferences')
 from .preferences import PreferencesDialog
 DS.log.info('search')
@@ -82,7 +84,7 @@ class Main(QtGui.QMainWindow):
         if ulist:
             self.upgradea.setText(_('&Upgrade ({})').format(len(ulist)))
             self.upgradea.setToolTip(_('Upgrade installed packages.  '
-                                       '  ({} upgrades available)').format(
+                                       '({} upgrades available)').format(
                                      len(ulist)))
         else:
             self.upgradea.setText(_('&Upgrade').format(len(ulist)))
@@ -114,7 +116,7 @@ class Main(QtGui.QMainWindow):
         super(Main, self).__init__()
 
         # MDI.
-        self.mdiA = QtGui.QMdiArea()
+        self.mdiA = QtGui.QMdiArea(self)
         self.mdiA.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.mdiA.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.setCentralWidget(self.mdiA)
@@ -134,8 +136,15 @@ class Main(QtGui.QMainWindow):
                                    _('&Refresh upgrades'),
                                    self, shortcut='Ctrl+Shift+R',
                                    toolTip=_('Refresh the upgrade counter.'),
-                                   enabled=True, triggered=self.upgraderefresh,
-                                   priority=QtGui.QAction.LowPriority)
+                                   enabled=True,
+                                   triggered=self.upgraderefresh)
+
+        self.notifya = QtGui.QAction(QtGui.QIcon.fromTheme(
+                                     'dialog-information'),
+                                     _('Notifications'), self,
+                                     shortcut='Ctrl+N', toolTip=_('Show '
+                                     'notifications.'), enabled=True,
+                                     triggered=self.notify)
 
         self.uploada = QtGui.QAction(QtGui.QIcon.fromTheme('list-add'),
                                      _('Upl&oad…'), self,
@@ -160,8 +169,8 @@ class Main(QtGui.QMainWindow):
                              triggered=QtGui.qApp.quit)
 
         try:
-            loganame = _('&Log out [{}]').format(pickle.load(open(
-                DS.sidfile, 'rb'))[1])
+            with open(DS.sidfile, 'rb') as fh:
+                loganame = _('&Log out [{}]').format(pickle.load(fh)[1])
         except IOError:
             loganame = _('&Log in')
 
@@ -197,6 +206,14 @@ class Main(QtGui.QMainWindow):
                                  statusTip=_('Close the active window'),
                                  triggered=self.mdiA.closeActiveSubWindow)
 
+        self.mmin = QtGui.QAction(_('&Minimize'), self,
+                                  statusTip=_('Minimize the active window'),
+                                  triggered=self.mdiminimize)
+
+        self.mmax = QtGui.QAction(_('Maximize'), self,
+                                  statusTip=_('Maximize the active window'),
+                                  triggered=self.mdimaximize)
+
         self.clsa = QtGui.QAction(_('Close &All'), self,
                                   statusTip=_('Close all the windows'),
                                   triggered=self.mdiA.closeAllSubWindows)
@@ -228,6 +245,8 @@ class Main(QtGui.QMainWindow):
         filemenu.addAction(self.upgradea)
         filemenu.addAction(upgrefresh)
         filemenu.addSeparator()
+        filemenu.addAction(self.notifya)
+        filemenu.addSeparator()
         filemenu.addAction(self.uploada)
         filemenu.addAction(search)
         filemenu.addSeparator()
@@ -249,13 +268,18 @@ class Main(QtGui.QMainWindow):
         helpmenu.addAction(ohelp)
         helpmenu.addAction(about)
 
-        # Toolbar.
-        self.toolbar = self.addToolBar(_('aurqt Toolbar'))
+        # Toolbars.
+        self.statusbar = self.addToolBar(_('Status'))
+        self.statusbar.setIconSize(QtCore.QSize(22, 22))
+        self.statusbar.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
+        self.statusbar.addAction(self.upgradea)
+        self.statusbar.addAction(upgrefresh)
+        self.statusbar.addSeparator()
+        self.statusbar.addAction(self.notifya)
 
+        self.toolbar = self.addToolBar('aurqt')
         self.toolbar.setIconSize(QtCore.QSize(22, 22))
         self.toolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
-        self.toolbar.addAction(self.upgradea)
-        self.toolbar.addAction(upgrefresh)
         self.toolbar.addSeparator()
         self.toolbar.addAction(self.uploada)
         self.toolbar.addAction(search)
@@ -265,9 +289,10 @@ class Main(QtGui.QMainWindow):
         self.toolbar.addSeparator()
         self.toolbar.addAction(quit)
 
-        # Statusbar.
-        self.statusBar().showMessage('aurqt v{} — Copyright © 2012, '
-                                     'Kwpolska.'.format(__version__))
+        self.winbar = self.addToolBar(_('Window'))
+        self.winbar.addAction(self.mmin)
+        self.winbar.addAction(self.mmax)
+        self.winbar.addAction(self.cls)
 
         # Almost done...
         self.resize(950, 800)
@@ -286,11 +311,32 @@ class Main(QtGui.QMainWindow):
         child = self.mdiA.activeSubWindow()
         return child.widget() if child else None
 
+    def mdiminimize(self):
+        """Minimize the active MDI child."""
+        c = self.active_child
+        if c:
+            if c.isMinimized():
+                c.showNormal()
+            else:
+                c.showMinimized()
+
+    def mdimaximize(self):
+        """Maximize the active MDI child."""
+        c = self.active_child
+        if c:
+            if c.isMaximized():
+                c.showNormal()
+            else:
+                c.showMaximized()
+
     def update_window_menu(self):
         """Update the Window menu."""
         self.windowmenu.clear()
         self.windowmenu.addAction(self.cls)
         self.windowmenu.addAction(self.clsa)
+        self.windowmenu.addSeparator()
+        self.windowmenu.addAction(self.mmax)
+        self.windowmenu.addAction(self.mmin)
         self.windowmenu.addSeparator()
         self.windowmenu.addAction(self.tile)
         self.windowmenu.addAction(self.csc)
@@ -330,6 +376,12 @@ class Main(QtGui.QMainWindow):
         p.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.mdiA.addSubWindow(p)
         p.show()
+
+    def notify(self):
+        """Open notifications dialog."""
+        n = NotificationsDialog(o=self.openpkg)
+        self.mdiA.addSubWindow(n)
+        n.show()
 
     def search(self):
         """Open search dialog."""

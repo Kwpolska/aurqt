@@ -26,6 +26,7 @@ class UpgradeDialog(QtGui.QDialog):
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
         self.table.clear()
+        self.table.setSortingEnabled(False)
         dwn = self.dwnmode.checkState() == 2
         vcsup = self.vcsmode.checkState() == 2
         u = pkgbuilder.upgrade.Upgrade()
@@ -59,6 +60,7 @@ class UpgradeDialog(QtGui.QDialog):
         else:
             self.greet.setText(_('No upgrades found.'))
 
+        self.table.setSortingEnabled(True)
         QtGui.QApplication.restoreOverrideCursor()
 
     @property
@@ -134,7 +136,7 @@ class UpgradeDialog(QtGui.QDialog):
         checklay.addWidget(cnone)
         checklay.addWidget(crev)
 
-        self.table = QtGui.QTableWidget(self)
+        self.table = QtGui.QTableWidget(self, sortingEnabled=True)
         self.btn = QtGui.QDialogButtonBox(self)
         self.btn.setStandardButtons(QtGui.QDialogButtonBox.Ok)
 

@@ -258,3 +258,13 @@ do all the final testing magic in a virtualenv.  Then, a closed beta,
 and we release 0.1.0.
 
 PS. in-program version number changed to 0.0.1.
+
+Day 21
+======
+
+2012-10-26
+----------
+
+Notifications are written.  In other news: my ArchVM is up to the task of
+testing stuff, because it hasn’t been updated since ages and I have py3.2
+there!
