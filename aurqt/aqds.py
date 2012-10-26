@@ -40,6 +40,7 @@ class AQDS():
     kwdir = os.path.join(confhome, 'kwpolska')
     confdir = os.path.join(kwdir, 'aurqt')
     conffile = os.path.join(confdir, 'aurqt.cfg')
+    archdir = os.path.join(confdir, 'archives')
 
     if not os.path.exists(confhome):
         os.mkdir(confhome)
@@ -49,6 +50,9 @@ class AQDS():
 
     if not os.path.exists(confdir):
         os.mkdir(confdir)
+
+    if not os.path.exists(archdir):
+        os.mkdir(archdir)
 
     if not os.path.exists(confdir):
         print(' '.join(_('ERROR:'), _('Cannot create the configuration '
@@ -119,7 +123,8 @@ class AQDS():
     def continue_session(self):
         """Continue pre-existing session."""
         try:
-            login_data = pickle.load(open(self.sidfile, 'rb'))
+            with open(self.sidfile, 'rb') as fh:
+                login_data = pickle.load(fh)
             self.w.sid = login_data[0]
             if self.w.loggedin:
                 self.log.info('Using pre-existing login data: {}'.format(
@@ -156,7 +161,8 @@ class AQDS():
                 self.username = login_data[1]
                 self.remember = remember
                 if remember:
-                    pickle.dump(login_data, open(self.sidfile, 'wb'))
+                    with open(self.sidfile, 'wb') as fh:
+                        pickle.dump(login_data, fh)
 
             except NotImplementedError:
                 raise AQError('login', 'error', _('Cannot log in (wrong '

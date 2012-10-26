@@ -46,7 +46,7 @@ class SearchDialog(QtGui.QDialog):
         btn.setDefault(True)
         btn.setIcon(QtGui.QIcon.fromTheme('edit-find'))
 
-        self.table = QtGui.QTableWidget()
+        self.table = QtGui.QTableWidget(self, sortingEnabled=True)
         self.table.setColumnCount(6)
         self.table.setHorizontalHeaderLabels([_('Category'), _('Name'),
                                               _('Version'), _('Votes'),
@@ -79,12 +79,29 @@ class SearchDialog(QtGui.QDialog):
         self.setWindowIcon(QtGui.QIcon.fromTheme('edit-find'))
 
     def openpkg(self, item):
+        pkgname = None
+        itemcount = None
         for i in self.itemstorage.keys():
             if item in self.itemstorage[i]:
                 pkgname = i
                 break
 
-        self.o(pkgname, self.results[pkgname])
+        if pkgname:
+            for i, j in enumerate(self.results):
+                if pkgname == j['Name']:
+                    itemcount = i
+                    break
+        else:
+            QtGui.QMessageBox.critical(self, 'aurqt', _('Internal error.')
+                                       + '\nsearch/openpkg noname',
+                                       QtGui.QMessageBox.Ok)
+
+        if pkgname and itemcount is not None:
+            self.o(pkgname, self.results[itemcount])
+        else:
+            QtGui.QMessageBox.critical(self, 'aurqt', _('Internal error.')
+                                       + '\nsearch/openpkg nocount',
+                                       QtGui.QMessageBox.Ok)
 
     def search(self):
         """Perform the search."""
@@ -96,7 +113,7 @@ class SearchDialog(QtGui.QDialog):
             qtype = 'msearch'
 
         query = self.query.text()
-
+        self.table.setSortingEnabled(False)
         self.itemstorage = {}
         self.table.clear()
         self.table.setColumnCount(6)
@@ -173,4 +190,5 @@ class SearchDialog(QtGui.QDialog):
 
                     j += 1
 
+        self.table.setSortingEnabled(True)
         QtGui.QApplication.restoreOverrideCursor()
