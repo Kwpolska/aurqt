@@ -114,9 +114,7 @@ class InfoBox(QtGui.QDialog):
 
         name.setFont(font)
         if self.pkg['OutOfDate'] == '1':
-            brush = QtGui.QBrush(QtGui.QColor(255, 0, 0))
-            brush.setStyle(QtCore.Qt.NoBrush)
-            name.setForeground(brush)
+            name.setStyleSheet('color: #f00;')
 
         name.setSizePolicy(size_policy)
         name.setAlignment(QtCore.Qt.AlignCenter)

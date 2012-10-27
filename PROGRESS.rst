@@ -268,3 +268,15 @@ Day 21
 Notifications are written.  In other news: my ArchVM is up to the task of
 testing stuff, because it hasn’t been updated since ages and I have py3.2
 there!
+
+Day 22
+======
+
+2012-10-27
+----------
+
+It’s a Saturday and it’s snowing outside.  A perfect day for working on
+aurqt, right?  Nope.  AUR is broken.  Sad.
+
+Also, when aurqt will go 0.1.0, PB will go 3.0.0.  And I want to get to
+aq 1.0.0 quickly.
