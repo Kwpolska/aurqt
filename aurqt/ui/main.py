@@ -42,6 +42,7 @@ import subprocess
 import threading
 import time
 import pickle
+import requests
 DS.log.info('pkgbuilder.upgrade')
 import pkgbuilder.upgrade
 DS.log.info('*** Importing done')
@@ -303,6 +304,11 @@ class Main(QtGui.QMainWindow):
         threading.Thread(target=DS.continue_session).start()
         threading.Thread(target=self.sessiongenerate).start()
         self.show()
+        if not requests.get('https://aur.archlinux.org').ok:
+            QtGui.QMessageBox.critical(self, _('aurqt'), _('Can’t connect '
+                'to the AUR.  aurqt will now quit.'), QtGui.QMessageBox.Ok)
+            QtGui.QApplication.quit()
+            exit(1)
         DS.log.info('Main window ready!')
 
     @property
