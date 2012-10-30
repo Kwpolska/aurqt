@@ -191,4 +191,9 @@ class SearchDialog(QtGui.QDialog):
                     j += 1
 
         self.table.setSortingEnabled(True)
+        if qtype == 'msearch':
+            searchprefix = ' — [M] '
+        else:
+            searchprefix = ' — '
+        self.setWindowTitle(_('Search') + searchprefix + query)
         QtGui.QApplication.restoreOverrideCursor()
