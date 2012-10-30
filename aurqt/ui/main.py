@@ -209,11 +209,8 @@ class Main(QtGui.QMainWindow):
 
         self.mmin = QtGui.QAction(_('&Minimize'), self,
                                   statusTip=_('Minimize the active window'),
+                                  shortcut='Ctrl+Shift+M', checkable=True,
                                   triggered=self.mdiminimize)
-
-        self.mmax = QtGui.QAction(_('Maximize'), self,
-                                  statusTip=_('Maximize the active window'),
-                                  triggered=self.mdimaximize)
 
         self.clsa = QtGui.QAction(_('Close &All'), self,
                                   statusTip=_('Close all the windows'),
@@ -290,11 +287,6 @@ class Main(QtGui.QMainWindow):
         self.toolbar.addSeparator()
         self.toolbar.addAction(quit)
 
-        self.winbar = self.addToolBar(_('Window'))
-        self.winbar.addAction(self.mmin)
-        self.winbar.addAction(self.mmax)
-        self.winbar.addAction(self.cls)
-
         # Almost done...
         self.resize(950, 800)
         self.setWindowTitle('aurqt')
@@ -318,31 +310,21 @@ class Main(QtGui.QMainWindow):
         return child.widget() if child else None
 
     def mdiminimize(self):
-        """Minimize the active MDI child."""
-        c = self.active_child
-        if c:
-            if c.isMinimized():
-                c.showNormal()
-            else:
+       """Minimize the active MDI child."""
+       c = self.active_child
+       if c:
+           if c.isMinimized():
+               c.showNormal()
+           else:
                 c.showMinimized()
 
-    def mdimaximize(self):
-        """Maximize the active MDI child."""
-        c = self.active_child
-        if c:
-            if c.isMaximized():
-                c.showNormal()
-            else:
-                c.showMaximized()
 
     def update_window_menu(self):
         """Update the Window menu."""
         self.windowmenu.clear()
+        self.windowmenu.addAction(self.mmin)
         self.windowmenu.addAction(self.cls)
         self.windowmenu.addAction(self.clsa)
-        self.windowmenu.addSeparator()
-        self.windowmenu.addAction(self.mmax)
-        self.windowmenu.addAction(self.mmin)
         self.windowmenu.addSeparator()
         self.windowmenu.addAction(self.tile)
         self.windowmenu.addAction(self.csc)
@@ -366,6 +348,7 @@ class Main(QtGui.QMainWindow):
             action.setCheckable(True)
             action.setChecked(child.widget() is self.active_child)
             action.triggered.connect(self.windowMapper.map)
+            self.mmin.setChecked(self.active_child.isMinimized())
             self.windowMapper.setMapping(action, window)
 
     def upload(self, *args):

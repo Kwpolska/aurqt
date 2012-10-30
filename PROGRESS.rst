@@ -280,3 +280,14 @@ aurqt, right?  Nope.  AUR is broken.  Sad.
 
 Also, when aurqt will go 0.1.0, PB will go 3.0.0.  And I want to get to
 aq 1.0.0 quickly.
+
+Days 23—25
+==========
+
+2012-10-28—2012-10-30
+---------------------
+
+On Sunday, I reinstalled Windows, so I needed to waste my time working on
+getting it back up.  Testing happened, and I am working on stuff.  The
+date of 2012-11-06/d32 as the date of project completion is still a plan
+that will probably find itself fulfilled.

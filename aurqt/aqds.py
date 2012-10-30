@@ -111,10 +111,9 @@ class AQDS():
     def pkginst(self, pkgs):
         """Install specified AUR packages."""
         subprocess.call(' '.join([self.config['term']['name'],
-                        self.config['term']['args'],
+                        self.config['term']['args'], '"',
                         self.config['helper']['name'],
-                        self.config['helper']['args']] + pkgs + ['&']),
-                        shell=True)
+                        self.config['helper']['args'], pkgs, '" &']), shell=True)
 
     def runpacman(self, args):
         """Run pacman."""
