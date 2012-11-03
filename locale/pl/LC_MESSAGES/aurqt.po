@@ -1,0 +1,665 @@
+# aurqt en translation file file.
+# Copyright (C) 2011-2012, Kwpolska.
+# This file is distributed under the same license as the aurqt package.
+# Kwpolska <kwpolska@kwpolska.tk>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.99\n"
+"Report-Msgid-Bugs-To: Kwpolska <kwpolska@kwpolska.tk>\n"
+"POT-Creation-Date: 2012-11-03 20:32+0100\n"
+"PO-Revision-Date: 2012-11-03 20:17+0100\n"
+"Last-Translator: Kwpolska <kwpolska@kwpolska.tk>\n"
+"Language-Team: Kwpolska <kwpolska@kwpolska.tk>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: aurqt/aqds.py:58
+msgid "ERROR:"
+msgstr ""
+
+#: aurqt/aqds.py:58
+msgid "Cannot create the configuration directory."
+msgstr ""
+
+#: aurqt/aqds.py:162
+msgid "You didn’t provide the username or the password!"
+msgstr ""
+
+#: aurqt/aqds.py:177 aurqt/ui/login.py:81
+msgid "Cannot log in (wrong credentials?)"
+msgstr ""
+
+#: aurqt/aqds.py:193
+msgid "Cannot log out."
+msgstr ""
+
+#: aurqt/ui/about.py:30
+msgid "INSERT TAGLINE HERE."
+msgstr ""
+
+#: aurqt/ui/about.py:32
+msgid "LANG locale by AUTHOR <MAIL@IF.YOU.WANT>"
+msgstr ""
+
+#: aurqt/ui/about.py:36
+msgid "Using PKGBUILDer v{}."
+msgstr ""
+
+#: aurqt/ui/about.py:63
+msgid "About aurqt"
+msgstr ""
+
+#. TRANSLATORS: see aurweb.
+#: aurqt/ui/account.py:33 aurqt/ui/login.py:30
+msgid "Username"
+msgstr ""
+
+#: aurqt/ui/account.py:33
+msgid "Email Address"
+msgstr ""
+
+#: aurqt/ui/account.py:33 aurqt/ui/login.py:31
+msgid "Password"
+msgstr ""
+
+#: aurqt/ui/account.py:34
+msgid "Re-type password"
+msgstr ""
+
+#: aurqt/ui/account.py:34
+msgid "Real Name"
+msgstr ""
+
+#: aurqt/ui/account.py:34
+msgid "IRC Nick"
+msgstr ""
+
+#: aurqt/ui/account.py:73 aurqt/ui/login.py:43
+msgid "Register"
+msgstr ""
+
+#: aurqt/ui/account.py:78 aurqt/ui/account.py:89 aurqt/ui/account.py:106
+msgid "Account settings"
+msgstr ""
+
+#: aurqt/ui/account.py:90
+msgid "Something went wrong.  Cannot make a request to the AUR.  Try again."
+msgstr ""
+
+#: aurqt/ui/account.py:107 aurqt/ui/login.py:86
+msgid "Something went wrong."
+msgstr ""
+
+#: aurqt/ui/account.py:118
+msgid "Passwords differ."
+msgstr ""
+
+#: aurqt/ui/account.py:121
+msgid "Username is empty."
+msgstr ""
+
+#: aurqt/ui/account.py:124
+msgid "Mail address is empty."
+msgstr ""
+
+#: aurqt/ui/info.py:45
+msgid "Comment…"
+msgstr ""
+
+#: aurqt/ui/info.py:84 aurqt/ui/info.py:404
+msgid "Install"
+msgstr ""
+
+#: aurqt/ui/info.py:97
+msgid "Actions"
+msgstr ""
+
+#: aurqt/ui/info.py:120
+msgid "Data"
+msgstr ""
+
+#: aurqt/ui/info.py:125 aurqt/ui/search.py:53 aurqt/ui/search.py:122
+#: aurqt/ui/upload.py:60 aurqt/ui/upload.py:125
+msgid "Category"
+msgstr ""
+
+#: aurqt/ui/info.py:125
+msgid "AUR URL"
+msgstr ""
+
+#: aurqt/ui/info.py:125
+msgid "Project URL"
+msgstr ""
+
+#: aurqt/ui/info.py:126 aurqt/ui/search.py:46 aurqt/ui/search.py:56
+#: aurqt/ui/search.py:125
+msgid "Maintainer"
+msgstr ""
+
+#: aurqt/ui/info.py:126 aurqt/ui/search.py:54 aurqt/ui/search.py:123
+msgid "Votes"
+msgstr ""
+
+#: aurqt/ui/info.py:127
+msgid "First submitted"
+msgstr ""
+
+#: aurqt/ui/info.py:127
+msgid "Last updated"
+msgstr ""
+
+#: aurqt/ui/info.py:176
+msgid "Comments"
+msgstr ""
+
+#: aurqt/ui/info.py:178
+msgid "Add a comment…"
+msgstr ""
+
+#: aurqt/ui/info.py:195
+msgid "Loading…"
+msgstr ""
+
+#: aurqt/ui/info.py:303
+msgid "&Vote"
+msgstr ""
+
+#: aurqt/ui/info.py:303
+msgid "Vote for this package"
+msgstr ""
+
+#: aurqt/ui/info.py:307
+msgid "&Notify"
+msgstr ""
+
+#: aurqt/ui/info.py:308
+msgid "Enable comment notifications for this package"
+msgstr ""
+
+#: aurqt/ui/info.py:312
+msgid "&Flag as outdated"
+msgstr ""
+
+#: aurqt/ui/info.py:313
+msgid "Flag the package as outdated."
+msgstr ""
+
+#: aurqt/ui/info.py:317
+msgid "&Comment…"
+msgstr ""
+
+#: aurqt/ui/info.py:317
+msgid "Add a comment for this package"
+msgstr ""
+
+#: aurqt/ui/info.py:324
+msgid "&Disown"
+msgstr ""
+
+#: aurqt/ui/info.py:324
+msgid "Disown this package"
+msgstr ""
+
+#: aurqt/ui/info.py:329
+msgid "&Adopt"
+msgstr ""
+
+#: aurqt/ui/info.py:329
+msgid "Adopt this package"
+msgstr ""
+
+#: aurqt/ui/info.py:391
+msgid "There are currently no comments for this package."
+msgstr ""
+
+#: aurqt/ui/info.py:392
+msgid "In order to add one, hit the button above."
+msgstr ""
+
+#: aurqt/ui/info.py:401
+msgid "Uninstall"
+msgstr ""
+
+#: aurqt/ui/login.py:36
+msgid "Remember me"
+msgstr ""
+
+#: aurqt/ui/login.py:42 aurqt/ui/login.py:93 aurqt/ui/login.py:97
+#: aurqt/ui/login.py:108 aurqt/ui/login.py:112
+msgid "Forgot password"
+msgstr ""
+
+#: aurqt/ui/login.py:68
+msgid "Log in"
+msgstr ""
+
+#: aurqt/ui/login.py:94
+msgid "E-mail address:"
+msgstr ""
+
+#: aurqt/ui/login.py:98
+msgid "Please enter an address."
+msgstr ""
+
+#: aurqt/ui/login.py:109
+msgid "Check your mailbox."
+msgstr ""
+
+#: aurqt/ui/login.py:113
+msgid "Request failed.  Check your Internet connection."
+msgstr ""
+
+#. TRANSLATORS: {} = username
+#: aurqt/ui/main.py:55 aurqt/ui/main.py:165
+msgid "&Log out [{}]"
+msgstr ""
+
+#: aurqt/ui/main.py:56
+msgid "Log out."
+msgstr ""
+
+#: aurqt/ui/main.py:57 aurqt/ui/main.py:183
+msgid "Account se&ttings"
+msgstr ""
+
+#: aurqt/ui/main.py:58
+msgid "Modify the settings of this account."
+msgstr ""
+
+#: aurqt/ui/main.py:67 aurqt/ui/main.py:167
+msgid "&Log in"
+msgstr ""
+
+#: aurqt/ui/main.py:69
+msgid "Regis&ter"
+msgstr ""
+
+#: aurqt/ui/main.py:70
+msgid "Register a new account."
+msgstr ""
+
+#: aurqt/ui/main.py:84
+msgid "&Upgrade ({})"
+msgstr ""
+
+#: aurqt/ui/main.py:85
+msgid "Upgrade installed packages.  ({} upgrades available)"
+msgstr ""
+
+#: aurqt/ui/main.py:89
+msgid "&Upgrade"
+msgstr ""
+
+#: aurqt/ui/main.py:90
+msgid "Upgrade installed packages."
+msgstr ""
+
+#: aurqt/ui/main.py:129
+msgid "&Upgrade (…)"
+msgstr ""
+
+#: aurqt/ui/main.py:131
+msgid "Fetching upgrades list…"
+msgstr ""
+
+#: aurqt/ui/main.py:135
+msgid "&Refresh upgrades"
+msgstr ""
+
+#: aurqt/ui/main.py:137
+msgid "Refresh the upgrade counter."
+msgstr ""
+
+#: aurqt/ui/main.py:142
+msgid "Upl&oad…"
+msgstr ""
+
+#: aurqt/ui/main.py:144
+msgid "Upload a package to the AUR."
+msgstr ""
+
+#: aurqt/ui/main.py:149
+msgid "&Search…"
+msgstr ""
+
+#: aurqt/ui/main.py:150
+msgid "Search the AUR."
+msgstr ""
+
+#: aurqt/ui/main.py:154
+msgid "&Preferences"
+msgstr ""
+
+#: aurqt/ui/main.py:155
+msgid "Open the Preferences window."
+msgstr ""
+
+#: aurqt/ui/main.py:159
+msgid "&Quit"
+msgstr ""
+
+#: aurqt/ui/main.py:160
+msgid "Quit aurqt"
+msgstr ""
+
+#: aurqt/ui/main.py:171 aurqt/ui/main.py:185
+msgid "Working on authentication…"
+msgstr ""
+
+#: aurqt/ui/main.py:175
+msgid "&My packages"
+msgstr ""
+
+#: aurqt/ui/main.py:177
+msgid "Display packages maintainedby the current user"
+msgstr ""
+
+#: aurqt/ui/main.py:190
+msgid "Online &Help"
+msgstr ""
+
+#: aurqt/ui/main.py:191
+msgid "Show the online help for aurqt."
+msgstr ""
+
+#: aurqt/ui/main.py:195
+msgid "A&bout"
+msgstr ""
+
+#: aurqt/ui/main.py:197
+msgid "Cl&ose"
+msgstr ""
+
+#: aurqt/ui/main.py:198
+msgid "Close the active window"
+msgstr ""
+
+#: aurqt/ui/main.py:201
+msgid "&Minimize"
+msgstr ""
+
+#: aurqt/ui/main.py:202
+msgid "Minimize the active window"
+msgstr ""
+
+#: aurqt/ui/main.py:206
+msgid "Close &All"
+msgstr ""
+
+#: aurqt/ui/main.py:207
+msgid "Close all the windows"
+msgstr ""
+
+#: aurqt/ui/main.py:210
+msgid "&Tile"
+msgstr ""
+
+#: aurqt/ui/main.py:211
+msgid "Tile the windows"
+msgstr ""
+
+#: aurqt/ui/main.py:214
+msgid "&Cascade"
+msgstr ""
+
+#: aurqt/ui/main.py:215
+msgid "Cascade the windows"
+msgstr ""
+
+#: aurqt/ui/main.py:218
+msgid "Ne&xt"
+msgstr ""
+
+#: aurqt/ui/main.py:220
+msgid "Move the focus to the nextwindow"
+msgstr ""
+
+#: aurqt/ui/main.py:224
+msgid "Pre&vious"
+msgstr ""
+
+#: aurqt/ui/main.py:226
+msgid "Move the focus to the previous window"
+msgstr ""
+
+#: aurqt/ui/main.py:232
+msgid "&File"
+msgstr ""
+
+#: aurqt/ui/main.py:243
+msgid "&Account"
+msgstr ""
+
+#: aurqt/ui/main.py:248
+msgid "&Window"
+msgstr ""
+
+#: aurqt/ui/main.py:254
+msgid "&Help"
+msgstr ""
+
+#. Toolbars.
+#: aurqt/ui/main.py:259 aurqt/ui/upload.py:61 aurqt/ui/upload.py:126
+msgid "Status"
+msgstr ""
+
+#: aurqt/ui/main.py:287
+msgid "aurqt"
+msgstr ""
+
+#: aurqt/ui/main.py:287
+msgid "Can’t connect to the AUR.  aurqt will now quit."
+msgstr ""
+
+#: aurqt/ui/main.py:381
+msgid "Logged out."
+msgstr ""
+
+#: aurqt/ui/preferences.py:33
+msgid "Allow session remembering"
+msgstr ""
+
+#: aurqt/ui/preferences.py:35
+msgid "The “Remember me” button in the login window will be enabled."
+msgstr ""
+
+#: aurqt/ui/preferences.py:38
+msgid "Show the mail generation options"
+msgstr ""
+
+#: aurqt/ui/preferences.py:40
+msgid ""
+"Allow generating and sending mails to the aur-general list with requests for "
+"deletion, merges and disowning."
+msgstr ""
+
+#. Group 2: terminal emulator
+#: aurqt/ui/preferences.py:48
+msgid "Terminal emulator"
+msgstr ""
+
+#: aurqt/ui/preferences.py:53 aurqt/ui/preferences.py:78
+msgid "command"
+msgstr ""
+
+#: aurqt/ui/preferences.py:63
+msgid ""
+"arguments used to run a command in the terminal emulator of choice (-e in "
+"the most popular ones"
+msgstr ""
+
+#: aurqt/ui/preferences.py:66
+msgid "command to execute"
+msgstr ""
+
+#. Group 3: favorite helper
+#: aurqt/ui/preferences.py:73
+msgid "AUR helper"
+msgstr ""
+
+#: aurqt/ui/preferences.py:90
+msgid "arguments used to install AUR packages"
+msgstr ""
+
+#: aurqt/ui/preferences.py:91
+msgid "packages to install"
+msgstr ""
+
+#: aurqt/ui/preferences.py:92
+msgid ""
+"The helper will run in a terminal window.\n"
+"Requirements:\n"
+"dependency resolution;\n"
+"actually building and installing packages (so no cower)"
+msgstr ""
+
+#: aurqt/ui/preferences.py:117
+msgid "Preferences"
+msgstr ""
+
+#: aurqt/ui/search.py:28 aurqt/ui/search.py:47 aurqt/ui/search.py:199
+msgid "Search"
+msgstr ""
+
+#: aurqt/ui/search.py:45
+msgid "Name/Description"
+msgstr ""
+
+#: aurqt/ui/search.py:53 aurqt/ui/search.py:122 aurqt/ui/upgrade.py:45
+msgid "Name"
+msgstr ""
+
+#: aurqt/ui/search.py:54 aurqt/ui/search.py:123
+msgid "Version"
+msgstr ""
+
+#: aurqt/ui/search.py:55 aurqt/ui/search.py:124
+msgid "Description"
+msgstr ""
+
+#: aurqt/ui/search.py:96 aurqt/ui/search.py:103
+msgid "Internal error."
+msgstr ""
+
+#: aurqt/ui/search.py:131
+msgid "Your query is too short."
+msgstr ""
+
+#: aurqt/ui/TEMPLATE.py:39
+msgid "TEMPLATE"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:41
+msgid "Found the following upgrades:"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:45
+msgid "Current"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:46
+msgid "New"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:61
+msgid "No upgrades found."
+msgstr ""
+
+#: aurqt/ui/upgrade.py:113
+msgid "Refresh"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:115
+msgid "Searching for upgrades…"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:116
+msgid "Choose the packages you want to upgrade and press OK."
+msgstr ""
+
+#: aurqt/ui/upgrade.py:121
+msgid "Show:"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:123
+msgid "Downgrades"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:124
+msgid "VCS packages"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:128
+msgid "Check:"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:130
+msgid "All"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:131
+msgid "None"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:132
+msgid "Reverse"
+msgstr ""
+
+#: aurqt/ui/upgrade.py:133
+msgid "Revert the selection."
+msgstr ""
+
+#: aurqt/ui/upgrade.py:166
+msgid "Upgrade"
+msgstr ""
+
+#: aurqt/ui/upload.py:39
+msgid "Success"
+msgstr ""
+
+#: aurqt/ui/upload.py:41
+msgid "Failure: {}"
+msgstr ""
+
+#: aurqt/ui/upload.py:60 aurqt/ui/upload.py:125
+msgid "File"
+msgstr ""
+
+#: aurqt/ui/upload.py:64 aurqt/ui/upload.py:101
+msgid "Upload"
+msgstr ""
+
+#: aurqt/ui/upload.py:67
+msgid "Remove selected"
+msgstr ""
+
+#: aurqt/ui/upload.py:72
+msgid "Browse"
+msgstr ""
+
+#: aurqt/ui/upload.py:76
+msgid "Add"
+msgstr ""
+
+#: aurqt/ui/upload.py:107
+msgid "Browse for source packages"
+msgstr ""
+
+#: aurqt/ui/upload.py:108
+msgid "Source packages"
+msgstr ""
+
+#: aurqt/ui/upload.py:130
+msgid "No file selected."
+msgstr ""
+
+#: aurqt/ui/upload.py:152
+msgid "Waiting"
+msgstr ""
+
+#: aurqt/ui/upload.py:216
+msgid "Uploading…"
+msgstr ""

@@ -6,7 +6,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(name='aurqt',
-      version='0.1.0',
+      version='0.0.99',
       description='INSERT TAGLINE HERE.',
       author='Kwpolska',
       author_email='kwpolska@kwpolska.tk',
@@ -26,10 +26,18 @@ setup(name='aurqt',
                    'Topic :: System',
                    'Topic :: System :: Archiving :: Packaging',
                    'Topic :: Utilities'],
-      packages=['aurqt'],
+      packages=['aurqt', 'aurqt.ui'],
       requires=['pkgbuilder', 'requests', 'bs4'],
       scripts=['bin/aurqt'],
       data_files=[('share/locale/en/LC_MESSAGES', ['locale/en/LC_MESSAGES/'
                                                    'aurqt.mo']),
                   ('share/locale/pl/LC_MESSAGES', ['locale/pl/LC_MESSAGES/'
-                                                   'aurqt.mo'])])
+                                                   'aurqt.mo']),
+                  ('share/icons/hicolor/16x16/apps', ['icons/16.png']),
+                  ('share/icons/hicolor/22x22/apps', ['icons/22.png']),
+                  ('share/icons/hicolor/32x32/apps', ['icons/32.png']),
+                  ('share/icons/hicolor/48x48/apps', ['icons/48.png']),
+                  ('share/icons/hicolor/96x96/apps', ['icons/96.png']),
+                  ('share/icons/hicolor/128x128/apps', ['icons/128.png']),
+                  ('share/icons/hicolor/256x256/apps', ['icons/256.png']),
+                  ('share/icons/hicolor/scalable/apps', ['logo.svg'])])

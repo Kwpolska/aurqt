@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.0
+# aurqt v0.0.99
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -30,18 +30,10 @@ class PreferencesDialog(QtGui.QDialog):
         aurqtg = QtGui.QGroupBox('aurqt', self)
         aurqtl = QtGui.QVBoxLayout(aurqtg)
 
-        self.noremember = QtGui.QCheckBox(_('Block session remembering'),
+        self.noremember = QtGui.QCheckBox(_('Allow session remembering'),
                                           aurqtg)
         self.noremember.setToolTip(_('The “Remember me” button in the '
-                                     'login window will be disabled.\n'
-                                     'All existing sessions will be '
-                                     'forgotten.'))
-
-        self.watch = QtGui.QCheckBox(_('Watch own packages and show '
-                                       'notifications'), aurqtg)
-        self.watch.setToolTip(_('Notifications appear in the toolbar.\n'
-                                'Currently informing about out-of-date '
-                                'status and new comments.'))
+                                     'login window will be enabled.'))
 
         self.generation = QtGui.QCheckBox(_('Show the mail generation '
                                             'options'), aurqtg)
@@ -50,7 +42,6 @@ class PreferencesDialog(QtGui.QDialog):
                                      'for deletion, merges and disowning.'))
 
         aurqtl.addWidget(self.noremember)
-        aurqtl.addWidget(self.watch)
         aurqtl.addWidget(self.generation)
 
         # Group 2: terminal emulator
@@ -131,23 +122,15 @@ class PreferencesDialog(QtGui.QDialog):
     def parse(self, value, save=False, reverse=False):
         """Parse value loading and saving."""
         if save:
-            if reverse:
-                values = {0: 'yes', 2: 'no'}
-            else:
-                values = {2: 'yes', 0: 'no'}
+            values = {2: 'yes', 0: 'no'}
         else:
-            if reverse:
-                values = {'yes': 0, 'no': 2}
-            else:
-                values = {'yes': 2, 'no': 0}
+            values = {'yes': 2, 'no': 0}
 
         return values[value]
 
     def load(self):
         self.noremember.setCheckState(self.parse(
-                                      DS.config['aurqt']['remember'],
-                                      reverse=True))
-        self.watch.setCheckState(self.parse(DS.config['aurqt']['watch']))
+                                      DS.config['aurqt']['remember']))
         self.generation.setCheckState(self.parse(
                                       DS.config['aurqt']['mail-generation']))
 
@@ -159,9 +142,7 @@ class PreferencesDialog(QtGui.QDialog):
 
     def save(self):
         DS.config['aurqt']['remember'] = self.parse(
-            self.noremember.checkState(), save=True, reverse=True)
-        DS.config['aurqt']['watch'] = self.parse(self.watch.checkState(),
-                                                 save=True)
+            self.noremember.checkState(), save=True)
         DS.config['aurqt']['mail-generation'] = self.parse(
             self.generation.checkState(), save=True)
 

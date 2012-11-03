@@ -8,11 +8,74 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    version="1.1"
-   width="200"
-   height="200"
+   width="215"
+   height="215"
    id="svg2">
   <defs
-     id="defs4" />
+     id="defs4">
+    <filter
+       color-interpolation-filters="sRGB"
+       id="filter3243">
+      <feFlood
+         id="feFlood3245"
+         flood-opacity="1"
+         flood-color="rgb(255,255,255)"
+         result="flood" />
+      <feComposite
+         in2="SourceGraphic"
+         operator="in"
+         in="flood"
+         result="composite1"
+         id="feComposite3247" />
+      <feGaussianBlur
+         id="feGaussianBlur3249"
+         stdDeviation="10"
+         result="blur" />
+      <feOffset
+         id="feOffset3251"
+         dx="0"
+         dy="0"
+         result="offset" />
+      <feComposite
+         in2="offset"
+         operator="over"
+         in="SourceGraphic"
+         result="fbSourceGraphic"
+         id="feComposite3253" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3255" />
+      <feFlood
+         id="feFlood3257"
+         flood-opacity="1"
+         flood-color="rgb(255,255,255)"
+         result="flood"
+         in="fbSourceGraphic" />
+      <feComposite
+         in2="fbSourceGraphic"
+         operator="in"
+         in="flood"
+         result="composite1"
+         id="feComposite3259" />
+      <feGaussianBlur
+         id="feGaussianBlur3261"
+         stdDeviation="5"
+         result="blur" />
+      <feOffset
+         id="feOffset3263"
+         dx="0"
+         dy="0"
+         result="offset" />
+      <feComposite
+         in2="offset"
+         operator="over"
+         in="fbSourceGraphic"
+         result="composite2"
+         id="feComposite3265" />
+    </filter>
+  </defs>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -26,8 +89,9 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(-462.25464,-363.2813)"
-     id="layer1">
+     transform="translate(-454.75464,-355.7813)"
+     id="layer1"
+     style="filter:url(#filter3243)">
     <text
        x="377.63281"
        y="540.62781"
@@ -63,6 +127,6 @@
        style="font-size:200px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Helvetica Neue;-inkscape-font-specification:Helvetica Neue"><tspan
          x="-23.5"
          y="44.5"
-         id="tspan4067"></tspan></text>
+         id="tspan4067" /></text>
   </g>
 </svg>

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.0
+# aurqt v0.0.99
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -25,11 +25,13 @@ class SearchDialog(QtGui.QDialog):
     def __init__(self, parent=None, o=None, q=None, m=False, a=False):
         """Initialize the dialog."""
         super(SearchDialog, self).__init__(parent)
+        self.setWindowTitle(_('Search')) # changed by .search() later
+        self.a = pkgbuilder.aur.AUR()
+
         if o:
             self.o = o
         else:
             raise AQError('search', 'oNotPresent', '“o” not present')
-        self.a = pkgbuilder.aur.AUR()
 
         lay = QtGui.QVBoxLayout(self)
         frame = QtGui.QFrame(self)
@@ -75,7 +77,6 @@ class SearchDialog(QtGui.QDialog):
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.WindowModal)
-        self.setWindowTitle(_('Search'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('edit-find'))
 
     def openpkg(self, item):

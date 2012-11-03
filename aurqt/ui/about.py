@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.0
+# aurqt v0.0.99
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -29,8 +29,8 @@ class AboutDialog(QtGui.QDialog):
         aurqt = QtGui.QLabel('aurqt v{}'.format(__version__), self)
         tagline = QtGui.QLabel(_('INSERT TAGLINE HERE.'), self)
         copy = QtGui.QLabel('Copyright © 2012, Kwpolska.', self)
-        localetxt = _('LANG locale by AUTHOR <MAIL@IF.YOU.WANT')
-        if localetxt == 'LANG locale by AUTHOR <MAIL@IF.YOU.WANT':
+        localetxt = _('LANG locale by AUTHOR <MAIL@IF.YOU.WANT>')
+        if localetxt == 'LANG locale by AUTHOR <MAIL@IF.YOU.WANT>':
             localetxt = 'No locale in use.'
         locale = QtGui.QLabel(localetxt, self)
         pbinf = QtGui.QLabel(_('Using PKGBUILDer v{}.').format(__pbversion__),
