@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.0
+# aurqt v0.0.99
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # All rights reserved.
@@ -44,7 +44,7 @@
 """
 
 __title__ = 'aurqt'
-__version__ = '0.0.1/alpha'
+__version__ = '0.0.99'
 __author__ = 'Kwpolska'
 __license__ = '3-clause BSD'
 __docformat__ = 'restructuredtext en'

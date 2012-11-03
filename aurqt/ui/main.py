@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.0
+# aurqt v0.0.99
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -15,35 +15,36 @@
 """
 
 from .. import DS, _, AQError
-DS.log.info('*** Importing in .ui.main…')
-DS.log.info('PyQt4')
+DS.log.info('*** Loading...')
+DS.log.info(' 1/11 PyQt4')
 from PyQt4 import QtGui, QtCore
-DS.log.info('about')
+DS.log.info(' 2/11 about')
 from .about import AboutDialog
-DS.log.info('account')
+DS.log.info(' 3/11 account')
 from .account import AccountDialog
-DS.log.info('info')
+DS.log.info(' 4/11 info')
 from .info import InfoBox
-DS.log.info('loginform')
+DS.log.info(' 5/11 login')
 from .login import LoginForm
-DS.log.info('notifications')
-from .notifications import NotificationsDialog
-DS.log.info('preferences')
+DS.log.info(' 6/11 preferences')
 from .preferences import PreferencesDialog
-DS.log.info('search')
+DS.log.info(' 7/11 search')
 from .search import SearchDialog
-DS.log.info('upgrade')
+DS.log.info(' 8/11 upgrade')
 from .upgrade import UpgradeDialog
-DS.log.info('upload')
+DS.log.info(' 9/11 upload')
 from .upload import UploadDialog
-DS.log.info('external deps')
+DS.log.info('10/11 external deps')
 import sys
 import subprocess
 import threading
 import time
-import pickle
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
 import requests
-DS.log.info('pkgbuilder.upgrade')
+DS.log.info('11/11 pkgbuilder.upgrade')
 import pkgbuilder.upgrade
 DS.log.info('*** Importing done')
 
@@ -89,8 +90,8 @@ class Main(QtGui.QMainWindow):
                                      len(ulist)))
         else:
             self.upgradea.setText(_('&Upgrade').format(len(ulist)))
-            self.upgrade.setToolTip(_('Upgrade installed packages.').format(
-                                    len(ulist)))
+            self.upgradea.setToolTip(_('Upgrade installed packages.').format(
+                                     len(ulist)))
 
         self.upgradea.setEnabled(True)
         DS.log.info('AUR upgrades check done; {} found'.format(len(ulist)))
@@ -139,13 +140,6 @@ class Main(QtGui.QMainWindow):
                                    toolTip=_('Refresh the upgrade counter.'),
                                    enabled=True,
                                    triggered=self.upgraderefresh)
-
-        self.notifya = QtGui.QAction(QtGui.QIcon.fromTheme(
-                                     'dialog-information'),
-                                     _('Notifications'), self,
-                                     shortcut='Ctrl+N', toolTip=_('Show '
-                                     'notifications.'), enabled=True,
-                                     triggered=self.notify)
 
         self.uploada = QtGui.QAction(QtGui.QIcon.fromTheme('list-add'),
                                      _('Upl&oad…'), self,
@@ -204,35 +198,35 @@ class Main(QtGui.QMainWindow):
                               _('A&bout'), self, triggered=self.about)
 
         self.cls = QtGui.QAction(_('Cl&ose'), self,
-                                 statusTip=_('Close the active window'),
+                                 toolTip=_('Close the active window'),
                                  triggered=self.mdiA.closeActiveSubWindow)
 
         self.mmin = QtGui.QAction(_('&Minimize'), self,
-                                  statusTip=_('Minimize the active window'),
+                                  toolTip=_('Minimize the active window'),
                                   shortcut='Ctrl+Shift+M', checkable=True,
                                   triggered=self.mdiminimize)
 
         self.clsa = QtGui.QAction(_('Close &All'), self,
-                                  statusTip=_('Close all the windows'),
+                                  toolTip=_('Close all the windows'),
                                   triggered=self.mdiA.closeAllSubWindows)
 
         self.tile = QtGui.QAction(_('&Tile'), self,
-                                  statusTip=_('Tile the windows'),
+                                  toolTip=_('Tile the windows'),
                                   triggered=self.mdiA.tileSubWindows)
 
         self.csc = QtGui.QAction(_('&Cascade'), self,
-                                 statusTip=_('Cascade the windows'),
+                                 toolTip=_('Cascade the windows'),
                                  triggered=self.mdiA.cascadeSubWindows)
 
         self.nxtw = QtGui.QAction(_('Ne&xt'), self,
                                   shortcut=QtGui.QKeySequence.NextChild,
-                                  statusTip=_('Move the focus to the next'
+                                  toolTip=_('Move the focus to the next'
                                   'window'),
                                   triggered=self.mdiA.activateNextSubWindow)
 
         self.pw = QtGui.QAction(_('Pre&vious'), self,
                                 shortcut=QtGui.QKeySequence.PreviousChild,
-                                statusTip=_('Move the focus to the previous '
+                                toolTip=_('Move the focus to the previous '
                                 'window'),
                                 triggered=self.mdiA.activatePreviousSubWindow)
 
@@ -242,8 +236,6 @@ class Main(QtGui.QMainWindow):
 
         filemenu.addAction(self.upgradea)
         filemenu.addAction(upgrefresh)
-        filemenu.addSeparator()
-        filemenu.addAction(self.notifya)
         filemenu.addSeparator()
         filemenu.addAction(self.uploada)
         filemenu.addAction(search)
@@ -267,18 +259,15 @@ class Main(QtGui.QMainWindow):
         helpmenu.addAction(about)
 
         # Toolbars.
-        self.statusbar = self.addToolBar(_('Status'))
-        self.statusbar.setIconSize(QtCore.QSize(22, 22))
-        self.statusbar.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
-        self.statusbar.addAction(self.upgradea)
-        self.statusbar.addAction(upgrefresh)
-        self.statusbar.addSeparator()
-        self.statusbar.addAction(self.notifya)
+        self.statustbar = self.addToolBar(_('Status'))
+        self.statustbar.setIconSize(QtCore.QSize(22, 22))
+        self.statustbar.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
+        self.statustbar.addAction(self.upgradea)
+        self.statustbar.addAction(upgrefresh)
 
         self.toolbar = self.addToolBar('aurqt')
         self.toolbar.setIconSize(QtCore.QSize(22, 22))
         self.toolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
-        self.toolbar.addSeparator()
         self.toolbar.addAction(self.uploada)
         self.toolbar.addAction(search)
         self.toolbar.addSeparator()
@@ -290,11 +279,12 @@ class Main(QtGui.QMainWindow):
         # Almost done...
         self.resize(950, 800)
         self.setWindowTitle('aurqt')
-        self.setWindowIcon(QtGui.QIcon.fromTheme('go-home'))  # TODO.  When we
-                                                              # have one.
+        self.setWindowIcon(QtGui.QIcon.fromTheme('aurqt'))
         threading.Thread(target=self.upgradeagenerate).start()
         threading.Thread(target=DS.continue_session).start()
         threading.Thread(target=self.sessiongenerate).start()
+
+        QtCore.QMetaObject.connectSlotsByName(self)
         self.show()
         if not requests.get('https://aur.archlinux.org').ok:
             QtGui.QMessageBox.critical(self, _('aurqt'), _('Can’t connect '
@@ -365,12 +355,6 @@ class Main(QtGui.QMainWindow):
         p.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.mdiA.addSubWindow(p)
         p.show()
-
-    def notify(self):
-        """Open notifications dialog."""
-        n = NotificationsDialog(o=self.openpkg)
-        self.mdiA.addSubWindow(n)
-        n.show()
 
     def search(self):
         """Open search dialog."""

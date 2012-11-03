@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.0
+# aurqt v0.0.99
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -19,7 +19,10 @@ from .aurweb import AurWeb
 import os
 import logging
 import configparser
-import pickle
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
 import pkgbuilder
 import subprocess
 
@@ -76,7 +79,6 @@ class AQDS():
     if not config.read(conffile):
         config['aurqt'] = {}
         config['aurqt']['remember'] = 'yes'
-        config['aurqt']['watch'] = 'yes'
         config['aurqt']['mail-generation'] = 'yes'
 
         config['term'] = {}
@@ -113,28 +115,37 @@ class AQDS():
         subprocess.call(' '.join([self.config['term']['name'],
                         self.config['term']['args'], '"',
                         self.config['helper']['name'],
-                        self.config['helper']['args'], pkgs, '" &']), shell=True)
+                        self.config['helper']['args'], ' '.join(pkgs), '" &']),
+                        shell=True)
 
-    def runpacman(self, args):
+    def pacman(self, args):
         """Run pacman."""
-        pkgbuilder.DS.sudo(pkgbuilder.DS.paccommand, args)
+        subprocess.call(' '.join([self.config['term']['name'],
+                        self.config['term']['args'], '"sudo',
+                        pkgbuilder.DS.paccommand, ' '.join(args), '" &']),
+                        shell=True)
 
     def continue_session(self):
         """Continue pre-existing session."""
         try:
             with open(self.sidfile, 'rb') as fh:
                 login_data = pickle.load(fh)
-            self.w.sid = login_data[0]
+            self.w.cookies = login_data[0]
             if self.w.loggedin:
                 self.log.info('Using pre-existing login data: {}'.format(
-                              login_data))
+                              [login_data[0]['AURSID'], login_data[1]]))
+                self.w.sid = login_data[0]['AURSID']
+                self.w.username = login_data[1]
                 self.remember = True
-                self.sid = login_data[0]
+                self.sid = login_data[0]['AURSID']
                 self.username = login_data[1]
             else:
-                self.log.info('Session of {} expired.'.format(login_data))
+                self.log.info('Session of {} expired.'.format(login_data[1]))
                 os.remove(self.sidfile)
                 self.remember = False
+                self.w.cookies = None
+                self.w.sid = None
+                self.w.username = None
                 self.sid = None
                 self.w.sid = None
                 self.username = None
@@ -155,13 +166,14 @@ class AQDS():
         else:
             try:
                 login_data = self.w.login(username, password, remember)
-                self.sid = login_data[0]
-                self.w.sid = login_data[0]
+                self.sid = login_data[0]['AURSID']
+                self.w.cookies = login_data[0]
+                self.w.sid = login_data[0]['AURSID']
+                self.w.username = login_data[1]
                 self.username = login_data[1]
                 self.remember = remember
-                if remember:
-                    with open(self.sidfile, 'wb') as fh:
-                        pickle.dump(login_data, fh)
+                with open(self.sidfile, 'wb') as fh:
+                    pickle.dump(login_data, fh)
 
             except NotImplementedError:
                 raise AQError('login', 'error', _('Cannot log in (wrong '
@@ -172,7 +184,9 @@ class AQDS():
         try:
             self.w.logout()
             self.sid = None
+            self.w.cookies = None
             self.w.sid = None
+            self.w.username = None
             self.username = None
             if self.remember:
                 self.remember = False

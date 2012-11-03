@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.0
+# aurqt v0.0.99
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -129,7 +129,8 @@ class AccountDialog(QtGui.QDialog):
             try:
                 e = DS.w.account_edit(self.rtype, username, pwd, mail, rname,
                                       irc)
-                QtGui.QMessageBox.info(e.strip())
+                QtGui.QMessageBox.information(self, 'aurqt', e.strip(),
+                                              QtGui.QMessageBox.Ok)
             except AQError as e:
                 QtGui.QMessageBox.critical(self, 'aurqt', e.msg,
                                            QtGui.QMessageBox.Ok)

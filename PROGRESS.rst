@@ -291,3 +291,35 @@ On Sunday, I reinstalled Windows, so I needed to waste my time working on
 getting it back up.  Testing happened, and I am working on stuff.  The
 date of 2012-11-06/d32 as the date of project completion is still a plan
 that will probably find itself fulfilled.
+
+Days 26-28
+==========
+
+2012-10-31-2012-11-02
+---------------------
+
+Testing and bugfixes with the help of the archvm.
+
+
+Day 29
+======
+
+2012-10-03
+----------
+
+**Development of aurqt has been finalized.** It will be tested until day 32
+(2012-10-06), because of the planned release date.  People willing to help
+testing must, unfortunately, set up their own VM with Arch Linux in it or find
+a machine/VM that has not been updated since 2012-10-17.  Because of a massive
+size of a machine (1.3G), I cannot provide one.  I can, however, provide
+packages of aurqt and friends, built against python 3.2.3.  Those are
+available here: <http://kwpolska.github.com/aurqt-0.1.0-pre/> (in both i686
+and x86_64 flavors).
+
+The three days left will be spend on writing documentation, coming up with the
+tagline, additional testing, localizing and stuff.  Code changes are possible,
+and will, most likely, happen.
+
+But don’t worry, this is not the end of my work, as I will need to write code
+for the new aurweb <https://aur-dev.archlinux.org/>...  So, branching soon.
+Until then, until then.

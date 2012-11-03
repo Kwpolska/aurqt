@@ -9,6 +9,5 @@ include PKGBUILD-git
 include CHANGELOG.rst
 recursive-include docs *
 recursive-include bin *
-recursive-include pkgbuilder *.py
+recursive-include aurqt *.py
 recursive-include locale *.mo
-recursive-include sample-scripts *

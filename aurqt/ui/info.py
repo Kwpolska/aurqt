@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.0
+# aurqt v0.0.99
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -18,38 +18,23 @@ from .. import AQError, DS, _, __version__
 from PyQt4 import Qt, QtGui, QtCore
 from pkgbuilder.utils import Utils
 import pkgbuilder
-
-
-class CThread(QtCore.QThread):
-    """The Comment retrieval thread.."""
-    def __init__(self):
-        """Initializing the thread."""
-        QtCore.QThread.__init__(self)
-
-    def __del__(self):
-        self.wait()
-
-    def run(self):
-        pkg = self.fetchpkg()
-        self.emit(QtCore.SIGNAL('update(QString)'), pkg)
-        return
-
+import pycman
 
 class CommentDialog(QtGui.QDialog):
     """The comment dialog for aurqt."""
     def __init__(self, parent=None):
         """Initialize the dialog."""
         super(CommentDialog, self).__init__(parent)
-
         lay = QtGui.QVBoxLayout(self)
 
-        self.box = QtGui.QTextEdit(self)
+        self.textbox = QtGui.QTextEdit(self)
+        self.text = ''
 
         btn = QtGui.QDialogButtonBox(self)
         btn.setStandardButtons(QtGui.QDialogButtonBox.Save |
                                QtGui.QDialogButtonBox.Cancel)
 
-        lay.addWidget(self.box)
+        lay.addWidget(self.textbox)
         lay.addWidget(btn)
 
         QtCore.QObject.connect(btn, QtCore.SIGNAL('accepted()'), self.add)
@@ -63,9 +48,8 @@ class CommentDialog(QtGui.QDialog):
 
     def add(self):
         """Add a comment."""
-        print('cannot.')
+        self.text = self.textbox.toPlainText()
         self.accept()
-
 
 class InfoBox(QtGui.QDialog):
     """The package information box for aurqt."""
@@ -82,7 +66,9 @@ class InfoBox(QtGui.QDialog):
             self.pkg = pkgobj
         else:
             self.pkg = Utils().info([pkgname])[0]
-        self.fetchpkg(self.pkg['ID'])
+
+        self.awpkg = DS.w.fetchpkg(self.pkg['ID'])
+
         infostring = self.pkg['Name'] + ' ' + self.pkg['Version']
 
         topbar = QtGui.QFrame(self)
@@ -91,33 +77,41 @@ class InfoBox(QtGui.QDialog):
         topbar.setSizePolicy(size_policy)
         topbarlay = QtGui.QHBoxLayout(topbar)
 
-        self.insta = QtGui.QToolButton(topbar)
-        self.insta.setIcon(QtGui.QIcon.fromTheme('run-build-install'))
-        self.insta.setIconSize(QtCore.QSize(22, 22))
-        self.insta.setPopupMode(QtGui.QToolButton.InstantPopup)
-        self.insta.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
-        self.insta.setText(_('Install'))
+        self.insta = QtGui.QAction(topbar)
+
+        self.instb = QtGui.QToolButton(topbar)
+        self.instb.setIcon(QtGui.QIcon.fromTheme('run-build-install'))
+        self.instb.setText(_('Install'))
+        self.instb.setIconSize(QtCore.QSize(22, 22))
+        self.instb.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
+        self.instb.setDefaultAction(self.insta)
+
+        QtCore.QObject.connect(self.insta, QtCore.SIGNAL('triggered()'),
+                               self.install)
 
         actionb = QtGui.QToolButton(topbar)
         actionb.setIcon(QtGui.QIcon.fromTheme('system-run'))
         actionb.setIconSize(QtCore.QSize(22, 22))
-        actionb.setPopupMode(QtGui.QToolButton.MenuButtonPopup)  # TODO menus
+        actionb.setPopupMode(QtGui.QToolButton.InstantPopup)
         actionb.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
         actionb.setText(_('Actions'))
+        self.actionm = QtGui.QMenu(self)
+        actionb.setMenu(self.actionm)
 
-        topbarlay.addWidget(self.insta)
+        QtCore.QObject.connect(self.actionm, QtCore.SIGNAL('aboutToShow()'),
+                               self.update_actions)
+
+        topbarlay.addWidget(self.instb)
         topbarlay.addWidget(actionb)
 
-        name = QtGui.QLabel(infostring, self)
+        self.name = QtGui.QLabel(infostring, self)
         font = QtGui.QFont()
         font.setPointSize(20)
 
-        name.setFont(font)
-        if self.pkg['OutOfDate'] == '1':
-            name.setStyleSheet('color: #f00;')
+        self.name.setFont(font)
 
-        name.setSizePolicy(size_policy)
-        name.setAlignment(QtCore.Qt.AlignCenter)
+        self.name.setSizePolicy(size_policy)
+        self.name.setAlignment(QtCore.Qt.AlignCenter)
 
         desc = QtGui.QLabel(self.pkg['Description'], self)
         desc.setAlignment(QtCore.Qt.AlignCenter)
@@ -137,7 +131,10 @@ class InfoBox(QtGui.QDialog):
 
         fields = [None, '<a href="{0}">{0}</a>'.format(aururl),
                   '<a href="{0}">{0}</a>'.format(self.pkg['URL']),
-                  self.pkg['Maintainer'], self.pkg['NumVotes']]
+                  None, None]
+
+        self.maintainer = QtGui.QLabel(self.pkg['Maintainer'], data)
+        self.numvotes = QtGui.QLabel(self.pkg['NumVotes'], data)
 
         sdate = QtCore.QDateTime()
         sdate = sdate.fromTime_t(int(self.pkg['FirstSubmitted']))
@@ -173,6 +170,9 @@ class InfoBox(QtGui.QDialog):
             datalay.setWidget(0, QtGui.QFormLayout.FieldRole,
                               QtGui.QLabel(pkgbuilder.DS.categories[c], data))
 
+        datalay.setWidget(3, QtGui.QFormLayout.FieldRole, self.maintainer)
+        datalay.setWidget(4, QtGui.QFormLayout.FieldRole, self.numvotes)
+
         self.cgroup = QtGui.QGroupBox(_('Comments'), self)
         clay = QtGui.QVBoxLayout(self.cgroup)
         cadd = QtGui.QPushButton(_('Add a comment…'), self,
@@ -198,14 +198,14 @@ class InfoBox(QtGui.QDialog):
         clay.addWidget(self.comments)
 
         lay.addWidget(topbar)
-        lay.addWidget(name)
+        lay.addWidget(self.name)
         lay.addWidget(desc)
         lay.addWidget(data)
         lay.addWidget(self.cgroup)
 
         QtCore.QMetaObject.connectSlotsByName(self)
 
-        self.getcomments()
+        self.reloadview()
         self.setWindowModality(Qt.Qt.WindowModal)
         self.setWindowTitle(infostring)
         self.setWindowIcon(QtGui.QIcon.fromTheme('dialog-information'))
@@ -215,30 +215,160 @@ class InfoBox(QtGui.QDialog):
         """Make a comment."""
         c = CommentDialog()
         c.exec_()
-        self.getcomments()
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
+        if c.text:
+            self.awpkg = DS.w.pkgaction(self.pkg['ID'], 'comment', c.text)
+        QtGui.QApplication.restoreOverrideCursor()
+        self.reloadview()
 
     def changecat(self, cat):
         """Change the category."""
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
         cat += 1
-        print(cat)  # TODO
+        self.awpkg = DS.w.pkgaction(self.pkg['ID'], 'category', cat)
+        self.pkg = Utils().info([self.pkg['Name']])[0]
         QtGui.QApplication.restoreOverrideCursor()
 
-    def fetchpkg(self, pkgid):
-        """Fetch the package data."""
-        self.awpkg = DS.w.fetchpkg(pkgid)
-
-    def getcomments(self):
-        """Get the comments."""
+    def vote(self):
+        """{Up,Down}vote the package."""
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
-        self.fetchpkg(self.pkg['ID'])
-        self.fetchcomments()
+        if self.voted:
+            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '-vote')
+        else:
+            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '+vote')
+        self.pkg = Utils().info([self.pkg['Name']])[0]
         QtGui.QApplication.restoreOverrideCursor()
+        self.reloadview()
 
-    def fetchcomments(self):
-        """Load the comments."""
+    def notify(self):
+        """{Un,}Notify me for the package."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
+        if self.notified:
+            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '-notify')
+        else:
+            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '+notify')
+        QtGui.QApplication.restoreOverrideCursor()
+        self.reloadview()
+
+    def flag(self):
+        """{Un,}flag the package."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
+        if self.pkg['OutOfDate'] == '1':
+            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '-flag')
+        else:
+            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '+flag')
+        self.pkg = Utils().info([self.pkg['Name']])[0]
+        QtGui.QApplication.restoreOverrideCursor()
+        self.reloadview()
+
+    def own(self):
+        """Adopt/disown the package."""
+        QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
+                                             QtCore.Qt.WaitCursor))
+        if self.pkg['Maintainer'] == DS.username:
+            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '-own')
+        elif self.pkg['Maintainer'] == None:
+            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '+own')
+        else:
+            DS.log.error('Tried to own() on a package that isn’t '
+                         'yours/nobodys.')
+        self.pkg = Utils().info([self.pkg['Name']])[0]
+        QtGui.QApplication.restoreOverrideCursor()
+        self.reloadview()
+
+    def install(self):
+        """{Uni,I}nstall a package."""
+        pyc = pycman.config.init_with_config('/etc/pacman.conf')
+        localdb = pyc.get_localdb()
+        pkg = localdb.get_pkg(self.pkg['Name'])
+
+        if pkg:
+            DS.pacman(['-S', self.pkg['Name']])
+        else:
+            DS.pkginst([self.pkg['Name']])
+
+    def reloaddata(self):
+        """Reload the data."""
+        self.pkg = Utils().info([self.pkg['Name']])[0]
+        self.awpkg = DS.w.fetchpkg(self.pkg['ID'])
+
+    def update_actions(self):
+        self.actionm.clear()
+        vote = QtGui.QAction(QtGui.QIcon.fromTheme('task-complete'),
+                             _('&Vote'), self, toolTip=_('Vote for this '
+                             'package'), shortcut='Ctrl+Shift+V',
+                             checkable=True, triggered=self.vote)
+        notify = QtGui.QAction(QtGui.QIcon.fromTheme('preferences-desktop-'
+                               'notification'), _('&Notify'), self,
+                               toolTip=_('Enable comment notifications for '
+                               'this package'), shortcut='Ctrl+Shift+N',
+                               checkable=True, triggered=self.notify)
+        flag = QtGui.QAction(QtGui.QIcon.fromTheme('flag-red'),
+                             _('&Flag as outdated'), self,
+                             toolTip=_('Flag the package as outdated.'),
+                             shortcut='Ctrl+Shift+F',
+                             checkable=True, triggered=self.flag)
+        comment = QtGui.QAction(QtGui.QIcon.fromTheme('document-edit'),
+                                _('&Comment…'), self, toolTip=_('Add a '
+                                'comment for this package'),
+                                shortcut='Ctrl+Shift+C',
+                                triggered=self.comment)
+
+        if self.pkg['Maintainer']:
+            own = QtGui.QAction(QtGui.QIcon.fromTheme('list-remove-user'),
+                                _('&Disown'), self, toolTip=_('Disown this '
+                                'package'), shortcut='Ctrl+Shift+O',
+                                triggered=self.own)
+        else:
+            own = QtGui.QAction(QtGui.QIcon.fromTheme('list-add-user'),
+                                _('&Adopt'), self, toolTip=_('Adopt this '
+                                'package'), shortcut='Ctrl+Shift+O',
+                                triggered=self.own)
+
+        if self.voted:
+            vote.setChecked(2)
+
+        if self.notified:
+            notify.setChecked(2)
+
+        if self.pkg['OutOfDate'] == '1':
+            flag.setChecked(2)
+
+        self.actionm.addAction(vote)
+        self.actionm.addAction(notify)
+        self.actionm.addAction(flag)
+        self.actionm.addAction(comment)
+        self.actionm.addSeparator()
+        self.actionm.addAction(own)
+        if not DS.username:
+            vote.setEnabled(False)
+            notify.setEnabled(False)
+            flag.setEnabled(False)
+            comment.setEnabled(False)
+            own.setEnabled(False)
+        elif self.pkg['Maintainer'] not in (DS.username, None):
+            own.setEnabled(False)
+
+    def reloadview(self):
+        """Reload the view."""
+        if self.pkg['OutOfDate'] == '1':
+            self.name.setStyleSheet('color: #f00;')
+        else:
+            self.name.setStyleSheet('')
+
+        self.voted = 'do_UnVote' in self.awpkg.prettify()
+        self.notified = 'do_UnNotify' in self.awpkg.prettify()
+        if self.pkg['Maintainer']:
+            self.maintainer.setText(self.pkg['Maintainer'])
+        else:
+            self.maintainer.setText('none')
+        self.numvotes.setText(self.pkg['NumVotes'])
+
         c = DS.w.fetchcomments(self.awpkg)
 
         if c:
@@ -261,3 +391,14 @@ class InfoBox(QtGui.QDialog):
 </html>""".format('{', '}', _('There are currently no comments for this '
                   'package.'), _('In order to add one, hit the button '
                   'above.'), __version__))
+
+        pyc = pycman.config.init_with_config('/etc/pacman.conf')
+        localdb = pyc.get_localdb()
+        pkg = localdb.get_pkg(self.pkg['Name'])
+
+        if pkg:
+            self.instb.setIcon(QtGui.QIcon.fromTheme('run-build-purge'))
+            self.instb.setText(_('Uninstall'))
+        else:
+            self.instb.setIcon(QtGui.QIcon.fromTheme('run-build-install'))
+            self.instb.setText(_('Install'))
