@@ -313,7 +313,7 @@ testing must, unfortunately, set up their own VM with Arch Linux in it or find
 a machine/VM that has not been updated since 2012-10-17.  Because of a massive
 size of a machine (1.3G), I cannot provide one.  I can, however, provide
 packages of aurqt and friends, built against python 3.2.3.  Those are
-available here: <http://kwpolska.github.com/aurqt-0.1.0-pre/> (in both i686
+available here: <http://kwpolska.github.com/aurqt-0.0.99/> (in both i686
 and x86_64 flavors).
 
 The three days left will be spend on writing documentation, coming up with the
