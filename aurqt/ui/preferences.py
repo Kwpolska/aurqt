@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.99
+# aurqt v0.0.999
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -26,25 +26,7 @@ class PreferencesDialog(QtGui.QDialog):
 
         lay = QtGui.QVBoxLayout(self)
 
-        # Group 1: aurqt
-        aurqtg = QtGui.QGroupBox('aurqt', self)
-        aurqtl = QtGui.QVBoxLayout(aurqtg)
-
-        self.noremember = QtGui.QCheckBox(_('Allow session remembering'),
-                                          aurqtg)
-        self.noremember.setToolTip(_('The “Remember me” button in the '
-                                     'login window will be enabled.'))
-
-        self.generation = QtGui.QCheckBox(_('Show the mail generation '
-                                            'options'), aurqtg)
-        self.generation.setToolTip(_('Allow generating and sending mails '
-                                     'to the aur-general list with requests '
-                                     'for deletion, merges and disowning.'))
-
-        aurqtl.addWidget(self.noremember)
-        aurqtl.addWidget(self.generation)
-
-        # Group 2: terminal emulator
+        # Group 1: terminal emulator
         termg = QtGui.QGroupBox(_('Terminal emulator'), self)
         terml = QtGui.QHBoxLayout(termg)
 
@@ -69,7 +51,7 @@ class PreferencesDialog(QtGui.QDialog):
         terml.addWidget(self.targs)
         terml.addWidget(tlabel)
 
-        # Group 3: favorite helper
+        # Group 2: favorite helper
         helperg = QtGui.QGroupBox(_('AUR helper'), self)
         helperl = QtGui.QGridLayout(helperg)
 
@@ -104,7 +86,6 @@ class PreferencesDialog(QtGui.QDialog):
         btn.setStandardButtons(QtGui.QDialogButtonBox.Ok |
                                QtGui.QDialogButtonBox.Cancel)
 
-        lay.addWidget(aurqtg)
         lay.addWidget(termg)
         lay.addWidget(helperg)
         lay.addWidget(btn)
@@ -119,21 +100,8 @@ class PreferencesDialog(QtGui.QDialog):
         self.load()
         self.show()
 
-    def parse(self, value, save=False, reverse=False):
-        """Parse value loading and saving."""
-        if save:
-            values = {2: 'yes', 0: 'no'}
-        else:
-            values = {'yes': 2, 'no': 0}
-
-        return values[value]
-
     def load(self):
-        self.noremember.setCheckState(self.parse(
-                                      DS.config['aurqt']['remember']))
-        self.generation.setCheckState(self.parse(
-                                      DS.config['aurqt']['mail-generation']))
-
+        """Load the values."""
         self.hname.setEditText(DS.config['helper']['name'])
         self.hargs.setText(DS.config['helper']['args'])
 
@@ -141,11 +109,7 @@ class PreferencesDialog(QtGui.QDialog):
         self.targs.setText(DS.config['term']['args'])
 
     def save(self):
-        DS.config['aurqt']['remember'] = self.parse(
-            self.noremember.checkState(), save=True)
-        DS.config['aurqt']['mail-generation'] = self.parse(
-            self.generation.checkState(), save=True)
-
+        """Save the values."""
         DS.config['term']['name'] = self.tname.currentText()
         DS.config['term']['args'] = self.targs.text()
 

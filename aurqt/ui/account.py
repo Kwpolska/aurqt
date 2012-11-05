@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.99
+# aurqt v0.0.999
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -31,7 +31,8 @@ class AccountDialog(QtGui.QDialog):
 
         # TRANSLATORS: see aurweb.
         labels = [_('Username'), _('Email Address'), _('Password'),
-                  _('Re-type password'), _('Real Name'), _('IRC Nick')]
+                  _('Re-type password'), _('Real Name'), _('IRC Nick'),
+                  _('PGP Key Fingerprint')]
 
         for i, j in enumerate(labels):
             lay.setWidget(i, QtGui.QFormLayout.LabelRole, QtGui.QLabel(j,
@@ -43,6 +44,8 @@ class AccountDialog(QtGui.QDialog):
         self.pwd2 = QtGui.QLineEdit(self)
         self.rname = QtGui.QLineEdit(self)
         self.irc = QtGui.QLineEdit(self)
+        self.pgp = QtGui.QLineEdit(self)
+        self.pgp.setToolTip(_('gpg --fingerprint (40 characters long).'))
 
         lay.setWidget(0, QtGui.QFormLayout.FieldRole, self.username)
         lay.setWidget(1, QtGui.QFormLayout.FieldRole, self.mail)
@@ -50,6 +53,7 @@ class AccountDialog(QtGui.QDialog):
         lay.setWidget(3, QtGui.QFormLayout.FieldRole, self.pwd2)
         lay.setWidget(4, QtGui.QFormLayout.FieldRole, self.rname)
         lay.setWidget(5, QtGui.QFormLayout.FieldRole, self.irc)
+        lay.setWidget(6, QtGui.QFormLayout.FieldRole, self.pgp)
 
         self.pwd.setEchoMode(QtGui.QLineEdit.Password)
         self.pwd2.setEchoMode(QtGui.QLineEdit.Password)
@@ -98,6 +102,7 @@ class AccountDialog(QtGui.QDialog):
             self.mail.setText(data['mail'])
             self.rname.setText(data['rname'])
             self.irc.setText(data['irc'])
+            self.pgp.setText(data['pgp'])
 
     def save(self):
         """Save the form."""
@@ -114,6 +119,7 @@ class AccountDialog(QtGui.QDialog):
         mail = self.mail.text()
         rname = self.rname.text()
         irc = self.irc.text()
+        pgp = self.pgp.text()
         if pwd != pwd2:
             QtGui.QMessageBox.critical(self, 'aurqt', _('Passwords differ.'),
                                        QtGui.QMessageBox.Ok)
@@ -128,7 +134,7 @@ class AccountDialog(QtGui.QDialog):
                                                  QtCore.Qt.WaitCursor))
             try:
                 e = DS.w.account_edit(self.rtype, username, pwd, mail, rname,
-                                      irc)
+                                      irc, pgp)
                 QtGui.QMessageBox.information(self, 'aurqt', e.strip(),
                                               QtGui.QMessageBox.Ok)
             except AQError as e:

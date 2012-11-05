@@ -321,5 +321,14 @@ tagline, additional testing, localizing and stuff.  Code changes are possible,
 and will, most likely, happen.
 
 But don’t worry, this is not the end of my work, as I will need to write code
-for the new aurweb <https://aur-dev.archlinux.org/>...  So, branching soon.
+for the new aurweb <https://aur-dev.archlinux.org/>…  So, branching soon.
 Until then, until then.
+
+Day 30–31
+=========
+
+2012-10-04–2012-10-05
+---------------------
+
+New aurweb works, the promised mail generator is also done.  (promised in
+settings).  So, time for docs, and a tagline.  Ideas welcome!
