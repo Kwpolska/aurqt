@@ -3,8 +3,8 @@ aurqt.  INSERT TAGLINE HERE.
 =====================================================
 :Info: This is the README file for aurqt.
 :Author: Kwpolska <kwpolska@kwpolska.tk>
-:Date: 2012-11-03
-:Version: 0.0.99
+:Date: 2012-11-05
+:Version: 0.0.999
 
 .. index: README
 

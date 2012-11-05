@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.99
+# aurqt v0.0.999
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -139,8 +139,7 @@ class SearchDialog(QtGui.QDialog):
                 for i in self.results:
                     storageitem = []
                     item = QtGui.QTableWidgetItem()
-                    item.setText(pkgbuilder.DS.categories[int(
-                                 i['CategoryID'])])
+                    item.setText(pkgbuilder.DS.categories[i['CategoryID']])
                     item.setFlags(QtCore.Qt.ItemIsSelectable |
                                   QtCore.Qt.ItemIsEnabled)
                     self.table.setItem(j, 0, item)
@@ -158,7 +157,7 @@ class SearchDialog(QtGui.QDialog):
                     item.setFlags(QtCore.Qt.ItemIsSelectable |
                                   QtCore.Qt.ItemIsEnabled)
 
-                    if i['OutOfDate'] == '1':
+                    if i['OutOfDate'] > 0:
                         brush = QtGui.QBrush(QtGui.QColor(255, 0, 0))
                         brush.setStyle(QtCore.Qt.NoBrush)
                         item.setForeground(brush)
@@ -167,7 +166,7 @@ class SearchDialog(QtGui.QDialog):
                     storageitem.append(item)
 
                     item = QtGui.QTableWidgetItem()
-                    item.setText(i['NumVotes'])
+                    item.setText(str(i['NumVotes']))
                     item.setFlags(QtCore.Qt.ItemIsSelectable |
                                   QtCore.Qt.ItemIsEnabled)
                     self.table.setItem(j, 3, item)

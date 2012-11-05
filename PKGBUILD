@@ -1,6 +1,6 @@
 # Maintainer: Kwpolska <kwpolska@kwpolska.tk>
 pkgname=aurqt
-pkgver=0.0.99
+pkgver=0.0.999
 pkgrel=1
 pkgdesc='INSERT TAGLINE HERE.'
 arch=('any')

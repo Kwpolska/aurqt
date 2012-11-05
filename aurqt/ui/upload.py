@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.99
+# aurqt v0.0.999
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -92,7 +92,7 @@ class UploadDialog(QtGui.QDialog):
                                self.reject)
 
         QtCore.QObject.connect(addbtn, QtCore.SIGNAL('pressed()'), self.add)
-        QtCore.QObject.connect(delbtn, QtCore.SIGNAL('pressed()'), self.delc)
+        QtCore.QObject.connect(delbtn, QtCore.SIGNAL('pressed()'), self.remove)
         QtCore.QObject.connect(browse, QtCore.SIGNAL('pressed()'), self.browse)
         QtCore.QObject.connect(upbtn, QtCore.SIGNAL('pressed()'), self.upload)
         QtCore.QMetaObject.connectSlotsByName(self)
@@ -161,8 +161,8 @@ class UploadDialog(QtGui.QDialog):
 
         QUEUE = self.queue
 
-    def delc(self):
-        """Delete an object."""
+    def remove(self):
+        """Remove an object."""
         global QUEUE
 
         row = self.table.currentRow()

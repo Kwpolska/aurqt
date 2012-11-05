@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.99
+# aurqt v0.0.999
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -53,10 +53,12 @@ class CommentDialog(QtGui.QDialog):
 
 class InfoBox(QtGui.QDialog):
     """The package information box for aurqt."""
-    def __init__(self, parent=None, pkgname=None, pkgobj=None):
+    def __init__(self, parent=None, pkgname=None, pkgobj=None, r=None):
         """Initialize the box."""
         if not pkgname:
             raise AQError('info', 'pkgnameNotPresent', '`pkgname` not present')
+        if not pkgname:
+            raise AQError('info', 'rNotPresent', '`r` not present')
         super(InfoBox, self).__init__(parent)
 
         lay = QtGui.QVBoxLayout(self)
@@ -122,26 +124,26 @@ class InfoBox(QtGui.QDialog):
         datalay.setHorizontalSpacing(15)
         datalay.setVerticalSpacing(7)
 
-        datalabels = [_('Category'), _('AUR URL'), _('Project URL'),
-                      _('Maintainer'), _('Votes'),
+        datalabels = [_('Out of Date'), _('Category'), _('AUR URL'),
+                      _('Project URL'), _('Maintainer'), _('Votes'),
                       _('First submitted'), _('Last updated')]
 
         aururl = 'https://aur.archlinux.org/packages.php?ID={}'.format(
                  self.pkg['ID'])
 
-        fields = [None, '<a href="{0}">{0}</a>'.format(aururl),
+        fields = [None, None, '<a href="{0}">{0}</a>'.format(aururl),
                   '<a href="{0}">{0}</a>'.format(self.pkg['URL']),
                   None, None]
-
+        self.oodbox = QtGui.QLabel('…', data)
         self.maintainer = QtGui.QLabel(self.pkg['Maintainer'], data)
-        self.numvotes = QtGui.QLabel(self.pkg['NumVotes'], data)
+        self.numvotes = QtGui.QLabel(str(self.pkg['NumVotes']), data)
 
         sdate = QtCore.QDateTime()
-        sdate = sdate.fromTime_t(int(self.pkg['FirstSubmitted']))
+        sdate = sdate.fromTime_t(self.pkg['FirstSubmitted'])
         fields.append(sdate.toString(QtCore.Qt.SystemLocaleLongDate))
 
         mdate = QtCore.QDateTime()
-        mdate = mdate.fromTime_t(int(self.pkg['LastModified']))
+        mdate = mdate.fromTime_t(self.pkg['LastModified'])
         fields.append(mdate.toString(QtCore.Qt.SystemLocaleLongDate))
 
         for i, j in enumerate(datalabels):
@@ -153,7 +155,7 @@ class InfoBox(QtGui.QDialog):
                 datalay.setWidget(i, QtGui.QFormLayout.FieldRole,
                                   QtGui.QLabel(j, data))
 
-        c = int(self.pkg['CategoryID'])
+        c = self.pkg['CategoryID']
         if DS.username == self.pkg['Maintainer']:
             self.catbox = QtGui.QComboBox(data, frame=False)
             for i in pkgbuilder.DS.categories[1:]:
@@ -161,17 +163,18 @@ class InfoBox(QtGui.QDialog):
 
             self.catbox.setCurrentIndex(c - 1)
 
-            datalay.setWidget(0, QtGui.QFormLayout.FieldRole, self.catbox)
+            datalay.setWidget(1, QtGui.QFormLayout.FieldRole, self.catbox)
 
             QtCore.QObject.connect(self.catbox,
                                    QtCore.SIGNAL('currentIndexChanged(int)'),
                                    self.changecat)
         else:
-            datalay.setWidget(0, QtGui.QFormLayout.FieldRole,
+            datalay.setWidget(1, QtGui.QFormLayout.FieldRole,
                               QtGui.QLabel(pkgbuilder.DS.categories[c], data))
 
-        datalay.setWidget(3, QtGui.QFormLayout.FieldRole, self.maintainer)
-        datalay.setWidget(4, QtGui.QFormLayout.FieldRole, self.numvotes)
+        datalay.setWidget(0, QtGui.QFormLayout.FieldRole, self.oodbox)
+        datalay.setWidget(4, QtGui.QFormLayout.FieldRole, self.maintainer)
+        datalay.setWidget(5, QtGui.QFormLayout.FieldRole, self.numvotes)
 
         self.cgroup = QtGui.QGroupBox(_('Comments'), self)
         clay = QtGui.QVBoxLayout(self.cgroup)
@@ -218,7 +221,7 @@ class InfoBox(QtGui.QDialog):
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
         if c.text:
-            self.awpkg = DS.w.pkgaction(self.pkg['ID'], 'comment', c.text)
+            self.awpkg = DS.w.pkgaction(self.pkg, 'comment', c.text)
         QtGui.QApplication.restoreOverrideCursor()
         self.reloadview()
 
@@ -227,7 +230,7 @@ class InfoBox(QtGui.QDialog):
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
         cat += 1
-        self.awpkg = DS.w.pkgaction(self.pkg['ID'], 'category', cat)
+        self.awpkg = DS.w.pkgaction(self.pkg, 'category', cat)
         self.pkg = Utils().info([self.pkg['Name']])[0]
         QtGui.QApplication.restoreOverrideCursor()
 
@@ -236,9 +239,9 @@ class InfoBox(QtGui.QDialog):
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
         if self.voted:
-            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '-vote')
+            self.awpkg = DS.w.pkgaction(self.pkg, '-vote')
         else:
-            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '+vote')
+            self.awpkg = DS.w.pkgaction(self.pkg, '+vote')
         self.pkg = Utils().info([self.pkg['Name']])[0]
         QtGui.QApplication.restoreOverrideCursor()
         self.reloadview()
@@ -248,9 +251,9 @@ class InfoBox(QtGui.QDialog):
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
         if self.notified:
-            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '-notify')
+            self.awpkg = DS.w.pkgaction(self.pkg, '-notify')
         else:
-            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '+notify')
+            self.awpkg = DS.w.pkgaction(self.pkg, '+notify')
         QtGui.QApplication.restoreOverrideCursor()
         self.reloadview()
 
@@ -258,10 +261,10 @@ class InfoBox(QtGui.QDialog):
         """{Un,}flag the package."""
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
-        if self.pkg['OutOfDate'] == '1':
-            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '-flag')
+        if self.pkg['OutOfDate'] > 0:
+            self.awpkg = DS.w.pkgaction(self.pkg, '-flag')
         else:
-            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '+flag')
+            self.awpkg = DS.w.pkgaction(self.pkg, '+flag')
         self.pkg = Utils().info([self.pkg['Name']])[0]
         QtGui.QApplication.restoreOverrideCursor()
         self.reloadview()
@@ -271,9 +274,9 @@ class InfoBox(QtGui.QDialog):
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
         if self.pkg['Maintainer'] == DS.username:
-            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '-own')
+            self.awpkg = DS.w.pkgaction(self.pkg, '-own')
         elif self.pkg['Maintainer'] == None:
-            self.awpkg = DS.w.pkgaction(self.pkg['ID'], '+own')
+            self.awpkg = DS.w.pkgaction(self.pkg, '+own')
         else:
             DS.log.error('Tried to own() on a package that isn’t '
                          'yours/nobodys.')
@@ -291,6 +294,10 @@ class InfoBox(QtGui.QDialog):
             DS.pacman(['-S', self.pkg['Name']])
         else:
             DS.pkginst([self.pkg['Name']])
+
+    def makerequest(self):
+        """Make a request."""
+        r([self.pkg['Name']])
 
     def reloaddata(self):
         """Reload the data."""
@@ -319,6 +326,21 @@ class InfoBox(QtGui.QDialog):
                                 shortcut='Ctrl+Shift+C',
                                 triggered=self.comment)
 
+        comment = QtGui.QAction(QtGui.QIcon.fromTheme('document-edit'),
+                                _('Make a &request…'), self,
+                                toolTip=_('Request an action on this'
+                                'package (remove, merge, orphan).'),
+                                shortcut='Ctrl+Shift+C',
+                                triggered=self.comment)
+        if self.voted:
+            vote.setChecked(2)
+
+        if self.notified:
+            notify.setChecked(2)
+
+        if self.pkg['OutOfDate'] > 0:
+            flag.setChecked(2)
+
         if self.pkg['Maintainer']:
             own = QtGui.QAction(QtGui.QIcon.fromTheme('list-remove-user'),
                                 _('&Disown'), self, toolTip=_('Disown this '
@@ -330,19 +352,15 @@ class InfoBox(QtGui.QDialog):
                                 'package'), shortcut='Ctrl+Shift+O',
                                 triggered=self.own)
 
-        if self.voted:
-            vote.setChecked(2)
-
-        if self.notified:
-            notify.setChecked(2)
-
-        if self.pkg['OutOfDate'] == '1':
-            flag.setChecked(2)
+        if self.pkg['Maintainer'] != DS.username and self.pkg['OutOfDate']:
+            flag.setEnabled(False)
+            flag.setToolTip(_('Only the maintainer can unflag a package.'))
 
         self.actionm.addAction(vote)
         self.actionm.addAction(notify)
         self.actionm.addAction(flag)
         self.actionm.addAction(comment)
+        self.actionm.addAction(req)
         self.actionm.addSeparator()
         self.actionm.addAction(own)
         if not DS.username:
@@ -356,23 +374,34 @@ class InfoBox(QtGui.QDialog):
 
     def reloadview(self):
         """Reload the view."""
-        if self.pkg['OutOfDate'] == '1':
+        if self.pkg['OutOfDate'] > 0:
             self.name.setStyleSheet('color: #f00;')
+            self.oodbox.setStyleSheet('color: #f00;')
         else:
             self.name.setStyleSheet('')
+            self.oodbox.setStyleSheet('')
 
-        self.voted = 'do_UnVote' in self.awpkg.prettify()
-        self.notified = 'do_UnNotify' in self.awpkg.prettify()
+        self.voted = 'unvote/">' in self.awpkg.prettify()
+        self.notified = 'unnotify/">' in self.awpkg.prettify()
+
+        if self.pkg['OutOfDate'] > 0:
+            sdate = QtCore.QDateTime()
+            sdate = sdate.fromTime_t(self.pkg['OutOfDate'])
+            self.oodbox.setText(_('yes, since {}').format(
+                sdate.toString(QtCore.Qt.SystemLocaleLongDate)))
+        else:
+            self.oodbox.setText(_('no'))
+
         if self.pkg['Maintainer']:
             self.maintainer.setText(self.pkg['Maintainer'])
         else:
             self.maintainer.setText('none')
-        self.numvotes.setText(self.pkg['NumVotes'])
+
+        self.numvotes.setText(str(self.pkg['NumVotes']))
 
         c = DS.w.fetchcomments(self.awpkg)
 
         if c:
-            self.cgroup.setEnabled(True)
             self.comments.setText(c.prettify())
         else:
             self.comments.setText("""<!DOCTYPE html>

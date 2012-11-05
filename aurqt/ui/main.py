@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.99
+# aurqt v0.0.999
 # INSERT TAGLINE HERE.
 # Copyright © 2012, Kwpolska.
 # See /LICENSE for licensing information.
@@ -16,25 +16,27 @@
 
 from .. import DS, _, AQError
 DS.log.info('*** Loading...')
-DS.log.info(' 1/11 PyQt4')
+DS.log.info(' 1/12 PyQt4')
 from PyQt4 import QtGui, QtCore
-DS.log.info(' 2/11 about')
+DS.log.info(' 2/12 about')
 from .about import AboutDialog
-DS.log.info(' 3/11 account')
+DS.log.info(' 3/12 account')
 from .account import AccountDialog
-DS.log.info(' 4/11 info')
+DS.log.info(' 4/12 info')
 from .info import InfoBox
-DS.log.info(' 5/11 login')
+DS.log.info(' 5/12 login')
 from .login import LoginForm
-DS.log.info(' 6/11 preferences')
+DS.log.info(' 6/12 preferences')
 from .preferences import PreferencesDialog
-DS.log.info(' 7/11 search')
+DS.log.info(' 7/12 request')
+from .request import RequestDialog
+DS.log.info(' 8/12 search')
 from .search import SearchDialog
-DS.log.info(' 8/11 upgrade')
+DS.log.info(' 9/12 upgrade')
 from .upgrade import UpgradeDialog
-DS.log.info(' 9/11 upload')
+DS.log.info('10/12 upload')
 from .upload import UploadDialog
-DS.log.info('10/11 external deps')
+DS.log.info('11/12 external deps')
 import sys
 import subprocess
 import threading
@@ -44,7 +46,7 @@ try:
 except ImportError:
     import pickle
 import requests
-DS.log.info('11/11 pkgbuilder.upgrade')
+DS.log.info('12/12 pkgbuilder.upgrade')
 import pkgbuilder.upgrade
 DS.log.info('*** Importing done')
 
@@ -189,6 +191,12 @@ class Main(QtGui.QMainWindow):
                                                 '…'), enabled=False,
                                       triggered=self.accedit)
 
+        mkrequest = QtGui.QAction(QtGui.QIcon.fromTheme('internet-mail'),
+                                  _('Request &Generator'), self,
+                                  shortcut=('Ctrl+G'), toolTip=_('Open the '
+                                  'Mail Request Generator.'),
+                                  triggered=self.request)
+
         ohelp = QtGui.QAction(QtGui.QIcon.fromTheme('help-contents'),
                               _('Online &Help'), self, shortcut=('F1'),
                               toolTip=_('Show the online help for aurqt.'),
@@ -239,6 +247,7 @@ class Main(QtGui.QMainWindow):
         filemenu.addSeparator()
         filemenu.addAction(self.uploada)
         filemenu.addAction(search)
+        filemenu.addAction(mkrequest)
         filemenu.addSeparator()
         filemenu.addAction(prefs)
         filemenu.addAction(quit)
@@ -270,6 +279,7 @@ class Main(QtGui.QMainWindow):
         self.toolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
         self.toolbar.addAction(self.uploada)
         self.toolbar.addAction(search)
+        self.toolbar.addAction(mkrequest)
         self.toolbar.addSeparator()
         self.toolbar.addAction(self.loga)
         self.toolbar.addAction(self.accedita)
@@ -341,7 +351,7 @@ class Main(QtGui.QMainWindow):
             self.mmin.setChecked(self.active_child.isMinimized())
             self.windowMapper.setMapping(action, window)
 
-    def upload(self, *args):
+    def upload(self):
         """Show the upload dialog."""
         u = UploadDialog(self)
         u.exec_()
@@ -351,21 +361,27 @@ class Main(QtGui.QMainWindow):
         """Show info about a package."""
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
-        p = InfoBox(self, pkgname=pkgname, pkgobj=pkgobj)
+        p = InfoBox(self, pkgname=pkgname, pkgobj=pkgobj,
+                    r=self.request)
         p.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.mdiA.addSubWindow(p)
         p.show()
+
+    def prefs(self):
+        """Show the preferences dialog."""
+        p = PreferencesDialog(self)
+        p.exec_()
+
+    def request(self, wtfisthis, pkgnames=[]):
+        """Open the request generator."""
+        r = RequestDialog(self, pkgnames=pkgnames)
+        r.exec_()
 
     def search(self):
         """Open search dialog."""
         s = SearchDialog(o=self.openpkg)
         self.mdiA.addSubWindow(s)
         s.show()
-
-    def prefs(self, *args):
-        """Show the preferences dialog."""
-        p = PreferencesDialog(self)
-        p.exec_()
 
     def upgrade(self):
         """Upgrade installed packages."""

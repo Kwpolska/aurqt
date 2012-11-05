@@ -6,7 +6,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(name='aurqt',
-      version='0.0.99',
+      version='0.0.999',
       description='INSERT TAGLINE HERE.',
       author='Kwpolska',
       author_email='kwpolska@kwpolska.tk',

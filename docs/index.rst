@@ -21,7 +21,7 @@ Table of Contents
 
 .. toctree::
    :numbered:
-
+   aurqt
    README
    CONTRIBUTING
    LICENSE
