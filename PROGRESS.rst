@@ -316,7 +316,7 @@ packages of aurqt and friends, built against python 3.2.3.  Those are
 available here: <http://kwpolska.github.com/aurqt-0.0.99/> (in both i686
 and x86_64 flavors).
 
-The three days left will be spend on writing documentation, coming up with the
+The three days left will be spent on writing documentation, coming up with the
 tagline, additional testing, localizing and stuff.  Code changes are possible,
 and will, most likely, happen.
 
