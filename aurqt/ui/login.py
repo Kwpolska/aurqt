@@ -81,9 +81,11 @@ class LoginForm(QtGui.QDialog):
             QtGui.QMessageBox.critical(self, _('Cannot log in (wrong '
                                                'credentials?)'),
                                        e.msg, QtGui.QMessageBox.Ok)
-        except:
+        except Exception as e:
+            DS.log.exception(e)
             QtGui.QMessageBox.critical(self, 'aurqt',
-                                       _('Something went wrong.'),
+                                       _('Something went wrong.\nError '
+                                         'message: {}').format(e),
                                        QtGui.QMessageBox.Ok)
         finally:
             QtGui.QApplication.restoreOverrideCursor()

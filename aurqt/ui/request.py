@@ -14,7 +14,7 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import DS, _, AQError, __version__
+from .. import DS, _, __version__
 from PyQt4 import Qt, QtGui, QtCore
 import pkgbuilder.utils
 
@@ -59,8 +59,8 @@ class RequestDialog(QtGui.QDialog):
         requesting101 = QtGui.QLabel(_('Copy this message and send it to '
                                        'aur-general@archlinux.org.\nPlease '
                                        'consult the package maintainers '
-                                       'before sending and give\nthem two '
-                                       'weeks to answer.'), self)
+                                       'before sending.\n(Give them two '
+                                       'weeks to answer.)'), self)
         requesting101.setWordWrap(True)
         self.subject = QtGui.QLineEdit(self)
         self.message = QtGui.QTextEdit(self)
