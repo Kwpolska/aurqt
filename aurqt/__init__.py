@@ -76,6 +76,5 @@ DS = AQDS()
 # It’s here to get logging right.  If it was on the top, all the logs from
 # aurqt would go over to pkgbuilder.  Now, it’s the other way around.
 import pkgbuilder
-
 __pbversion__ = pkgbuilder.__version__
 DS.log.info('*** PKGBUILDer v{}'.format(__pbversion__))

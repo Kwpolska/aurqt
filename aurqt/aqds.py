@@ -166,6 +166,7 @@ class AQDS():
         else:
             try:
                 login_data = self.w.login(username, password, remember)
+                print(login_data, login_data[0])
                 self.sid = login_data[0]['AURSID']
                 self.w.cookies = login_data[0]
                 self.w.sid = login_data[0]['AURSID']

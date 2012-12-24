@@ -28,12 +28,11 @@ class AurWeb():
 
     def login(self, username, password, remember):
         """Log into the AUR."""
-        r = requests.post(self.url + 'login/', data={'user': username,
-                                                      'passwd': password,
-                                                      'remember': remember})
+        r = requests.post(self.url + 'login', data={'user': username,
+                                                    'passwd': password,
+                                                    'remember': remember})
         r.raise_for_status()
-        c = r.cookies
-        return [c, username]
+        return [r.cookies, username]
 
     def logout(self):
         """Log out of the AUR."""
