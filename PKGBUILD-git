@@ -1,5 +1,6 @@
 # Maintainer: Kwpolska <kwpolska@kwpolska.tk>
 pkgname=aurqt-git
+_pyname=aurqt
 pkgver=20121105
 pkgrel=1
 pkgdesc='INSERT TAGLINE HERE.  Version from git.'
@@ -10,6 +11,8 @@ depends=('python' 'pyalpm>=0.5.1-1' 'python-requests' 'pkgbuilder' 'pyqt'
          'python-beautifulsoup4')
 makedepends=('git')
 options=(!emptydirs)
+provides=('aurqt')
+conflicts=('aurqt')
 
 _gitroot=git://github.com/Kwpolska/aurqt.git
 _gitname=aurqt
@@ -33,7 +36,7 @@ package() {
   cd "${srcdir}/${_gitname}-build"
 
   python3 setup.py install --root="${pkgdir}/" --optimize=1
-  install -D -m644 LICENSE "${pkgdir}/usr/share/licenses/${_gitname}/LICENSE"
+  install -D -m644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
 # vim:set ts=2 sw=2 et:
