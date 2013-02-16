@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.999
-# INSERT TAGLINE HERE.
-# Copyright © 2012, Kwpolska.
+# aurqt v0.1.0
+# A graphical AUR manager.
+# Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
 
 """
@@ -10,7 +10,7 @@
     ~~~~~~~~~~
     aurqt Data Storage.
 
-    :Copyright: © 2011-2012, Kwpolska.
+    :Copyright: © 2012-2013, Kwpolska.
     :License: BSD (see /LICENSE).
 """
 
@@ -167,14 +167,11 @@ class AQDS():
             try:
                 login_data = self.w.login(username, password, remember)
                 print(login_data, login_data[0])
-                self.sid = login_data[0]['AURSID']
-                self.w.cookies = login_data[0]
-                self.w.sid = login_data[0]['AURSID']
-                self.w.username = login_data[1]
-                self.username = login_data[1]
+                self.sid = self.w.sid
+                self.username = self.w.username
                 self.remember = remember
                 with open(self.sidfile, 'wb') as fh:
-                    pickle.dump(login_data, fh)
+                    pickle.dump([self.w.cookies, self.w.username], fh)
 
             except NotImplementedError:
                 raise AQError('login', 'error', _('Cannot log in (wrong '
@@ -185,9 +182,6 @@ class AQDS():
         try:
             self.w.logout()
             self.sid = None
-            self.w.cookies = None
-            self.w.sid = None
-            self.w.username = None
             self.username = None
             if self.remember:
                 self.remember = False

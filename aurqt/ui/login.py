@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
 # aurqt v0.0.999
-# INSERT TAGLINE HERE.
-# Copyright © 2012, Kwpolska.
+# A graphical AUR manager.
+# Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
 
 """
@@ -10,13 +10,13 @@
     ~~~~~~~~~~~~~~~~~~
     The aurqt login form.
 
-    :Copyright: © 2012, Kwpolska.
+    :Copyright: © 2012-2013, Kwpolska.
     :License: BSD (see /LICENSE).
 """
 
 from .. import DS, AQError, _
 from .account import AccountDialog
-from PyQt4 import Qt, QtGui, QtCore
+from PySide import Qt, QtGui, QtCore
 import requests
 
 
@@ -93,7 +93,7 @@ class LoginForm(QtGui.QDialog):
     def forgot(self):
         """Show the forgot password form."""
         email, ok = QtGui.QInputDialog.getText(self, _('Forgot password'),
-                                               _('E-mail address:'))
+                                               _('Mail address:'))
         if ok:
             if not email:
                 r = QtGui.QMessageBox.critical(self, _('Forgot password'),

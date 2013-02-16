@@ -1,14 +1,14 @@
 # Maintainer: Kwpolska <kwpolska@kwpolska.tk>
 pkgname=aurqt
 _pyname=aurqt
-pkgver=0.0.999
+pkgver=0.1.0
 pkgrel=1
-pkgdesc='INSERT TAGLINE HERE.'
+pkgdesc='A graphical AUR manager.'
 arch=('any')
 url='https://github.com/Kwpolska/aurqt'
 license=('BSD')
-depends=('python' 'pyalpm>=0.5.1-1' 'python-requests' 'pkgbuilder' 'pyqt'
-         'python-beautifulsoup4')
+depends=('python' 'pyalpm>=0.5.1-1' 'python-requests' 'pkgbuilder'
+         'python-pyside' 'python-beautifulsoup4')
 options=(!emptydirs)
 source=("http://pypi.python.org/packages/source/$(echo ${_pyname} | cut -c1)/${_pyname}/${_pyname}-${pkgver}.tar.gz")
 md5sums=('6dee217563915db7d3ea3d27b7e582d8')

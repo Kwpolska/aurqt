@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.999
-# INSERT TAGLINE HERE.
-# Copyright © 2012, Kwpolska.
+# aurqt v0.1.0
+# A graphical AUR manager.
+# Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
 
 """
@@ -10,7 +10,7 @@
     ~~~~~~~~~~~~
     Access the aurweb.
 
-    :Copyright: © 2011-2012, Kwpolska.
+    :Copyright: © 2012-2013, Kwpolska.
     :License: BSD (see /LICENSE).
 """
 
@@ -22,9 +22,10 @@ import bs4
 ### AurWeb         Access the aurweb       ###
 class AurWeb():
     """Access the aurweb."""
-    url = 'https://aur.archlinux.org/'
-    sid = None
     cookies = None
+    sid = None
+    username = None
+    url = 'https://aur.archlinux.org/'
 
     def login(self, username, password, remember):
         """Log into the AUR."""
@@ -32,12 +33,20 @@ class AurWeb():
                                                     'passwd': password,
                                                     'remember': remember})
         r.raise_for_status()
-        return [r.cookies, username]
+        if 'AURSID' in r.cookies:
+            self.cookies = r.cookies
+            self.sid = r.cookies['AURSID']
+            self.username = username
+        else:
+            raise AQError('auth', 'auth', _('Could not log into the AUR.'))
 
     def logout(self):
         """Log out of the AUR."""
         r = requests.get(self.url + 'logout/')
         r.raise_for_status()
+        self.cookies = None
+        self.sid = None
+        self.username = None
 
     @property
     def loggedin(self):

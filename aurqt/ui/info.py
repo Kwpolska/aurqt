@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
 # aurqt v0.0.999
-# INSERT TAGLINE HERE.
-# Copyright © 2012, Kwpolska.
+# A graphical AUR manager.
+# Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
 
 """
@@ -10,12 +10,12 @@
     ~~~~~~~~~~~~~
     The package information box for aurqt.
 
-    :Copyright: © 2012, Kwpolska.
+    :Copyright: © 2012-2013, Kwpolska.
     :License: BSD (see /LICENSE).
 """
 
 from .. import AQError, DS, _, __version__
-from PyQt4 import Qt, QtGui, QtCore
+from PySide import Qt, QtGui, QtCore
 from pkgbuilder.utils import Utils
 import pkgbuilder
 import pycman
@@ -328,7 +328,7 @@ class InfoBox(QtGui.QDialog):
 
         comment = QtGui.QAction(QtGui.QIcon.fromTheme('document-edit'),
                                 _('Make a &request…'), self,
-                                toolTip=_('Request an action on this'
+                                toolTip=_('Request an action on this '
                                 'package (remove, merge, orphan).'),
                                 shortcut='Ctrl+Shift+C',
                                 triggered=self.comment)

@@ -2,12 +2,12 @@
 aurqt
 =====
 
-:Subtitle: INSERT TAGLINE HERE.
+:Subtitle: A graphical AUR manager.
 :Author: Kwpolska <kwpolska@kwpolska.tk>
-:Copyright: © 2012, Kwpolska.
+:Copyright: © 2012-2013, Kwpolska.
 :License: BSD (see /LICENSE or Appendix B.)
-:Date: 2012-11-05
-:Version: 0.0.999
+:Date: 2013-02-16
+:Version: 0.1.0
 :Manual section: 8
 :Manual group: aurqt manual
 

@@ -1,4 +1,4 @@
-aurqt.  INSERT TAGLINE HERE.
+aurqt.  A graphical AUR manager.
 =====================================================
 
 

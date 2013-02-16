@@ -6,8 +6,8 @@ except ImportError:
     from distutils.core import setup
 
 setup(name='aurqt',
-      version='0.0.999',
-      description='INSERT TAGLINE HERE.',
+      version='0.1.0',
+      description='A graphical AUR manager.',
       author='Kwpolska',
       author_email='kwpolska@kwpolska.tk',
       url='https://github.com/Kwpolska/aurqt',
