@@ -1,14 +1,14 @@
 # Maintainer: Kwpolska <kwpolska@kwpolska.tk>
 pkgname=aurqt-git
 _pyname=aurqt
-pkgver=20121105
+pkgver=20130216
 pkgrel=1
-pkgdesc='INSERT TAGLINE HERE.  Version from git.'
+pkgdesc='A graphical AUR manager.  Version from git.'
 arch=('any')
 url='https://github.com/Kwpolska/aurqt'
 license=('BSD')
-depends=('python' 'pyalpm>=0.5.1-1' 'python-requests' 'pkgbuilder' 'pyqt'
-         'python-beautifulsoup4')
+depends=('python' 'pyalpm>=0.5.1-1' 'python-requests' 'pkgbuilder'
+         'python-pyside' 'python-beautifulsoup4')
 makedepends=('git')
 options=(!emptydirs)
 provides=('aurqt')

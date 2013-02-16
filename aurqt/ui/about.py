@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
 # aurqt v0.0.999
-# INSERT TAGLINE HERE.
-# Copyright © 2012, Kwpolska.
+# A graphical AUR manager.
+# Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
 
 """
@@ -10,12 +10,12 @@
     ~~~~~~~~~~~~~~
     The About window for aurqt.
 
-    :Copyright: © 2012, Kwpolska.
+    :Copyright: © 2012-2013, Kwpolska.
     :License: BSD (see /LICENSE).
 """
 
 from .. import __version__, __pbversion__, _
-from PyQt4 import Qt, QtGui, QtCore
+from PySide import Qt, QtGui, QtCore
 
 
 class AboutDialog(QtGui.QDialog):
@@ -27,8 +27,8 @@ class AboutDialog(QtGui.QDialog):
         lay = QtGui.QVBoxLayout(self)
 
         aurqt = QtGui.QLabel('aurqt v{}'.format(__version__), self)
-        tagline = QtGui.QLabel(_('INSERT TAGLINE HERE.'), self)
-        copy = QtGui.QLabel('Copyright © 2012, Kwpolska.', self)
+        tagline = QtGui.QLabel(_('A graphical AUR manager.'), self)
+        copy = QtGui.QLabel('Copyright © 2012-2013, Kwpolska.', self)
         localetxt = _('LANG locale by AUTHOR <MAIL@IF.YOU.WANT>')
         if localetxt == 'LANG locale by AUTHOR <MAIL@IF.YOU.WANT>':
             localetxt = 'No locale in use.'

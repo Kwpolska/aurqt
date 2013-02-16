@@ -1,3 +1,4 @@
 requests
 pkgbuilder
 beautifulsoup4
+PySide

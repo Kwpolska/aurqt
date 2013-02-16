@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
 # aurqt v0.0.999
-# INSERT TAGLINE HERE.
-# Copyright © 2012, Kwpolska.
+# A graphical AUR manager.
+# Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
 
 """
@@ -10,12 +10,12 @@
     ~~~~~~~~~~~~~~~~~~~~
     The preferences dialog for aurqt.
 
-    :Copyright: © 2012, Kwpolska.
+    :Copyright: © 2012-2013, Kwpolska.
     :License: BSD (see /LICENSE).
 """
 
 from .. import DS, _
-from PyQt4 import Qt, QtGui, QtCore
+from PySide import Qt, QtGui, QtCore
 
 
 class PreferencesDialog(QtGui.QDialog):
@@ -44,7 +44,7 @@ class PreferencesDialog(QtGui.QDialog):
         self.targs = QtGui.QLineEdit(termg)
         self.targs.setToolTip(_('arguments used to run a command in the '
                                 'terminal emulator of choice (-e in the '
-                                'most popular ones'))
+                                'most popular ones)'))
         tlabel = QtGui.QLabel(_('command to execute'), termg)
 
         terml.addWidget(self.tname)

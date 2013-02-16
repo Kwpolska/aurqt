@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
 # aurqt v0.0.999
-# INSERT TAGLINE HERE.
-# Copyright © 2012, Kwpolska.
+# A graphical AUR manager.
+# Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
 
 """
@@ -10,12 +10,12 @@
     ~~~~~~~~~~~~~~~
     The upload dialog for aurqt.
 
-    :Copyright: © 2012, Kwpolska.
+    :Copyright: © 2012-2013, Kwpolska.
     :License: BSD (see /LICENSE).
 """
 
 from .. import DS, _
-from PyQt4 import Qt, QtGui, QtCore
+from PySide import Qt, QtGui, QtCore
 from collections import OrderedDict
 import pkgbuilder
 

@@ -8,6 +8,6 @@ if sys.version_info[0] < 3:
     exit(1)
 
 import signal
-import aurqt.ui.main
+import aurqt.ui
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-sys.exit(aurqt.ui.main.main())
+sys.exit(aurqt.ui.main())

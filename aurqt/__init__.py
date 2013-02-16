@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.999
-# INSERT TAGLINE HERE.
-# Copyright © 2012, Kwpolska.
+# aurqt v0.1.0
+# A graphical AUR manager.
+# Copyright © 2012-2013, Kwpolska.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -37,14 +37,14 @@
     aurqt
     ~~~~~
 
-    INSERT TAGLINE HERE.
+    A graphical AUR manager.
 
-    :Copyright: © 2012, Kwpolska.
+    :Copyright: © 2012-2013, Kwpolska.
     :License: BSD (see /LICENSE).
 """
 
 __title__ = 'aurqt'
-__version__ = '0.0.999'
+__version__ = '0.1.0'
 __author__ = 'Kwpolska'
 __license__ = '3-clause BSD'
 __docformat__ = 'restructuredtext en'
