@@ -14,11 +14,12 @@ This is a desktop GUI for the AUR.
 
 INSTALLATION
 ------------
-PyPI or AUR.
 
-NOTES
------
-For more info, refer to the aurqt(8) man page or the documentation.
+::
+
+    pkgbuilder -S aurqt
+
+PS. you need PKGBUILDer to run aurqt anyways.
 
 COPYRIGHT
 ---------
