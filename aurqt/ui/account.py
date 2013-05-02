@@ -15,7 +15,7 @@
 """
 
 from .. import DS, _, AQError
-from PySide import Qt, QtGui, QtCore
+from PyQt4 import Qt, QtGui, QtCore
 
 
 class AccountDialog(QtGui.QDialog):

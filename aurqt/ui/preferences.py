@@ -15,7 +15,7 @@
 """
 
 from .. import DS, _
-from PySide import Qt, QtGui, QtCore
+from PyQt4 import Qt, QtGui, QtCore
 
 
 class PreferencesDialog(QtGui.QDialog):
@@ -26,32 +26,7 @@ class PreferencesDialog(QtGui.QDialog):
 
         lay = QtGui.QVBoxLayout(self)
 
-        # Group 1: terminal emulator
-        termg = QtGui.QGroupBox(_('Terminal emulator'), self)
-        terml = QtGui.QHBoxLayout(termg)
-
-        self.tname = QtGui.QComboBox(termg)
-        self.tname.setEditable(True)
-        self.tname.setToolTip(_('command'))
-        self.tname.addItem('konsole')
-        self.tname.addItem('gnome-terminal')
-        self.tname.addItem('lxterminal')
-        self.tname.addItem('mate-terminal')
-        self.tname.addItem('terminal')  # (Xfce)
-        self.tname.addItem('urxvt')
-        self.tname.addItem('xterm')
-
-        self.targs = QtGui.QLineEdit(termg)
-        self.targs.setToolTip(_('arguments used to run a command in the '
-                                'terminal emulator of choice (-e in the '
-                                'most popular ones)'))
-        tlabel = QtGui.QLabel(_('command to execute'), termg)
-
-        terml.addWidget(self.tname)
-        terml.addWidget(self.targs)
-        terml.addWidget(tlabel)
-
-        # Group 2: favorite helper
+        # Group 1: favorite helper
         helperg = QtGui.QGroupBox(_('AUR helper'), self)
         helperl = QtGui.QGridLayout(helperg)
 
@@ -62,9 +37,10 @@ class PreferencesDialog(QtGui.QDialog):
         # in front of aura), but this is actually my order of AUR helper
         # preference.  Not adding PBWrapper because it would be a waste of time
         # (PBWrapper throws a request to the API with package names to decide
-        # which to install with pacman and which go to PB.
+        # which to install with pacman and which go to PB).
         self.hname.addItem('pkgbuilder')
         self.hname.addItem('sudo aura')
+        self.hname.addItem('pacaur')
         self.hname.addItem('packer')
         self.hname.addItem('yaourt')
 
@@ -86,7 +62,6 @@ class PreferencesDialog(QtGui.QDialog):
         btn.setStandardButtons(QtGui.QDialogButtonBox.Ok |
                                QtGui.QDialogButtonBox.Cancel)
 
-        lay.addWidget(termg)
         lay.addWidget(helperg)
         lay.addWidget(btn)
 

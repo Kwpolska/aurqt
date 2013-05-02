@@ -15,8 +15,9 @@
 """
 
 from .. import DS, _, __version__
-from PySide import Qt, QtGui, QtCore
+from PyQt4 import Qt, QtGui, QtCore
 import pkgbuilder.utils
+import threading
 
 
 class RequestDialog(QtGui.QDialog):
@@ -24,7 +25,6 @@ class RequestDialog(QtGui.QDialog):
     def __init__(self, parent=None, pkgnames=[]):
         """Initialize the dialog."""
         super(RequestDialog, self).__init__(parent)
-        self.pbutils = pkgbuilder.utils.Utils()
         self.queue = []
 
         lay = QtGui.QGridLayout(self)
@@ -158,17 +158,17 @@ aurqt v{}"""
                 reason = '' # Cheating, I hate code repetition.
             if not reason:
                 errors.append(_('No reason given for '
-                              '{}.').format(j['Name']))
+                              '{}.').format(j.name))
             if self.rtype == 'merge':
                 try:
                     mg = int(self.pkgs.item(i, 2).text())
                 except AttributeError:
                     errors.append(_('No merge group set '
-                                  'for {}.').format(j['Name']))
+                                  'for {}.').format(j.name))
                     mg = False
                 except ValueError:
                     errors.append(_('Merge group for {} '
-                                  'is not an integer.').format(j['Name']))
+                                  'is not an integer.').format(j.name))
                     mg = False
                 try:
                     mf = (self.pkgs.item(i, 3).text().lower() in ('y', 'yes',
@@ -179,26 +179,25 @@ aurqt v{}"""
                 mg = 0
                 mf = False
             if rtype == 'disownment':
-                if not j['Maintainer']:
+                if not j.human:
                     errors.append(_('{} is already an '
-                                  'orphan.').format(j['Name']))
-                elif j['Maintainer'] == DS.username:
+                                  'orphan.').format(j.name))
+                elif j.human == DS.username:
                     errors.append(_('{} is yours, you can'
                                   ' orphan it yourself (search for it '
                                   'in aurqt or the AUR website.)').format(
-                                  j['Name']))
+                                  j.name))
 
-            requests.append([mg, mf, j, """Name: {}
-URL: https://aur.archlinux.org/packages/{}
-Reason: {}""".format(j['Name'], j['Name'], reason)])
+            requests.append([mg, mf, j, """Name:   {}
+URL:    https://aur.archlinux.org/packages/{}/
+Reason: {}""".format(j.name, j.name, reason)])
 
         if errors:
             out = '<p>' + _('The following errors occured during '
                   'generation:') + """</p>
 
 <ul>
-<li>{}
-</li>
+<li>{}</li>
 </ul>""".format('</li>\n<li>'.join(errors))
             self.subject.setText('')
             self.message.setText(out)
@@ -210,15 +209,15 @@ Reason: {}""".format(j['Name'], j['Name'], reason)])
                 subj = ''
                 es = ''
             elif len(requests) == 1:
-                subj = subj.format(requests[0][2]['Name'])
+                subj = subj.format(requests[0][2].name)
             elif len(requests) > 5:
                 subj = subj.format('{} packages'.format(len(requests)))
             else:
                 last = requests.pop()
-                names = [i[2]['Name'] for i in requests]
+                names = [i[2].name for i in requests]
 
                 subjcont = ', '.join(names)
-                subjcont += ' and {}'.format(last[2]['Name'])
+                subjcont += ' and {}'.format(last[2].name)
                 requests.append(last)
                 subj = subj.format(subjcont)
 
@@ -247,6 +246,17 @@ Reason: {}""".format(j['Name'], j['Name'], reason)])
         self.subject.setText(subj)
         self.message.setText(out)
 
+    def _pkginfo_helper(self, pkgname):
+        """A helper function."""
+        i = pkgbuilder.utils.info([pkgname])
+        self._pkginfo = i
+
+    def get_pkginfo(self, pkgname):
+        """Refresh AUR information."""
+        self._tt = threading.Thread(target=self._pkginfo_helper,
+                                    args=(pkgname,))
+        self._tt.start()
+
     def add(self):
         """Add the package name specified."""
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
@@ -257,12 +267,28 @@ Reason: {}""".format(j['Name'], j['Name'], reason)])
                                        'specified.'), QtGui.QMessageBox.Ok)
         else:
             try:
-                pkg = self.pbutils.info([pkgname])[0]
+                self._pkginfo = None
+                pb = Qt.QProgressDialog()
+                pb.setLabelText(_('Fetching package information for '
+                                  '{0}…').format(pkgname))
+                pb.setMaximum(0)
+                pb.setValue(-1)
+                pb.setWindowModality(QtCore.Qt.WindowModal)
+                pb.show()
+                self.get_pkginfo(pkgname)
+                while self._pkginfo is None:
+                    Qt.QCoreApplication.processEvents()
+                pkg = self._pkginfo
+                self._pkginfo = None
+                del self._pkginfo
+                pkg = pkgbuilder.utils.info([pkgname])[0]
             except IndexError:
+                pb.close()
                 QtGui.QMessageBox.critical(self, 'aurqt', _('No such package:'
                                        ' {}').format(pkgname),
                                        QtGui.QMessageBox.Ok)
             else:
+                pb.close()
                 self.paddname.clear()
                 self.queue.append(pkg)
                 self.pkgs.setRowCount(len(self.queue))
@@ -270,7 +296,7 @@ Reason: {}""".format(j['Name'], j['Name'], reason)])
                 item = QtGui.QTableWidgetItem()
                 item.setFlags(QtCore.Qt.ItemIsSelectable |
                               QtCore.Qt.ItemIsEnabled)
-                item.setText(pkg['Name'])
+                item.setText(pkg.name)
                 self.pkgs.setItem(slot, 0, item)
                 self.pkgs.setItem(slot, 1, QtGui.QTableWidgetItem())
             finally:

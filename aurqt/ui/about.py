@@ -15,7 +15,7 @@
 """
 
 from .. import __version__, __pbversion__, _
-from PySide import Qt, QtGui, QtCore
+from PyQt4 import Qt, QtGui, QtCore
 
 
 class AboutDialog(QtGui.QDialog):

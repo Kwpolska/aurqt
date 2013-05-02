@@ -19,7 +19,8 @@ INSTALLATION
 
     pkgbuilder -S aurqt
 
-PS. you need PKGBUILDer to run aurqt anyways.
+You need PKGBUILDer to run aurqt, so using any other AUR helper for
+installation is pointless.
 
 COPYRIGHT
 ---------
