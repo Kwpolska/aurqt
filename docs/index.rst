@@ -1,5 +1,5 @@
 aurqt.  A graphical AUR manager.
-=====================================================
+================================
 
 
 .. note::
@@ -14,14 +14,13 @@ aurqt.  A graphical AUR manager.
 aurqt is a desktop client for the AUR.  It integrates the JSON and,
 unfortunately, web scraping, to provide a nice AUR experience.
 
-Currently under heavy development.
-
 Table of Contents
 -----------------
 
 .. toctree::
    :numbered:
-   aurqt
+
+   aurqt man page <aurqt>
    README
    CONTRIBUTING
    LICENSE

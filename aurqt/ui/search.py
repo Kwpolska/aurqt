@@ -15,9 +15,9 @@
 """
 
 from .. import AQError, _
-from PySide import Qt, QtGui, QtCore
+from PyQt4 import Qt, QtGui, QtCore
 import pkgbuilder
-import pkgbuilder.aur
+import pkgbuilder.utils
 
 
 class SearchDialog(QtGui.QDialog):
@@ -26,7 +26,6 @@ class SearchDialog(QtGui.QDialog):
         """Initialize the dialog."""
         super(SearchDialog, self).__init__(parent)
         self.setWindowTitle(_('Search')) # changed by .search() later
-        self.a = pkgbuilder.aur.AUR()
 
         if o:
             self.o = o
@@ -89,7 +88,7 @@ class SearchDialog(QtGui.QDialog):
 
         if pkgname:
             for i, j in enumerate(self.results):
-                if pkgname == j['Name']:
+                if pkgname == j.name:
                     itemcount = i
                     break
         else:
@@ -131,64 +130,66 @@ class SearchDialog(QtGui.QDialog):
                 QtGui.QMessageBox.critical(self, 'aurqt', _('Your query is too'
                                            ' short.'), QtGui.QMessageBox.Ok)
         else:
-            self.results = self.a.request(qtype, query)
-            if self.results['type'] != 'error':
-                self.results = self.results['results']
-                self.table.setRowCount(len(self.results))
-                j = 0
-                for i in self.results:
-                    storageitem = []
-                    item = QtGui.QTableWidgetItem()
-                    item.setText(pkgbuilder.DS.categories[i['CategoryID']])
-                    item.setFlags(QtCore.Qt.ItemIsSelectable |
-                                  QtCore.Qt.ItemIsEnabled)
-                    self.table.setItem(j, 0, item)
-                    storageitem.append(item)
+            if qtype == 'search':
+                self.results = pkgbuilder.utils.search(query)
+            elif qtype == 'msearch':
+                self.results = pkgbuilder.utils.msearch(query)
 
-                    item = QtGui.QTableWidgetItem()
-                    item.setText(i['Name'])
-                    item.setFlags(QtCore.Qt.ItemIsSelectable |
-                                  QtCore.Qt.ItemIsEnabled)
-                    self.table.setItem(j, 1, item)
-                    storageitem.append(item)
+            self.table.setRowCount(len(self.results))
+            j = 0
+            for i in self.results:
+                storageitem = []
+                item = QtGui.QTableWidgetItem()
+                item.setText(i.repo)
+                item.setFlags(QtCore.Qt.ItemIsSelectable |
+                              QtCore.Qt.ItemIsEnabled)
+                self.table.setItem(j, 0, item)
+                storageitem.append(item)
 
-                    item = QtGui.QTableWidgetItem()
-                    item.setText(i['Version'])
-                    item.setFlags(QtCore.Qt.ItemIsSelectable |
-                                  QtCore.Qt.ItemIsEnabled)
+                item = QtGui.QTableWidgetItem()
+                item.setText(i.name)
+                item.setFlags(QtCore.Qt.ItemIsSelectable |
+                              QtCore.Qt.ItemIsEnabled)
+                self.table.setItem(j, 1, item)
+                storageitem.append(item)
 
-                    if i['OutOfDate'] > 0:
-                        brush = QtGui.QBrush(QtGui.QColor(255, 0, 0))
-                        brush.setStyle(QtCore.Qt.NoBrush)
-                        item.setForeground(brush)
+                item = QtGui.QTableWidgetItem()
+                item.setText(i.version)
+                item.setFlags(QtCore.Qt.ItemIsSelectable |
+                              QtCore.Qt.ItemIsEnabled)
 
-                    self.table.setItem(j, 2, item)
-                    storageitem.append(item)
+                if i.is_outdated:
+                    brush = QtGui.QBrush(QtGui.QColor(255, 0, 0))
+                    brush.setStyle(QtCore.Qt.NoBrush)
+                    item.setForeground(brush)
 
-                    item = QtGui.QTableWidgetItem()
-                    item.setText(str(i['NumVotes']))
-                    item.setFlags(QtCore.Qt.ItemIsSelectable |
-                                  QtCore.Qt.ItemIsEnabled)
-                    self.table.setItem(j, 3, item)
-                    storageitem.append(item)
+                self.table.setItem(j, 2, item)
+                storageitem.append(item)
 
-                    item = QtGui.QTableWidgetItem()
-                    item.setText(i['Description'])
-                    item.setFlags(QtCore.Qt.ItemIsSelectable |
-                                  QtCore.Qt.ItemIsEnabled)
-                    self.table.setItem(j, 4, item)
-                    storageitem.append(item)
+                item = QtGui.QTableWidgetItem()
+                item.setText(str(i.votes))
+                item.setFlags(QtCore.Qt.ItemIsSelectable |
+                              QtCore.Qt.ItemIsEnabled)
+                self.table.setItem(j, 3, item)
+                storageitem.append(item)
 
-                    item = QtGui.QTableWidgetItem()
-                    item.setText(i['Maintainer'])
-                    item.setFlags(QtCore.Qt.ItemIsSelectable |
-                                  QtCore.Qt.ItemIsEnabled)
-                    self.table.setItem(j, 5, item)
-                    storageitem.append(item)
+                item = QtGui.QTableWidgetItem()
+                item.setText(i.description)
+                item.setFlags(QtCore.Qt.ItemIsSelectable |
+                              QtCore.Qt.ItemIsEnabled)
+                self.table.setItem(j, 4, item)
+                storageitem.append(item)
 
-                    self.itemstorage.update({i['Name']: storageitem})
+                item = QtGui.QTableWidgetItem()
+                item.setText(i.human)
+                item.setFlags(QtCore.Qt.ItemIsSelectable |
+                              QtCore.Qt.ItemIsEnabled)
+                self.table.setItem(j, 5, item)
+                storageitem.append(item)
 
-                    j += 1
+                self.itemstorage.update({i.name: storageitem})
+
+                j += 1
 
         self.table.setSortingEnabled(True)
         if qtype == 'msearch':

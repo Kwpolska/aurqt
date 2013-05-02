@@ -16,8 +16,9 @@
 
 from .. import DS, AQError, _
 from .account import AccountDialog
-from PySide import Qt, QtGui, QtCore
+from PyQt4 import Qt, QtGui, QtCore
 import requests
+import threading
 
 
 class LoginForm(QtGui.QDialog):
@@ -74,14 +75,28 @@ class LoginForm(QtGui.QDialog):
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
         try:
-            DS.login(self.uname.text(), self.pwd.text(),
-                     self.remember.checkState())
+            pb = Qt.QProgressDialog()
+            pb.setLabelText(_('Logging in…'))
+            pb.setMaximum(0)
+            pb.setValue(-1)
+            pb.setWindowModality(QtCore.Qt.WindowModal)
+            pb.show()
+            _tt = threading.Thread(target=DS.login,
+                                   args=(self.uname.text(), self.pwd.text(),
+                                         self.remember.checkState()))
+            _tt.start()
+            while _tt.is_alive():
+                Qt.QCoreApplication.processEvents()
+
+            pb.close()
             self.accept()
         except AQError as e:
+            pb.close()
             QtGui.QMessageBox.critical(self, _('Cannot log in (wrong '
                                                'credentials?)'),
                                        e.msg, QtGui.QMessageBox.Ok)
         except Exception as e:
+            pb.close()
             DS.log.exception(e)
             QtGui.QMessageBox.critical(self, 'aurqt',
                                        _('Something went wrong.\nError '
@@ -104,7 +119,7 @@ class LoginForm(QtGui.QDialog):
                     self.forgot()
             else:
                 try:
-                    r = requests.post(DS.aurweburl + 'passreset.php',
+                    r = requests.post(DS.aurweburl + 'passreset/',
                                       data={'email': email})
                     r.raise_for_status()
                     QtGui.QMessageBox.information(self, _('Forgot password'),

@@ -15,22 +15,54 @@
 """
 
 from .. import DS, _
-from PySide import Qt, QtGui, QtCore
+from PyQt4 import Qt, QtGui, QtCore
 import pkgbuilder.upgrade
+import pkgbuilder.utils
+import threading
 
 
 class UpgradeDialog(QtGui.QDialog):
     """The upgrade window for aurqt."""
-    def refresh(self):
+    def _aurinfo(self):
+        """A helper function."""
+        i = pkgbuilder.utils.info(pkgbuilder.upgrade.gather_foreign_pkgs())
+        self.aurinfo = i
+
+    def aurinfo_refresh(self):
+        """Refresh AUR information."""
+        self._tt = threading.Thread(target=self._aurinfo)
+        self._tt.start()
+
+    def refresh(self, *args, **kwargs):
         """Refresh the upgrades list."""
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
                                              QtCore.Qt.WaitCursor))
         self.table.clear()
+        self.table.setColumnCount(0)
+        self.table.setRowCount(0)
         self.table.setSortingEnabled(False)
         dwn = self.dwnmode.checkState() == 2
         vcsup = self.vcsmode.checkState() == 2
-        u = pkgbuilder.upgrade.Upgrade()
-        self.ulist = u.list_upgradable(u.gather_foreign_pkgs(), vcsup)
+        if 'info' in kwargs:
+            self.aurinfo = kwargs['info']
+        else:
+            pb = Qt.QProgressDialog()
+            pb.setLabelText(_('Refreshing package information…'))
+            pb.setMaximum(0)
+            pb.setValue(-1)
+            pb.setWindowModality(QtCore.Qt.WindowModal)
+            pb.show()
+            self.aurinfo = None
+            self.aurinfo_refresh()
+
+            while self.aurinfo is None:
+                Qt.QCoreApplication.processEvents()
+
+            pb.close()
+
+        self.ulist = pkgbuilder.upgrade.list_upgradable(
+            pkgbuilder.upgrade.gather_foreign_pkgs(), vcsup,
+            aurcache=self.aurinfo)
 
         if dwn:
             self.ulist = self.ulist[0] + self.ulist[1]
@@ -59,6 +91,7 @@ class UpgradeDialog(QtGui.QDialog):
                 self.table.setItem(i, 2, item)
         else:
             self.greet.setText(_('No upgrades found.'))
+            self.epilog.hide()
 
         self.table.setSortingEnabled(True)
         QtGui.QApplication.restoreOverrideCursor()
@@ -68,6 +101,9 @@ class UpgradeDialog(QtGui.QDialog):
         """All the items we have."""
         return [self.table.item(i, 0) for i in range(len(self.ulist))]
 
+    def dvchange(self, *args):
+        self.refresh(info=self.aurinfo)
+
     def install(self):
         """Install the selected upgrades."""
         upgrades = []
@@ -75,7 +111,8 @@ class UpgradeDialog(QtGui.QDialog):
             if i.checkState() == 2:
                 upgrades.append(i.text())
 
-        DS.pkginst(upgrades)
+        if upgrades:
+            DS.pkginst(upgrades)
 
         self.accept()
 
@@ -152,6 +189,10 @@ class UpgradeDialog(QtGui.QDialog):
                                self.install)
         QtCore.QObject.connect(self.btn, QtCore.SIGNAL('rejected()'),
                                self.reject)
+        QtCore.QObject.connect(self.dwnmode, QtCore.SIGNAL('stateChanged(int)'),
+                               self.dvchange)
+        QtCore.QObject.connect(self.vcsmode, QtCore.SIGNAL('stateChanged(int)'),
+                               self.dvchange)
         QtCore.QObject.connect(refresh, QtCore.SIGNAL('clicked()'),
                                self.refresh)
         QtCore.QObject.connect(call, QtCore.SIGNAL('clicked()'),

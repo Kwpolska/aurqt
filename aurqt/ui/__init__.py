@@ -17,8 +17,8 @@
 
 from .. import DS, _, AQError
 DS.log.info('*** Loading...')
-DS.log.info(' 1/12 PySide')
-from PySide import QtGui, QtCore
+DS.log.info(' 1/12 PyQt4')
+from PyQt4 import Qt, QtGui, QtCore
 DS.log.info(' 2/12 about')
 from .about import AboutDialog
 DS.log.info(' 3/12 account')
@@ -45,10 +45,11 @@ import time
 try:
     import cPickle as pickle
 except ImportError:
-    import pickle
+    import pickle # NOQA
 import requests
-DS.log.info('12/12 pkgbuilder.upgrade')
+DS.log.info('12/12 pkgbuilder sub-modules')
 import pkgbuilder.upgrade
+import pkgbuilder.exceptions
 DS.log.info('*** Importing done')
 
 
@@ -83,16 +84,16 @@ class Main(QtGui.QMainWindow):
     def upgradeagenerate(self):
         """Generate the appropriate upgrade button."""
         DS.log.info('Checking AUR upgrades...')
-        u = pkgbuilder.upgrade.Upgrade()
-        ulist = u.list_upgradable(u.gather_foreign_pkgs())[0]
+        ulist = pkgbuilder.upgrade.list_upgradable(
+            pkgbuilder.upgrade.gather_foreign_pkgs())[0]
 
         if ulist:
-            self.upgradea.setText(_('&Upgrade ({})').format(len(ulist)))
+            self.upgradea.setText(str(ulist))
             self.upgradea.setToolTip(_('Upgrade installed packages.  '
                                        '({} upgrades available)').format(
                                      len(ulist)))
         else:
-            self.upgradea.setText(_('&Upgrade').format(len(ulist)))
+            self.upgradea.setText('')
             self.upgradea.setToolTip(_('Upgrade installed packages.').format(
                                      len(ulist)))
 
@@ -132,14 +133,12 @@ class Main(QtGui.QMainWindow):
         # Actions.
         self.upgradea = QtGui.QAction(QtGui.QIcon.fromTheme(
                                       'system-software-update'),
-                                      _('&Upgrade (…)'), self,
-                                      shortcut='Ctrl+U',
+                                      '…', self, shortcut='Ctrl+U',
                                       toolTip=_('Fetching upgrades list…'),
                                       enabled=False, triggered=self.upgrade)
 
         upgrefresh = QtGui.QAction(QtGui.QIcon.fromTheme('view-refresh'),
-                                   _('&Refresh upgrades'),
-                                   self, shortcut='Ctrl+Shift+R',
+                                   '', self, shortcut='Ctrl+Shift+R',
                                    toolTip=_('Refresh the upgrade counter.'),
                                    enabled=True,
                                    triggered=self.upgraderefresh)
@@ -271,21 +270,23 @@ class Main(QtGui.QMainWindow):
         # Toolbars.
         self.statustbar = self.addToolBar(_('Status'))
         self.statustbar.setIconSize(QtCore.QSize(22, 22))
-        self.statustbar.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
+        self.statustbar.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.statustbar.addAction(self.upgradea)
         self.statustbar.addAction(upgrefresh)
 
-        self.toolbar = self.addToolBar('aurqt')
-        self.toolbar.setIconSize(QtCore.QSize(22, 22))
-        self.toolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
-        self.toolbar.addAction(self.uploada)
-        self.toolbar.addAction(search)
-        self.toolbar.addAction(mkrequest)
-        self.toolbar.addSeparator()
-        self.toolbar.addAction(self.loga)
-        self.toolbar.addAction(self.accedita)
-        self.toolbar.addSeparator()
-        self.toolbar.addAction(quit)
+        self.atoolbar = self.addToolBar('Actions')
+        self.atoolbar.setIconSize(QtCore.QSize(22, 22))
+        self.atoolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
+        self.atoolbar.addAction(self.uploada)
+        self.atoolbar.addAction(search)
+        self.atoolbar.addAction(mkrequest)
+        self.utoolbar = self.addToolBar(_('Actions'))
+        self.utoolbar.setIconSize(QtCore.QSize(22, 22))
+        self.utoolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
+        self.utoolbar.addAction(self.loga)
+        self.utoolbar.addAction(self.accedita)
+        self.utoolbar.addSeparator()
+        self.utoolbar.addAction(quit)
 
         # Almost done...
         self.resize(950, 800)
@@ -297,7 +298,9 @@ class Main(QtGui.QMainWindow):
 
         QtCore.QMetaObject.connectSlotsByName(self)
         self.show()
-        if not requests.get('https://aur.archlinux.org').ok:
+        try:
+            requests.get('https://aur.archlinux.org')
+        except pkgbuilder.exceptions.NetworkError:
             QtGui.QMessageBox.critical(self, _('aurqt'), _('Can’t connect '
                 'to the AUR.  aurqt will now quit.'), QtGui.QMessageBox.Ok)
             QtGui.QApplication.quit()
@@ -396,10 +399,18 @@ class Main(QtGui.QMainWindow):
         """Log in or out."""
         if DS.sid:
             try:
+                pb = Qt.QProgressDialog()
+                pb.setLabelText(_('Logging out…'))
+                pb.setMaximum(0)
+                pb.setValue(-1)
+                pb.setWindowModality(QtCore.Qt.WindowModal)
+                pb.show()
+                _tt = threading.Thread(target=DS.logout)
+                _tt.start()
+                while _tt.is_alive():
+                    Qt.QCoreApplication.processEvents()
+                pb.close()
                 DS.logout()
-                QtGui.QMessageBox.information(self, 'aurqt',
-                                              _('Logged out.'),
-                                              QtGui.QMessageBox.Ok)
             except AQError as e:
                 QtGui.QMessageBox.critical(self, 'aurqt', e.msg,
                                            QtGui.QMessageBox.Ok)
@@ -438,5 +449,5 @@ class Main(QtGui.QMainWindow):
 def main():
     """The main routine for the UI."""
     app = QtGui.QApplication(sys.argv)
-    main = Main()
+    main = Main() # NOQA
     return app.exec_()

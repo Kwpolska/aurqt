@@ -49,10 +49,10 @@ __author__ = 'Kwpolska'
 __license__ = '3-clause BSD'
 __docformat__ = 'restructuredtext en'
 
-import gettext
-
-G = gettext.translation('aurqt', '/usr/share/locale', fallback='C')
-_ = G.gettext
+# import gettext
+#
+# G = gettext.translation('aurqt', '/usr/share/locale', fallback='C')
+_ = lambda x: x
 
 
 ### AQError         errors raised here      ###

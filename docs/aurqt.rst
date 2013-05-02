@@ -26,13 +26,16 @@ interface (aurweb).
 COMMAND-LINE ARGUMENTS
 ======================
 
-Nope, Chuck Testa.
+None, and there is no reason to have those.
 
-OPERATION
-=========
+USAGE
+=====
 
-The Online Manual contains informations about operation of aurqt.  You can find
-it here: <http://pkgbuilder.rtfd.org>.
+The Online Manual will (work in progress!) contain more information about using
+aurqt.  You can find it here: <http://pkgbuilder.rtfd.org>.
+
+People with ability to use Linux shouldn’t have any problems with using aurqt,
+as it is straightforward and user-friendly.
 
 SEE ALSO
 ========

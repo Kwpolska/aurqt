@@ -126,9 +126,9 @@ class AurWeb():
         else:
             return [False, soup.find(class_='pkgoutput').string]
 
-    def fetchpkg(self, pkgid):
+    def fetchpkg(self, pkg):
         """Fetch the aurweb page for a package."""
-        url = self.url + 'packages.php?ID={}&comments=all'.format(pkgid)
+        url = self.url + 'packages/{0}/?comments=all'.format(pkg.name)
         r = requests.get(url, cookies=self.cookies)
         return bs4.BeautifulSoup(r.text, 'html.parser')
 
@@ -152,9 +152,9 @@ class AurWeb():
                 '-flag': 'unflag'}
         formactions = {'+own': 'do_Adopt', '-own': 'do_Disown'}
 
-        url = self.url + 'packages/{}/?comments=all'.format(pkg['Name'])
+        url = self.url + 'packages/{}/?comments=all'.format(pkg.name)
 
-        data = {'token': self.sid, 'ID': pkg['ID']}
+        data = {'token': self.sid, 'ID': pkg.id}
         if action == 'category':
             data.update({'action': 'do_ChangeCategory', 'category_id': params})
             r = requests.post(url, cookies=self.cookies, data=data)
@@ -167,7 +167,7 @@ class AurWeb():
             r = requests.get(url, cookies=self.cookies)
         elif action in formactions.keys():
             data.update({formactions[action]: 'aurqt',
-                         'IDs[{}]'.format(pkg['ID']): '1'})
+                         'IDs[{}]'.format(pkg.id): '1'})
             r = requests.post(url, cookies=self.cookies, data=data)
         else:
             raise AQError('aurweb', 'pkgaction', 'unknown action type')

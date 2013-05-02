@@ -22,7 +22,7 @@ import configparser
 try:
     import cPickle as pickle
 except ImportError:
-    import pickle
+    import pickle  # NOQA
 import pkgbuilder
 import subprocess
 
@@ -81,25 +81,6 @@ class AQDS():
         config['aurqt']['remember'] = 'yes'
         config['aurqt']['mail-generation'] = 'yes'
 
-        config['term'] = {}
-
-        if os.path.exists('/usr/bin/konsole'):
-            config['term']['name'] = 'konsole'
-        elif os.path.exists('/usr/bin/mate-terminal'):
-            config['term']['name'] = 'mate-terminal'
-        elif os.path.exists('/usr/bin/gnome-terminal'):
-            config['term']['name'] = 'gnome-terminal'
-        elif os.path.exists('/usr/bin/terminal'):
-            config['term']['name'] = 'terminal'
-        elif os.path.exists('/usr/bin/lxterminal'):
-            config['term']['name'] = 'lxterminal'
-        elif os.path.exists('/usr/bin/urxvt'):
-            config['term']['name'] = 'urxvt'
-        elif os.path.exists('/usr/bin/xterm'):
-            config['term']['name'] = 'xterm'
-
-        config['term']['args'] = '-e'
-
         config['helper'] = {}
         config['helper']['name'] = 'pkgbuilder'
         config['helper']['args'] = '-S'
@@ -112,11 +93,12 @@ class AQDS():
 
     def pkginst(self, pkgs):
         """Install specified AUR packages."""
-        subprocess.call(' '.join([self.config['term']['name'],
-                        self.config['term']['args'], '"',
-                        self.config['helper']['name'],
-                        self.config['helper']['args'], ' '.join(pkgs), '" &']),
-                        shell=True)
+        subprocess.call('xterm -e \'{0} {1} {2}; printf '
+                        '"\e[1;1m\e[1;32m==>\e[1;0m\e[1;1m Exited with $?.  '
+                        'Press Enter to close."; read l\' &'.format(
+                            self.config['helper']['name'],
+                            self.config['helper']['args'], ' '.join(pkgs)),
+        shell=True)
 
     def pacman(self, args):
         """Run pacman."""
@@ -165,15 +147,13 @@ class AQDS():
                                                'username or the password!'))
         else:
             try:
-                login_data = self.w.login(username, password, remember)
-                print(login_data, login_data[0])
+                self.w.login(username, password, remember)
                 self.sid = self.w.sid
                 self.username = self.w.username
                 self.remember = remember
                 with open(self.sidfile, 'wb') as fh:
                     pickle.dump([self.w.cookies, self.w.username], fh)
-
-            except NotImplementedError:
+            except NotImplementedError: # WTF?! TODO
                 raise AQError('login', 'error', _('Cannot log in (wrong '
                                                   'credentials?)'))
 

@@ -15,9 +15,9 @@
 """
 
 from .. import DS, _
-from PySide import Qt, QtGui, QtCore
+from PyQt4 import Qt, QtGui, QtCore
 from collections import OrderedDict
-import pkgbuilder
+import pkgbuilder.package
 
 QUEUE = []
 
@@ -80,7 +80,7 @@ class UploadDialog(QtGui.QDialog):
         self.pbar.hide()
         lay.addWidget(self.pbar, 4, 0, 1, 5)
 
-        for i in pkgbuilder.DS.categories[1:]:
+        for i in pkgbuilder.package.CATEGORIES[1:]:
             self.category.addItem(i)
 
         self.btn = QtGui.QDialogButtonBox(self)
