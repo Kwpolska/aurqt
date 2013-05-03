@@ -11,7 +11,7 @@ depends=('python' 'pyalpm>=0.5.1-1' 'python-requests' 'pkgbuilder=>3.0.1-1'
          'python-pyside' 'python-beautifulsoup4')
 options=(!emptydirs)
 source=("http://pypi.python.org/packages/source/$(echo ${_pyname} | cut -c1)/${_pyname}/${_pyname}-${pkgver}.tar.gz")
-md5sums=('6dee217563915db7d3ea3d27b7e582d8')
+md5sums=('63ceda4acedeff48f8dfd79b05ecbfbc')
 
 package() {
   cd "${srcdir}/${_pyname}-${pkgver}"

@@ -163,7 +163,7 @@ class AurWeb():
             r = requests.post(url, cookies=self.cookies, data=data)
         elif action in urlactions.keys():
             url = self.url + 'packages/{}/{}/?comments=all'.format(
-                    pkg['Name'], urlactions[action])
+                    pkg.name, urlactions[action])
             r = requests.get(url, cookies=self.cookies)
         elif action in formactions.keys():
             data.update({formactions[action]: 'aurqt',

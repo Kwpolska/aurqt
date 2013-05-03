@@ -3,7 +3,7 @@ aurqt.  A graphical AUR manager.
 ================================
 :Info: This is the README file for aurqt.
 :Author: Kwpolska <kwpolska@kwpolska.tk>
-:Date: 2013-02-16
+:Date: 2013-05-03
 :Version: 0.1.0
 
 .. index: README
@@ -19,7 +19,8 @@ INSTALLATION
 
     pkgbuilder -S aurqt
 
-PS. you need PKGBUILDer to run aurqt anyways.
+You need PKGBUILDer to run aurqt, so using any other AUR helper for
+installation is pointless.
 
 COPYRIGHT
 ---------

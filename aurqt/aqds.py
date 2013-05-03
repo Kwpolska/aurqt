@@ -16,14 +16,11 @@
 
 from . import AQError, _, __version__
 from .aurweb import AurWeb
+from pkgbuilder import DS as PBDS
 import os
 import logging
 import configparser
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle  # NOQA
-import pkgbuilder
+import pickle
 import subprocess
 
 
@@ -98,14 +95,22 @@ class AQDS():
                         'Press Enter to close."; read l\' &'.format(
                             self.config['helper']['name'],
                             self.config['helper']['args'], ' '.join(pkgs)),
-        shell=True)
+                        shell=True)
 
     def pacman(self, args):
         """Run pacman."""
-        subprocess.call(' '.join([self.config['term']['name'],
-                        self.config['term']['args'], '"sudo',
-                        pkgbuilder.DS.paccommand, ' '.join(args), '" &']),
-                        shell=True)
+        if PBDS.hassudo:
+            subprocess.call('xterm -e \'sudo {0} {1}; printf '
+                            '"\e[1;1m\e[1;32m==>\e[1;0m\e[1;1m Exited with $?.'
+                            '  Press Enter to close."; read l\' &'.format(
+                                PBDS.paccommand, ' '.join(args)),
+                            shell=True)
+        else:
+            subprocess.call('xterm -e \'su -c "{0} {1}"; printf '
+                            '"\e[1;1m\e[1;32m==>\e[1;0m\e[1;1m Exited with $?.'
+                            '  Press Enter to close."; read l\' &'.format(
+                                PBDS.paccommand, ' '.join(args)),
+                            shell=True)
 
     def continue_session(self):
         """Continue pre-existing session."""

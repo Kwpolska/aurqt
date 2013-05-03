@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.999
+# aurqt v0.1.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
 
 """
-    aurqt.ui.Preferences
+    aurqt.ui.preferences
     ~~~~~~~~~~~~~~~~~~~~
     The preferences dialog for aurqt.
 
@@ -48,8 +48,8 @@ class PreferencesDialog(QtGui.QDialog):
         self.hargs.setToolTip(_('arguments used to install AUR packages'))
         hlabel = QtGui.QLabel(_('packages to install'), helperg)
         htext = QtGui.QLabel(_('The helper will run in a terminal window.\n'
-                               'Requirements:\ndependency resolution;\n'
-                               'actually building and installing packages '
+                               'Requirements:\n1. dependency resolution\n'
+                               '2. actually building and installing packages '
                                '(so no cower)'), helperg)
         htext.setAlignment(QtCore.Qt.AlignJustify)
 
@@ -62,6 +62,8 @@ class PreferencesDialog(QtGui.QDialog):
         btn.setStandardButtons(QtGui.QDialogButtonBox.Ok |
                                QtGui.QDialogButtonBox.Cancel)
 
+        lay.addWidget(QtGui.QLabel(_('aurqt doesn’t have too many prefe'
+                                     'rences, unlike most of FOSS.'), self))
         lay.addWidget(helperg)
         lay.addWidget(btn)
 
@@ -80,14 +82,8 @@ class PreferencesDialog(QtGui.QDialog):
         self.hname.setEditText(DS.config['helper']['name'])
         self.hargs.setText(DS.config['helper']['args'])
 
-        self.tname.setEditText(DS.config['term']['name'])
-        self.targs.setText(DS.config['term']['args'])
-
     def save(self):
         """Save the values."""
-        DS.config['term']['name'] = self.tname.currentText()
-        DS.config['term']['args'] = self.targs.text()
-
         DS.config['helper']['name'] = self.hname.currentText()
         DS.config['helper']['args'] = self.hargs.text()
         with open(DS.conffile, 'w') as cfile:

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.999
+# aurqt v0.1.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -15,7 +15,7 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import DS, _, AQError
+from .. import DS, __version__, _, AQError
 DS.log.info('*** Loading...')
 DS.log.info(' 1/12 PyQt4')
 from PyQt4 import Qt, QtGui, QtCore
@@ -42,10 +42,7 @@ import sys
 import subprocess
 import threading
 import time
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle # NOQA
+import pickle
 import requests
 DS.log.info('12/12 pkgbuilder sub-modules')
 import pkgbuilder.upgrade
@@ -87,13 +84,12 @@ class Main(QtGui.QMainWindow):
         ulist = pkgbuilder.upgrade.list_upgradable(
             pkgbuilder.upgrade.gather_foreign_pkgs())[0]
 
+        self.upgradea.setText(str(len(ulist)))
         if ulist:
-            self.upgradea.setText(str(ulist))
             self.upgradea.setToolTip(_('Upgrade installed packages.  '
                                        '({} upgrades available)').format(
                                      len(ulist)))
         else:
-            self.upgradea.setText('')
             self.upgradea.setToolTip(_('Upgrade installed packages.').format(
                                      len(ulist)))
 
@@ -280,13 +276,17 @@ class Main(QtGui.QMainWindow):
         self.atoolbar.addAction(self.uploada)
         self.atoolbar.addAction(search)
         self.atoolbar.addAction(mkrequest)
-        self.utoolbar = self.addToolBar(_('Actions'))
+        self.utoolbar = self.addToolBar(_('Accounts'))
         self.utoolbar.setIconSize(QtCore.QSize(22, 22))
         self.utoolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
         self.utoolbar.addAction(self.loga)
         self.utoolbar.addAction(self.accedita)
         self.utoolbar.addSeparator()
-        self.utoolbar.addAction(quit)
+        self.mtoolbar = self.addToolBar(_('Meta'))
+        self.mtoolbar.setIconSize(QtCore.QSize(22, 22))
+        self.mtoolbar.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
+        self.mtoolbar.addAction(prefs)
+        self.mtoolbar.addAction(quit)
 
         # Almost done...
         self.resize(950, 800)
@@ -448,6 +448,15 @@ class Main(QtGui.QMainWindow):
 
 def main():
     """The main routine for the UI."""
+    if '-h' in sys.argv or '--help' in sys.argv:
+        print('aurqt v{0}'.format(__version__))
+        print()
+        print(_('This is a GUI application.  There are no command-line '
+                'arguments you can pass.'))
+        print(_('For more information about using aurqt, please visit '
+                '{url}.').format('http://pkgbuilder.rtfd.org'))
+        sys.exit(0)
     app = QtGui.QApplication(sys.argv)
-    main = Main() # NOQA
+    main = Main()
+    main  # because vim python-mode doesn’t like NOQA
     return app.exec_()
