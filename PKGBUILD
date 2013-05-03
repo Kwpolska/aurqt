@@ -7,7 +7,7 @@ pkgdesc='A graphical AUR manager.'
 arch=('any')
 url='https://github.com/Kwpolska/aurqt'
 license=('BSD')
-depends=('python' 'pyalpm>=0.5.1-1' 'python-requests' 'pkgbuilder'
+depends=('python' 'pyalpm>=0.5.1-1' 'python-requests' 'pkgbuilder=>3.0.1-1'
          'python-pyside' 'python-beautifulsoup4')
 options=(!emptydirs)
 source=("http://pypi.python.org/packages/source/$(echo ${_pyname} | cut -c1)/${_pyname}/${_pyname}-${pkgver}.tar.gz")
