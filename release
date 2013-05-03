@@ -1,6 +1,6 @@
 #!/bin/zsh
-project="tEmplate"
-projectc="TEMPLATE"
+project="aurqt"
+projectc="aurqt"
 
 version=$1
 if [[ $version = '' ]]; then
@@ -94,11 +94,11 @@ if [[ $? = 1 ]]; then
     exit 1
 fi
 
-./tests.py
-if [[ $? = 1 ]]; then
-    echo "Tests failed.  Fix your code or don't come back."
-    exit 1
-fi
+#./tests.py
+#if [[ $? = 1 ]]; then
+    #echo "Tests failed.  Fix your code or don't come back."
+    #exit 1
+#fi
 
 echo 'This is the last chance to quit.  Hit ^C now if you want to.'
 read bailout

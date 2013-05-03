@@ -29,15 +29,11 @@ setup(name='aurqt',
       packages=['aurqt', 'aurqt.ui'],
       requires=['pkgbuilder', 'requests', 'bs4'],
       scripts=['bin/aurqt'],
-      data_files=[('share/locale/en/LC_MESSAGES', ['locale/en/LC_MESSAGES/'
-                                                   'aurqt.mo']),
-                  ('share/locale/pl/LC_MESSAGES', ['locale/pl/LC_MESSAGES/'
-                                                   'aurqt.mo']),
-                  ('share/icons/hicolor/16x16/apps', ['icons/16.png']),
-                  ('share/icons/hicolor/22x22/apps', ['icons/22.png']),
-                  ('share/icons/hicolor/32x32/apps', ['icons/32.png']),
-                  ('share/icons/hicolor/48x48/apps', ['icons/48.png']),
-                  ('share/icons/hicolor/96x96/apps', ['icons/96.png']),
-                  ('share/icons/hicolor/128x128/apps', ['icons/128.png']),
-                  ('share/icons/hicolor/256x256/apps', ['icons/256.png']),
-                  ('share/icons/hicolor/scalable/apps', ['logo.svg'])])
+      data_files=[('share/icons/hicolor/16x16/apps', ['icons/16/aurqt.png']),
+                  ('share/icons/hicolor/22x22/apps', ['icons/22/aurqt.png']),
+                  ('share/icons/hicolor/32x32/apps', ['icons/32/aurqt.png']),
+                  ('share/icons/hicolor/48x48/apps', ['icons/48/aurqt.png']),
+                  ('share/icons/hicolor/96x96/apps', ['icons/96/aurqt.png']),
+                  ('share/icons/hicolor/128x128/apps', ['icons/128/aurqt.png']),
+                  ('share/icons/hicolor/256x256/apps', ['icons/256/aurqt.png']),
+                  ('share/icons/hicolor/scalable/apps', ['icons/aurqt.svg'])])

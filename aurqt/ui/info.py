@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.999
+# aurqt v0.1.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -16,10 +16,9 @@
 
 from .. import AQError, DS, _, __version__
 from PyQt4 import Qt, QtGui, QtCore
-import pkgbuilder
+from pkgbuilder import DS as PBDS
 import pkgbuilder.utils
 from pkgbuilder.package import CATEGORIES
-import pycman
 
 class CommentDialog(QtGui.QDialog):
     """The comment dialog for aurqt."""
@@ -54,12 +53,15 @@ class CommentDialog(QtGui.QDialog):
 
 class InfoBox(QtGui.QDialog):
     """The package information box for aurqt."""
-    def __init__(self, parent=None, pkgname=None, pkgobj=None, r=None):
+    def __init__(self, parent=None, pkgname=None, pkgobj=None, r = None):
         """Initialize the box."""
         if not pkgname:
-            raise AQError('info', 'pkgnameNotPresent', '`pkgname` not present')
-        if not pkgname:
-            raise AQError('info', 'rNotPresent', '`r` not present')
+            raise AQError('info', 'pkgnameNotPresent', 'pkgname not present')
+        if r:
+            self.r = r
+        else:
+            raise AQError('info', 'rNotPresent', 'r not present')
+
         super(InfoBox, self).__init__(parent)
 
         lay = QtGui.QVBoxLayout(self)
@@ -70,8 +72,6 @@ class InfoBox(QtGui.QDialog):
         else:
             self.pkg = pkgbuilder.utils.info([pkgname])[0]
 
-        self.awpkg = DS.w.fetchpkg(self.pkg)
-
         infostring = ' '.join((self.pkg.name, self.pkg.version))
 
         topbar = QtGui.QFrame(self)
@@ -81,6 +81,7 @@ class InfoBox(QtGui.QDialog):
         topbarlay = QtGui.QHBoxLayout(topbar)
 
         self.insta = QtGui.QAction(topbar)
+        self.upga = QtGui.QAction(topbar)
 
         self.instb = QtGui.QToolButton(topbar)
         self.instb.setIcon(QtGui.QIcon.fromTheme('run-build-install'))
@@ -89,8 +90,17 @@ class InfoBox(QtGui.QDialog):
         self.instb.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
         self.instb.setDefaultAction(self.insta)
 
+        self.upgb = QtGui.QToolButton(topbar)
+        self.upgb.setIcon(QtGui.QIcon.fromTheme('system-software-update'))
+        self.upgb.setText(_('Update'))
+        self.upgb.setIconSize(QtCore.QSize(22, 22))
+        self.upgb.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
+        self.upgb.setDefaultAction(self.upga)
+
         QtCore.QObject.connect(self.insta, QtCore.SIGNAL('triggered()'),
                                self.install)
+        QtCore.QObject.connect(self.upga, QtCore.SIGNAL('triggered()'),
+                               self.upgrade)
 
         actionb = QtGui.QToolButton(topbar)
         actionb.setIcon(QtGui.QIcon.fromTheme('system-run'))
@@ -104,6 +114,7 @@ class InfoBox(QtGui.QDialog):
         QtCore.QObject.connect(self.actionm, QtCore.SIGNAL('aboutToShow()'),
                                self.update_actions)
 
+        topbarlay.addWidget(self.upgb)
         topbarlay.addWidget(self.instb)
         topbarlay.addWidget(actionb)
 
@@ -144,7 +155,7 @@ class InfoBox(QtGui.QDialog):
         fields.append(sdate.toString(QtCore.Qt.SystemLocaleLongDate))
 
         mdate = QtCore.QDateTime()
-        sdate = sdate.fromTime_t(int(self.pkg.modified.timestamp()))
+        mdate = sdate.fromTime_t(int(self.pkg.modified.timestamp()))
         fields.append(mdate.toString(QtCore.Qt.SystemLocaleLongDate))
 
         for i, j in enumerate(datalabels):
@@ -184,19 +195,13 @@ class InfoBox(QtGui.QDialog):
         QtCore.QObject.connect(cadd, QtCore.SIGNAL('pressed()'), self.comment)
         self.comments = QtGui.QTextBrowser(self.cgroup)
 
-        self.comments.setText("""<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<style>
-.aq {}color: #888; text-align: right;{}
-</style>
-</head>
-<body>
-<p>{}</p>
-<p class="aq">aurqt v{}</p>
-</body>
-</html>""".format('{', '}', _('Loading…'), __version__))
+        self.comments.setText('<!DOCTYPE html>\n<html><head>'
+                              '<meta charset="UTF-8"><style>'
+                              '.aq {}color: #888; text-align: right;{}'
+                              '</style></head><body><p>{}</p>'
+                              '<p class="aq">aurqt v{}</p></body>'
+                              '</html>'.format('{', '}', _('Loading…'),
+                                               __version__))
 
         clay.addWidget(cadd)
         clay.addWidget(self.comments)
@@ -209,10 +214,12 @@ class InfoBox(QtGui.QDialog):
 
         QtCore.QMetaObject.connectSlotsByName(self)
 
-        self.reloadview()
         self.setWindowModality(Qt.Qt.WindowModal)
         self.setWindowTitle(infostring)
         self.setWindowIcon(QtGui.QIcon.fromTheme('dialog-information'))
+        Qt.QCoreApplication.processEvents()
+        self.awpkg = DS.w.fetchpkg(self.pkg)
+        self.reloadview()
         QtGui.QApplication.restoreOverrideCursor()
 
     def comment(self):
@@ -276,7 +283,7 @@ class InfoBox(QtGui.QDialog):
                                              QtCore.Qt.WaitCursor))
         if self.pkg.human == DS.username:
             self.awpkg = DS.w.pkgaction(self.pkg, '-own')
-        elif self.pkg.human == None:
+        elif not self.pkg.human:
             self.awpkg = DS.w.pkgaction(self.pkg, '+own')
         else:
             DS.log.error('Tried to own() on a package that isn’t '
@@ -287,18 +294,23 @@ class InfoBox(QtGui.QDialog):
 
     def install(self):
         """{Uni,I}nstall a package."""
-        pyc = pycman.config.init_with_config('/etc/pacman.conf')
-        localdb = pyc.get_localdb()
+        PBDS._pycreload()
+        localdb = PBDS.pyc.get_localdb()
         pkg = localdb.get_pkg(self.pkg.name)
 
         if pkg:
-            DS.pacman(['-S', self.pkg.name])
+            DS.pacman(['-R', self.pkg.name])
         else:
             DS.pkginst([self.pkg.name])
 
-    def makerequest(self):
+    def upgrade(self):
+        """Upgrade a package."""
+        DS.pkginst([self.pkg.name])
+
+
+    def req(self):
         """Make a request."""
-        r([self.pkg.name])
+        self.r(wtfisthis=None, pkgnames=[self.pkg.name])
 
     def reloaddata(self):
         """Reload the data."""
@@ -327,12 +339,12 @@ class InfoBox(QtGui.QDialog):
                                 shortcut='Ctrl+Shift+C',
                                 triggered=self.comment)
 
-        comment = QtGui.QAction(QtGui.QIcon.fromTheme('document-edit'),
-                                _('Make a &request…'), self,
-                                toolTip=_('Request an action on this '
-                                'package (remove, merge, orphan).'),
-                                shortcut='Ctrl+Shift+C',
-                                triggered=self.comment)
+        req = QtGui.QAction(QtGui.QIcon.fromTheme('internet-mail'),
+                            _('Make a &request…'), self,
+                            toolTip=_('Request an action on this '
+                            'package (remove, merge, orphan).'),
+                            shortcut='Ctrl+Shift+C',
+                            triggered=self.req)
         if self.voted:
             vote.setChecked(2)
 
@@ -387,7 +399,7 @@ class InfoBox(QtGui.QDialog):
 
         if self.pkg.is_outdated:
             sdate = QtCore.QDateTime()
-            sdate = sdate.fromTime_t(self.pkg.is_outdated)
+            sdate = sdate.fromTime_t(self.pkg.outdated_since.timestamp())
             self.oodbox.setText(_('yes, since {}').format(
                 sdate.toString(QtCore.Qt.SystemLocaleLongDate)))
         else:
@@ -405,30 +417,35 @@ class InfoBox(QtGui.QDialog):
         if c:
             self.comments.setText(c.prettify())
         else:
-            self.comments.setText("""<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<style>
-.aq {}color: #888; text-align: right;{}
-</style>
-</head>
-<body>
-<p>{}</p>
-<p>{}</p>
-<p class="aq">aurqt v{}</p>
-</body>
-</html>""".format('{', '}', _('There are currently no comments for this '
-                  'package.'), _('In order to add one, hit the button '
-                  'above.'), __version__))
+            self.comments.setText('<!DOCTYPE html>\n<html><head>'
+                                  '<meta charset="UTF-8"><style>'
+                                  '.aq {}color: #888; text-align: right;{}'
+                                  '</style></head><body><p>{}</p><p>{}</p>'
+                                  '<p class="aq">aurqt v{}</p></body>'
+                                  '</html>'.format(
+                                      '{', '}',
+                                      _('There are currently no comments for '
+                                        'this package.'),
+                                      _('In order to add one, hit the button '
+                                        'above.'), __version__))
 
-        pyc = pycman.config.init_with_config('/etc/pacman.conf')
-        localdb = pyc.get_localdb()
+        PBDS._pycreload()
+        localdb = PBDS.pyc.get_localdb()
         pkg = localdb.get_pkg(self.pkg.name)
 
         if pkg:
-            self.instb.setIcon(QtGui.QIcon.fromTheme('run-build-purge'))
+            self.instb.setIcon(QtGui.QIcon.fromTheme('run-build-prune'))
             self.instb.setText(_('Uninstall'))
+            if pkg.version == self.pkg.version:
+                self.upgb.setIcon(QtGui.QIcon.fromTheme('run-build-install'))
+                self.upgb.setText(_('Reinstall'))
+            else:
+                self.upgb.setIcon(QtGui.QIcon.fromTheme('system-software-update'))
+                self.upgb.setText(_('Upgrade'))
+            self.upgb.setEnabled(True)
         else:
             self.instb.setIcon(QtGui.QIcon.fromTheme('run-build-install'))
             self.instb.setText(_('Install'))
+            self.upgb.setIcon(QtGui.QIcon.fromTheme('system-software-update'))
+            self.upgb.setText(_('Upgrade'))
+            self.upgb.setEnabled(False)

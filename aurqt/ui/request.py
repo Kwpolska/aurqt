@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.999
+# aurqt v0.1.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -22,7 +22,7 @@ import threading
 
 class RequestDialog(QtGui.QDialog):
     """The mail request generator for aurqt."""
-    def __init__(self, parent=None, pkgnames=[]):
+    def __init__(self, parent=None, pkgnames=()):
         """Initialize the dialog."""
         super(RequestDialog, self).__init__(parent)
         self.queue = []
@@ -57,13 +57,15 @@ class RequestDialog(QtGui.QDialog):
         pkglay.addWidget(self.pdel, 2, 0, 1, 2)
 
         requesting101 = QtGui.QLabel(_('Copy this message and send it to '
-                                       'aur-general@archlinux.org.\nPlease '
+                                       'aur-general@archlinux.org (no '
+                                       'subscription necessary).\nPlease '
                                        'consult the package maintainers '
                                        'before sending.\n(Give them two '
                                        'weeks to answer.)'), self)
-        requesting101.setWordWrap(True)
+        #requesting101.setWordWrap(True)
         self.subject = QtGui.QLineEdit(self)
         self.message = QtGui.QTextEdit(self)
+        self.message.setStyleSheet('font-family: monospace;')
 
         lay.addWidget(typegroup, 0, 0, 1, 1)
         lay.addWidget(pkggroup, 0, 1, 1, 1)
@@ -122,15 +124,8 @@ class RequestDialog(QtGui.QDialog):
     def gen(self, *args):
         """Actual message generation."""
         errors = []
-        out = """Hello,
-
-I’d like to request {} of the following package{}:
-
-{}
-
-{}
--- """"""
-aurqt v{}"""
+        out = ('Hello,\n\nI\'d like to request {} of the following package{}:'
+               '\n\n{}\n\n{}\n-- \naurqt v{}')
         subj = '[{} Request] {}'
         if DS.username:
             thanks = 'Thanks in advance,\n{}'.format(DS.username)
@@ -188,17 +183,14 @@ aurqt v{}"""
                                   'in aurqt or the AUR website.)').format(
                                   j.name))
 
-            requests.append([mg, mf, j, """Name:   {}
-URL:    https://aur.archlinux.org/packages/{}/
-Reason: {}""".format(j.name, j.name, reason)])
+            requests.append([mg, mf, j, 'Name:   {}\nURL:    https://'
+                             'aur.archlinux.org/packages/{}/\n'
+                             'Reason: {}'.format(j.name, j.name, reason)])
 
         if errors:
             out = '<p>' + _('The following errors occured during '
-                  'generation:') + """</p>
-
-<ul>
-<li>{}</li>
-</ul>""".format('</li>\n<li>'.join(errors))
+                  'generation:') + '</p><ul><li>{}</li></ul>'.format(
+                      '</li>\n<li>'.join(errors))
             self.subject.setText('')
             self.message.setText(out)
             return len(errors)

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.999
+# aurqt v0.1.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -30,7 +30,7 @@ class SearchDialog(QtGui.QDialog):
         if o:
             self.o = o
         else:
-            raise AQError('search', 'oNotPresent', '“o” not present')
+            raise AQError('search', 'oNotPresent', 'o not present')
 
         lay = QtGui.QVBoxLayout(self)
         frame = QtGui.QFrame(self)

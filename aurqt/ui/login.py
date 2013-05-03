@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.999
+# aurqt v0.1.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -70,6 +70,23 @@ class LoginForm(QtGui.QDialog):
         self.setWindowIcon(QtGui.QIcon.fromTheme('user-identity'))
         self.show()
 
+    def _login(self, *args):
+        """Logging in in the background."""
+        try:
+            DS.login(*args)
+        except AQError as e:
+            Qt.QCoreApplication.processEvents()
+            QtGui.QMessageBox.critical(self, _('Cannot log in (wrong '
+                                               'credentials?)'),
+                                       e.msg, QtGui.QMessageBox.Ok)
+        except Exception as e:
+            Qt.QCoreApplication.processEvents()
+            DS.log.exception(e)
+            QtGui.QMessageBox.critical(self, 'aurqt',
+                                       _('Something went wrong.\nError '
+                                         'message: {}').format(e),
+                                       QtGui.QMessageBox.Ok)
+
     def login(self):
         """Log into the AUR."""
         QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
@@ -81,7 +98,7 @@ class LoginForm(QtGui.QDialog):
             pb.setValue(-1)
             pb.setWindowModality(QtCore.Qt.WindowModal)
             pb.show()
-            _tt = threading.Thread(target=DS.login,
+            _tt = threading.Thread(target=self._login,
                                    args=(self.uname.text(), self.pwd.text(),
                                          self.remember.checkState()))
             _tt.start()
@@ -90,18 +107,6 @@ class LoginForm(QtGui.QDialog):
 
             pb.close()
             self.accept()
-        except AQError as e:
-            pb.close()
-            QtGui.QMessageBox.critical(self, _('Cannot log in (wrong '
-                                               'credentials?)'),
-                                       e.msg, QtGui.QMessageBox.Ok)
-        except Exception as e:
-            pb.close()
-            DS.log.exception(e)
-            QtGui.QMessageBox.critical(self, 'aurqt',
-                                       _('Something went wrong.\nError '
-                                         'message: {}').format(e),
-                                       QtGui.QMessageBox.Ok)
         finally:
             QtGui.QApplication.restoreOverrideCursor()
 

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.0.999
+# aurqt v0.1.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -16,7 +16,8 @@
 
 from .. import DS, _
 from PyQt4 import Qt, QtGui, QtCore
-import pkgbuilder.upgrade
+from pkgbuilder import DS as PBDS
+import pkgbuilder.upgrade as pu
 import pkgbuilder.utils
 import threading
 
@@ -25,13 +26,12 @@ class UpgradeDialog(QtGui.QDialog):
     """The upgrade window for aurqt."""
     def _aurinfo(self):
         """A helper function."""
-        i = pkgbuilder.utils.info(pkgbuilder.upgrade.gather_foreign_pkgs())
-        self.aurinfo = i
+        self.aurinfo = pkgbuilder.utils.info(pu.gather_foreign_pkgs())
 
-    def aurinfo_refresh(self):
-        """Refresh AUR information."""
-        self._tt = threading.Thread(target=self._aurinfo)
-        self._tt.start()
+    def _ulist(self, vcsup):
+        """Yet another helper function."""
+        self.ulist = pu.list_upgradable(pu.gather_foreign_pkgs(), vcsup,
+                                        aurcache=self.aurinfo)
 
     def refresh(self, *args, **kwargs):
         """Refresh the upgrades list."""
@@ -43,31 +43,43 @@ class UpgradeDialog(QtGui.QDialog):
         self.table.setSortingEnabled(False)
         dwn = self.dwnmode.checkState() == 2
         vcsup = self.vcsmode.checkState() == 2
+        pb = Qt.QProgressDialog()
+        pb.setLabelText(_('Refreshing package information…'))
+        pb.setMaximum(0)
+        pb.setValue(-1)
+        pb.setWindowModality(QtCore.Qt.WindowModal)
+        pb.show()
+        Qt.QCoreApplication.processEvents()
         if 'info' in kwargs:
             self.aurinfo = kwargs['info']
+            _pt = threading.Thread(target=PBDS._pycreload)
+            _pt.start()
+            while _pt.is_alive():
+                Qt.QCoreApplication.processEvents()
         else:
-            pb = Qt.QProgressDialog()
-            pb.setLabelText(_('Refreshing package information…'))
-            pb.setMaximum(0)
-            pb.setValue(-1)
-            pb.setWindowModality(QtCore.Qt.WindowModal)
-            pb.show()
-            self.aurinfo = None
-            self.aurinfo_refresh()
+            _at = threading.Thread(target=self._aurinfo)
+            _at.start()
 
-            while self.aurinfo is None:
+            while _at.is_alive():
                 Qt.QCoreApplication.processEvents()
 
-            pb.close()
+            _pt = threading.Thread(target=PBDS._pycreload)
+            _pt.start()
 
-        self.ulist = pkgbuilder.upgrade.list_upgradable(
-            pkgbuilder.upgrade.gather_foreign_pkgs(), vcsup,
-            aurcache=self.aurinfo)
+            while _pt.is_alive():
+                Qt.QCoreApplication.processEvents()
+
+        _lt = threading.Thread(target=self._ulist, args=(vcsup,))
+        _lt.start()
+        while _lt.is_alive():
+            Qt.QCoreApplication.processEvents()
 
         if dwn:
             self.ulist = self.ulist[0] + self.ulist[1]
         else:
             self.ulist = self.ulist[0]
+
+        pb.close()
 
         if self.ulist:
             self.greet.setText(_('Found the following upgrades:'))

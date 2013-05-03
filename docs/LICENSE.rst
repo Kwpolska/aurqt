@@ -3,7 +3,7 @@ Appendix B. License for aurqt
 =============================
 :Info: This is the license for aurqt.
 :Author: Kwpolska <kwpolska@kwpolska.tk>
-:Date: 2013-02-16
+:Date: 2013-05-03
 :Version: 0.1.0
 
 .. index:: LICENSE
