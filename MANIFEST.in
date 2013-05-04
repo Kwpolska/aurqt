@@ -8,6 +8,7 @@ include PKGBUILD
 include PKGBUILD-git
 include CHANGELOG.rst
 include CONTRIBUTING.rst
+include aurqt.desktop
 recursive-include docs *
 recursive-include bin *
 recursive-include aurqt *.py
