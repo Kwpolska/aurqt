@@ -6,7 +6,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(name='aurqt',
-      version='0.1.0',
+      version='0.1.1',
       description='A graphical AUR manager.',
       author='Kwpolska',
       author_email='kwpolska@kwpolska.tk',
