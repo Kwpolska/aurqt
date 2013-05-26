@@ -14,7 +14,7 @@
     :License: BSD (see /LICENSE).
 """
 
-from . import AQError, _, __version__
+from . import AQError, __version__
 from .aurweb import AurWeb
 from pkgbuilder import DS as PBDS
 import os
@@ -23,14 +23,15 @@ import configparser
 import pickle
 import subprocess
 
+tr = lambda x: x
 
-### AQDS           AQ global data storage  ###
 class AQDS():
     """aurqt Data Storage."""
     ### STUFF NOT TO BE CHANGED BY HUMAN BEINGS.  EVER.
     sid = None
     username = None
     w = AurWeb()
+    languages = [('pl', 'Polish')]
 
     # Creating the configuration/log stuff...
     confhome = os.getenv('XDG_CONFIG_HOME')
@@ -55,8 +56,8 @@ class AQDS():
         os.mkdir(archdir)
 
     if not os.path.exists(confdir):
-        print(' '.join(_('ERROR:'), _('Cannot create the configuration '
-                                      'directory.')))
+        print(' '.join(tr('ERROR:'), tr('Cannot create the configuration '
+                                        'directory.')))
         exit(1)
 
     logging.basicConfig(format='%(asctime)-15s [%(levelname)-7s] '
@@ -73,19 +74,27 @@ class AQDS():
 
     # Configuration.
     config = configparser.ConfigParser()
-    if not config.read(conffile):
-        config['aurqt'] = {}
-        config['aurqt']['remember'] = 'yes'
-        config['aurqt']['mail-generation'] = 'yes'
+    config.read(conffile)
 
-        config['helper'] = {}
-        config['helper']['name'] = 'pkgbuilder'
-        config['helper']['args'] = '-S'
-        with open(conffile, 'w') as cfile:
-            config.write(cfile)
+    for i in ('helper', 'i18n'):
+        try:
+            config[i]
+        except KeyError:
+            config[i] = {}
+
+    for c, n, d in (('helper', 'name', 'pkgbuilder'),
+                    ('helper', 'args', '-S'),
+                    ('i18n', 'language', 'system')):
+        try:
+            config[c][n]
+        except KeyError:
+            config[c][n] = d
+
+    with open(conffile, 'w') as cfile:
+        config.write(cfile)
 
     # Remember mode.
-    sidfile = os.path.join(confdir, 'sid.pickle')
+    sessionfile = os.path.join(confdir, 'session.pickle')
     contstate = False
 
     def pkginst(self, pkgs):
@@ -115,31 +124,31 @@ class AQDS():
     def continue_session(self):
         """Continue pre-existing session."""
         try:
-            with open(self.sidfile, 'rb') as fh:
+            with open(self.sessionfile, 'rb') as fh:
                 login_data = pickle.load(fh)
-            self.w.cookies = login_data[0]
+        except IOError:
+            self.remember = False
+        else:
+            self.w.session = login_data[0]
+            self.w.sid = login_data[0].cookies['AURSID']
             if self.w.loggedin:
-                self.log.info('Using pre-existing login data: {}'.format(
-                              [login_data[0]['AURSID'], login_data[1]]))
-                self.w.sid = login_data[0]['AURSID']
+                self.log.info('Continuing session: {}'.format(login_data[1]))
+                self.w.sid = login_data[0].cookies['AURSID']
                 self.w.username = login_data[1]
                 self.remember = True
-                self.sid = login_data[0]['AURSID']
+                self.sid = login_data[0].cookies['AURSID']
                 self.username = login_data[1]
             else:
                 self.log.info('Session of {} expired.'.format(login_data[1]))
-                os.remove(self.sidfile)
+                os.remove(self.sessionfile)
+                self.w.new_session()
                 self.remember = False
-                self.w.cookies = None
                 self.w.sid = None
                 self.w.username = None
                 self.sid = None
-                self.w.sid = None
                 self.username = None
-        except IOError:
-            self.remember = False
-
-        self.contstate = True
+        finally:
+            self.contstate = True
 
     def login(self, username, password, remember):
         """Log into the AUR."""
@@ -148,19 +157,19 @@ class AQDS():
         elif remember == 2:
             remember = True
         if not username or not password:
-            raise AQError('login', 'nodata', _('You didn’t provide the '
-                                               'username or the password!'))
+            raise AQError('login', 'nodata', tr('You didn’t provide the '
+                                                'username or the password!'))
         else:
             try:
                 self.w.login(username, password, remember)
                 self.sid = self.w.sid
                 self.username = self.w.username
                 self.remember = remember
-                with open(self.sidfile, 'wb') as fh:
-                    pickle.dump([self.w.cookies, self.w.username], fh)
-            except NotImplementedError: # WTF?! TODO
-                raise AQError('login', 'error', _('Cannot log in (wrong '
-                                                  'credentials?)'))
+                with open(self.sessionfile, 'wb') as fh:
+                    pickle.dump([self.w.session, self.w.username], fh)
+            except:
+                raise AQError('login', 'error', tr('Cannot log in (wrong '
+                                                   'credentials?)'))
 
     def logout(self):
         """Log out of the AUR."""
@@ -170,6 +179,6 @@ class AQDS():
             self.username = None
             if self.remember:
                 self.remember = False
-                os.remove(self.sidfile)
+                os.remove(self.sessionfile)
         except:
-            raise AQError('logout', 'error', _('Cannot log out.'))
+            raise AQError('logout', 'error', tr('Cannot log out.'))

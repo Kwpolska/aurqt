@@ -52,7 +52,6 @@ __docformat__ = 'restructuredtext en'
 # import gettext
 #
 # G = gettext.translation('aurqt', '/usr/share/locale', fallback='C')
-_ = lambda x: x
 
 
 ### AQError         errors raised here      ###
@@ -78,3 +77,12 @@ DS = AQDS()
 import pkgbuilder
 __pbversion__ = pkgbuilder.__version__
 DS.log.info('*** PKGBUILDer v{}'.format(__pbversion__))
+
+# Temporary workaround…
+
+from .ui import tr
+import aurqt.aurweb
+import aurqt.aqds
+
+aurqt.aurweb.tr = tr
+aurqt.aqds.tr = tr

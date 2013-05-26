@@ -14,7 +14,8 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import DS, AQError, _
+from . import tr
+from .. import DS, AQError
 from .account import AccountDialog
 from PyQt4 import Qt, QtGui, QtCore
 import requests
@@ -28,20 +29,17 @@ class LoginForm(QtGui.QDialog):
         super(LoginForm, self).__init__(parent)
 
         lay = QtGui.QGridLayout(self)
-        unamelabel = QtGui.QLabel(_('Username'), self)
-        pwdlabel = QtGui.QLabel(_('Password'), self)
+        unamelabel = QtGui.QLabel(tr('Username'), self)
+        pwdlabel = QtGui.QLabel(tr('Password'), self)
 
         self.uname = QtGui.QLineEdit(self)
         self.pwd = QtGui.QLineEdit(self)
         self.pwd.setEchoMode(QtGui.QLineEdit.Password)
-        self.remember = QtGui.QCheckBox(_('Remember me'), self)
+        self.remember = QtGui.QCheckBox(tr('Remember me'), self)
         self.remember.setCheckState(2)
 
-        if DS.config['aurqt']['remember'] == 'no':
-            self.remember.setEnabled(False)
-
-        forgot = QtGui.QPushButton(_('Forgot password'), self)
-        register = QtGui.QPushButton(_('Register'), self)
+        forgot = QtGui.QPushButton(tr('Forgot password'), self)
+        register = QtGui.QPushButton(tr('Register'), self)
 
         btn = QtGui.QDialogButtonBox(self)
         btn.setStandardButtons(QtGui.QDialogButtonBox.Ok |
@@ -66,7 +64,7 @@ class LoginForm(QtGui.QDialog):
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.ApplicationModal)
-        self.setWindowTitle(_('Log in'))
+        self.setWindowTitle(tr('Log in'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('user-identity'))
         self.show()
 
@@ -75,17 +73,13 @@ class LoginForm(QtGui.QDialog):
         try:
             DS.login(*args)
         except AQError as e:
-            Qt.QCoreApplication.processEvents()
-            QtGui.QMessageBox.critical(self, _('Cannot log in (wrong '
-                                               'credentials?)'),
-                                       e.msg, QtGui.QMessageBox.Ok)
-        except Exception as e:
-            Qt.QCoreApplication.processEvents()
             DS.log.exception(e)
-            QtGui.QMessageBox.critical(self, 'aurqt',
-                                       _('Something went wrong.\nError '
-                                         'message: {}').format(e),
-                                       QtGui.QMessageBox.Ok)
+            self._loginstatus = ('AQError', e.msg)
+        except Exception as e:
+            DS.log.exception(e)
+            self._loginstatus = ('Exception', e)
+        else:
+            self._loginstatus = (True,)
 
     def login(self):
         """Log into the AUR."""
@@ -93,7 +87,7 @@ class LoginForm(QtGui.QDialog):
                                              QtCore.Qt.WaitCursor))
         try:
             pb = Qt.QProgressDialog()
-            pb.setLabelText(_('Logging in…'))
+            pb.setLabelText(tr('Logging in…'))
             pb.setMaximum(0)
             pb.setValue(-1)
             pb.setWindowModality(QtCore.Qt.WindowModal)
@@ -106,18 +100,33 @@ class LoginForm(QtGui.QDialog):
                 Qt.QCoreApplication.processEvents()
 
             pb.close()
+            if self._loginstatus[0] == 'AQError':
+                Qt.QCoreApplication.processEvents()
+                QtGui.QMessageBox.critical(self, tr('Login failed.'),
+                                           self._loginstatus[1],
+                                           QtGui.QMessageBox.Ok)
+            elif self._loginstatus[0] == 'Exception':
+                Qt.QCoreApplication.processEvents()
+                QtGui.QMessageBox.critical(self, 'aurqt',
+                                           tr('Something went wrong.\nError '
+                                              'message: {}').format(
+                                                   self._loginstatus[1]),
+                                           QtGui.QMessageBox.Ok)
+
+            del self._loginstatus
+
             self.accept()
         finally:
             QtGui.QApplication.restoreOverrideCursor()
 
     def forgot(self):
         """Show the forgot password form."""
-        email, ok = QtGui.QInputDialog.getText(self, _('Forgot password'),
-                                               _('Mail address:'))
+        email, ok = QtGui.QInputDialog.getText(self, tr('Forgot password'),
+                                               tr('Mail address:'))
         if ok:
             if not email:
-                r = QtGui.QMessageBox.critical(self, _('Forgot password'),
-                                               _('Please enter an address.'),
+                r = QtGui.QMessageBox.critical(self, tr('Forgot password'),
+                                               tr('Please enter an address.'),
                                                QtGui.QMessageBox.Ok,
                                                QtGui.QMessageBox.Cancel)
                 if r == QtGui.QMessageBox.Ok:
@@ -127,12 +136,12 @@ class LoginForm(QtGui.QDialog):
                     r = requests.post(DS.aurweburl + 'passreset/',
                                       data={'email': email})
                     r.raise_for_status()
-                    QtGui.QMessageBox.information(self, _('Forgot password'),
-                                                  _('Check your mailbox.'),
+                    QtGui.QMessageBox.information(self, tr('Forgot password'),
+                                                  tr('Check your mailbox.'),
                                                   QtGui.QMessageBox.Ok)
                 except:
-                    QtGui.QMessageBox.critical(self, _('Forgot password'),
-                                               _('Request failed.  Check '
+                    QtGui.QMessageBox.critical(self, tr('Forgot password'),
+                                               tr('Request failed.  Check '
                                                  'your Internet connection.'),
                                                QtGui.QMessageBox.Ok)
 

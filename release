@@ -87,6 +87,8 @@ cp docs/README.rst README
 #    msgfmt -o $podir/$project.mo $popath
 #done
 
+./localegen
+
 ###: Testing and building
 python -c "import $project"
 if [[ $? = 1 ]]; then

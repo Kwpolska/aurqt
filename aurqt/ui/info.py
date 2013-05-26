@@ -14,7 +14,8 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import AQError, DS, _, __version__
+from . import tr
+from .. import AQError, DS, __version__
 from PyQt4 import Qt, QtGui, QtCore
 from pkgbuilder import DS as PBDS
 import pkgbuilder.utils
@@ -42,7 +43,7 @@ class CommentDialog(QtGui.QDialog):
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.ApplicationModal)
-        self.setWindowTitle(_('Comment…'))
+        self.setWindowTitle(tr('Comment…'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('document-edit'))
         self.show()
 
@@ -85,14 +86,14 @@ class InfoBox(QtGui.QDialog):
 
         self.instb = QtGui.QToolButton(topbar)
         self.instb.setIcon(QtGui.QIcon.fromTheme('run-build-install'))
-        self.instb.setText(_('Install'))
+        self.instb.setText(tr('Install'))
         self.instb.setIconSize(QtCore.QSize(22, 22))
         self.instb.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
         self.instb.setDefaultAction(self.insta)
 
         self.upgb = QtGui.QToolButton(topbar)
         self.upgb.setIcon(QtGui.QIcon.fromTheme('system-software-update'))
-        self.upgb.setText(_('Update'))
+        self.upgb.setText(tr('Update'))
         self.upgb.setIconSize(QtCore.QSize(22, 22))
         self.upgb.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
         self.upgb.setDefaultAction(self.upga)
@@ -107,7 +108,7 @@ class InfoBox(QtGui.QDialog):
         actionb.setIconSize(QtCore.QSize(22, 22))
         actionb.setPopupMode(QtGui.QToolButton.InstantPopup)
         actionb.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
-        actionb.setText(_('Actions'))
+        actionb.setText(tr('Actions'))
         self.actionm = QtGui.QMenu(self)
         actionb.setMenu(self.actionm)
 
@@ -131,14 +132,14 @@ class InfoBox(QtGui.QDialog):
         desc.setAlignment(QtCore.Qt.AlignCenter)
         desc.setSizePolicy(size_policy)
 
-        data = QtGui.QGroupBox(_('Data'), self)
+        data = QtGui.QGroupBox(tr('Data'), self)
         datalay = QtGui.QFormLayout(data)
         datalay.setHorizontalSpacing(15)
         datalay.setVerticalSpacing(7)
 
-        datalabels = [_('Out of Date'), _('Category'), _('AUR URL'),
-                      _('Project URL'), _('Maintainer'), _('Votes'),
-                      _('First submitted'), _('Last updated')]
+        datalabels = [tr('Out of Date'), tr('Category'), tr('AUR URL'),
+                      tr('Project URL'), tr('Maintainer'), tr('Votes'),
+                      tr('First submitted'), tr('Last updated')]
 
         aururl = 'https://aur.archlinux.org/packages/{0}/'.format(
                  self.pkg.name)
@@ -188,9 +189,9 @@ class InfoBox(QtGui.QDialog):
         datalay.setWidget(4, QtGui.QFormLayout.FieldRole, self.maintainer)
         datalay.setWidget(5, QtGui.QFormLayout.FieldRole, self.numvotes)
 
-        self.cgroup = QtGui.QGroupBox(_('Comments'), self)
+        self.cgroup = QtGui.QGroupBox(tr('Comments'), self)
         clay = QtGui.QVBoxLayout(self.cgroup)
-        cadd = QtGui.QPushButton(_('Add a comment…'), self,
+        cadd = QtGui.QPushButton(tr('Add a comment…'), self,
                                  icon=QtGui.QIcon.fromTheme('document-edit'))
         QtCore.QObject.connect(cadd, QtCore.SIGNAL('pressed()'), self.comment)
         self.comments = QtGui.QTextBrowser(self.cgroup)
@@ -200,7 +201,7 @@ class InfoBox(QtGui.QDialog):
                               '.aq {}color: #888; text-align: right;{}'
                               '</style></head><body><p>{}</p>'
                               '<p class="aq">aurqt v{}</p></body>'
-                              '</html>'.format('{', '}', _('Loading…'),
+                              '</html>'.format('{', '}', tr('Loading…'),
                                                __version__))
 
         clay.addWidget(cadd)
@@ -320,28 +321,28 @@ class InfoBox(QtGui.QDialog):
     def update_actions(self):
         self.actionm.clear()
         vote = QtGui.QAction(QtGui.QIcon.fromTheme('task-complete'),
-                             _('&Vote'), self, toolTip=_('Vote for this '
+                             tr('&Vote'), self, toolTip=tr('Vote for this '
                              'package'), shortcut='Ctrl+Shift+V',
                              checkable=True, triggered=self.vote)
         notify = QtGui.QAction(QtGui.QIcon.fromTheme('preferences-desktop-'
-                               'notification'), _('&Notify'), self,
-                               toolTip=_('Enable comment notifications for '
+                               'notification'), tr('&Notify'), self,
+                               toolTip=tr('Enable comment notifications for '
                                'this package'), shortcut='Ctrl+Shift+N',
                                checkable=True, triggered=self.notify)
         flag = QtGui.QAction(QtGui.QIcon.fromTheme('flag-red'),
-                             _('&Flag as outdated'), self,
-                             toolTip=_('Flag the package as outdated.'),
+                             tr('&Flag as outdated'), self,
+                             toolTip=tr('Flag the package as outdated.'),
                              shortcut='Ctrl+Shift+F',
                              checkable=True, triggered=self.flag)
         comment = QtGui.QAction(QtGui.QIcon.fromTheme('document-edit'),
-                                _('&Comment…'), self, toolTip=_('Add a '
+                                tr('&Comment…'), self, toolTip=tr('Add a '
                                 'comment for this package'),
                                 shortcut='Ctrl+Shift+C',
                                 triggered=self.comment)
 
         req = QtGui.QAction(QtGui.QIcon.fromTheme('internet-mail'),
-                            _('Make a &request…'), self,
-                            toolTip=_('Request an action on this '
+                            tr('Make a &request…'), self,
+                            toolTip=tr('Request an action on this '
                             'package (remove, merge, orphan).'),
                             shortcut='Ctrl+Shift+C',
                             triggered=self.req)
@@ -356,18 +357,18 @@ class InfoBox(QtGui.QDialog):
 
         if self.pkg.human:
             own = QtGui.QAction(QtGui.QIcon.fromTheme('list-remove-user'),
-                                _('&Disown'), self, toolTip=_('Disown this '
+                                tr('&Disown'), self, toolTip=tr('Disown this '
                                 'package'), shortcut='Ctrl+Shift+O',
                                 triggered=self.own)
         else:
             own = QtGui.QAction(QtGui.QIcon.fromTheme('list-add-user'),
-                                _('&Adopt'), self, toolTip=_('Adopt this '
+                                tr('&Adopt'), self, toolTip=tr('Adopt this '
                                 'package'), shortcut='Ctrl+Shift+O',
                                 triggered=self.own)
 
         if self.pkg.human != DS.username and self.pkg.is_outdated:
             flag.setEnabled(False)
-            flag.setToolTip(_('Only the maintainer can unflag a package.'))
+            flag.setToolTip(tr('Only the maintainer can unflag a package.'))
 
         self.actionm.addAction(vote)
         self.actionm.addAction(notify)
@@ -400,10 +401,10 @@ class InfoBox(QtGui.QDialog):
         if self.pkg.is_outdated:
             sdate = QtCore.QDateTime()
             sdate = sdate.fromTime_t(self.pkg.outdated_since.timestamp())
-            self.oodbox.setText(_('yes, since {}').format(
+            self.oodbox.setText(tr('yes, since {}').format(
                 sdate.toString(QtCore.Qt.SystemLocaleLongDate)))
         else:
-            self.oodbox.setText(_('no'))
+            self.oodbox.setText(tr('no'))
 
         if self.pkg.human:
             self.maintainer.setText(self.pkg.human)
@@ -424,10 +425,10 @@ class InfoBox(QtGui.QDialog):
                                   '<p class="aq">aurqt v{}</p></body>'
                                   '</html>'.format(
                                       '{', '}',
-                                      _('There are currently no comments for '
-                                        'this package.'),
-                                      _('In order to add one, hit the button '
-                                        'above.'), __version__))
+                                      tr('There are currently no comments for '
+                                         'this package.'),
+                                      tr('In order to add one, hit the button '
+                                         'above.'), __version__))
 
         PBDS._pycreload()
         localdb = PBDS.pyc.get_localdb()
@@ -435,17 +436,17 @@ class InfoBox(QtGui.QDialog):
 
         if pkg:
             self.instb.setIcon(QtGui.QIcon.fromTheme('run-build-prune'))
-            self.instb.setText(_('Uninstall'))
+            self.instb.setText(tr('Uninstall'))
             if pkg.version == self.pkg.version:
                 self.upgb.setIcon(QtGui.QIcon.fromTheme('run-build-install'))
-                self.upgb.setText(_('Reinstall'))
+                self.upgb.setText(tr('Reinstall'))
             else:
                 self.upgb.setIcon(QtGui.QIcon.fromTheme('system-software-update'))
-                self.upgb.setText(_('Upgrade'))
+                self.upgb.setText(tr('Upgrade'))
             self.upgb.setEnabled(True)
         else:
             self.instb.setIcon(QtGui.QIcon.fromTheme('run-build-install'))
-            self.instb.setText(_('Install'))
+            self.instb.setText(tr('Install'))
             self.upgb.setIcon(QtGui.QIcon.fromTheme('system-software-update'))
-            self.upgb.setText(_('Upgrade'))
+            self.upgb.setText(tr('Upgrade'))
             self.upgb.setEnabled(False)

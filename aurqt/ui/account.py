@@ -14,7 +14,8 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import DS, _, AQError
+from . import tr
+from .. import DS, AQError
 from PyQt4 import Qt, QtGui, QtCore
 
 
@@ -30,13 +31,13 @@ class AccountDialog(QtGui.QDialog):
         self.uid = None
 
         # TRANSLATORS: see aurweb.
-        labels = [_('Username'), _('Mail Address'), _('Password'),
-                  _('Re-type password'), _('Real Name'), _('IRC Nick'),
-                  _('PGP Key Fingerprint')]
+        labels = [tr('Username'), tr('Mail Address'), tr('Password'),
+                  tr('Re-type password'), tr('Real Name'), tr('IRC Nick'),
+                  tr('PGP Key Fingerprint')]
 
         for i, j in enumerate(labels):
             lay.setWidget(i, QtGui.QFormLayout.LabelRole, QtGui.QLabel(j,
-                          self))
+                                                                       self))
 
         self.username = QtGui.QLineEdit(self)
         self.mail = QtGui.QLineEdit(self)
@@ -45,7 +46,7 @@ class AccountDialog(QtGui.QDialog):
         self.rname = QtGui.QLineEdit(self)
         self.irc = QtGui.QLineEdit(self)
         self.pgp = QtGui.QLineEdit(self)
-        self.pgp.setToolTip(_('gpg --fingerprint (40 characters long).'))
+        self.pgp.setToolTip(tr('gpg --fingerprint (40 characters long).'))
 
         lay.setWidget(0, QtGui.QFormLayout.FieldRole, self.username)
         lay.setWidget(1, QtGui.QFormLayout.FieldRole, self.mail)
@@ -74,12 +75,12 @@ class AccountDialog(QtGui.QDialog):
 
         if self.register:
             self.rtype = 'NewAccount'
-            self.setWindowTitle(_('Register'))
+            self.setWindowTitle(tr('Register'))
             self.setWindowIcon(QtGui.QIcon.fromTheme('user-group-new'))
         else:
             self.rtype = 'UpdateAccount'
             self.load()
-            self.setWindowTitle(_('Account settings'))
+            self.setWindowTitle(tr('Account settings'))
             self.setWindowIcon(QtGui.QIcon.fromTheme('user-group-properties'))
 
         QtGui.QApplication.restoreOverrideCursor()
@@ -90,8 +91,8 @@ class AccountDialog(QtGui.QDialog):
         try:
             data = DS.w.get_account_data()
         except:
-            QtGui.QMessageBox.critical(self, _('Account settings') +
-                                       ' — aurqt', _('Something went wrong.'
+            QtGui.QMessageBox.critical(self, tr('Account settings') +
+                                       ' — aurqt', tr('Something went wrong.'
                                        '  Cannot make a request to the AUR.'
                                        '  Try again.'), QtGui.QMessageBox.Ok)
             QtGui.QApplication.restoreOverrideCursor()
@@ -108,8 +109,8 @@ class AccountDialog(QtGui.QDialog):
         """Save the form."""
         # Sanity checks.
         if not self.uid and self.register:
-            QtGui.QMessageBox.critical(self, _('Account settings') +
-                                       ' — aurqt', _('Something went '
+            QtGui.QMessageBox.critical(self, tr('Account settings') +
+                                       ' — aurqt', tr('Something went '
                                        'wrong.'), QtGui.QMessageBox.Ok)
             self.reject()
 
@@ -121,13 +122,13 @@ class AccountDialog(QtGui.QDialog):
         irc = self.irc.text()
         pgp = self.pgp.text()
         if pwd != pwd2:
-            QtGui.QMessageBox.critical(self, 'aurqt', _('Passwords differ.'),
+            QtGui.QMessageBox.critical(self, 'aurqt', tr('Passwords differ.'),
                                        QtGui.QMessageBox.Ok)
         elif not username:
-            QtGui.QMessageBox.critical(self, 'aurqt', _('Username is empty.'),
+            QtGui.QMessageBox.critical(self, 'aurqt', tr('Username is empty.'),
                                        QtGui.QMessageBox.Ok)
         elif not mail:
-            QtGui.QMessageBox.critical(self, 'aurqt', _('Mail address is '
+            QtGui.QMessageBox.critical(self, 'aurqt', tr('Mail address is '
                                        'empty.'), QtGui.QMessageBox.Ok)
         else:
             QtGui.QApplication.setOverrideCursor(QtGui.QCursor(
