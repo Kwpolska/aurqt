@@ -14,7 +14,8 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import DS, _, __version__
+from . import tr
+from .. import DS, __version__
 from PyQt4 import Qt, QtGui, QtCore
 import pkgbuilder.utils
 import threading
@@ -29,34 +30,34 @@ class RequestDialog(QtGui.QDialog):
 
         lay = QtGui.QGridLayout(self)
 
-        typegroup = QtGui.QGroupBox(_('Request type'), self)
+        typegroup = QtGui.QGroupBox(tr('Request type'), self)
         typelay = QtGui.QVBoxLayout(typegroup)
 
-        self.tdel = QtGui.QRadioButton(_('Remove'), typegroup)
-        self.tmerge = QtGui.QRadioButton(_('Merge'), typegroup)
-        self.torphan = QtGui.QRadioButton(_('Orphan'), typegroup)
+        self.tdel = QtGui.QRadioButton(tr('Remove'), typegroup)
+        self.tmerge = QtGui.QRadioButton(tr('Merge'), typegroup)
+        self.torphan = QtGui.QRadioButton(tr('Orphan'), typegroup)
 
         typelay.addWidget(self.tdel)
         typelay.addWidget(self.tmerge)
         typelay.addWidget(self.torphan)
 
-        pkggroup = QtGui.QGroupBox(_('Packages'), self)
+        pkggroup = QtGui.QGroupBox(tr('Packages'), self)
         pkglay = QtGui.QGridLayout(pkggroup)
 
         self.pkgs = QtGui.QTableWidget(pkggroup)
         self.paddname = QtGui.QLineEdit(pkggroup)
-        self.padd = QtGui.QPushButton(_('Add'), pkggroup)
-        self.pdel = QtGui.QPushButton(_('Remove selected'), pkggroup)
+        self.padd = QtGui.QPushButton(tr('Add'), pkggroup)
+        self.pdel = QtGui.QPushButton(tr('Remove selected'), pkggroup)
 
         self.pkgs.setColumnCount(2)
-        self.pkgs.setHorizontalHeaderLabels([_('Package'), _('Reason')])
+        self.pkgs.setHorizontalHeaderLabels([tr('Package'), tr('Reason')])
 
         pkglay.addWidget(self.pkgs, 0, 0, 1, 2)
         pkglay.addWidget(self.paddname, 1, 0, 1, 1)
         pkglay.addWidget(self.padd, 1, 1, 1, 1)
         pkglay.addWidget(self.pdel, 2, 0, 1, 2)
 
-        requesting101 = QtGui.QLabel(_('Copy this message and send it to '
+        requesting101 = QtGui.QLabel(tr('Copy this message and send it to '
                                        'aur-general@archlinux.org (no '
                                        'subscription necessary).\nPlease '
                                        'consult the package maintainers '
@@ -92,7 +93,7 @@ class RequestDialog(QtGui.QDialog):
             self.add()
 
         self.setWindowModality(Qt.Qt.ApplicationModal)
-        self.setWindowTitle(_('Mail Request Generator'))
+        self.setWindowTitle(tr('Mail Request Generator'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('internet-mail'))
         self.show()
 
@@ -112,12 +113,12 @@ class RequestDialog(QtGui.QDialog):
         """Parse the requests list.  (formerly, it was more functional.)"""
         if self.rtype == 'merge':
             self.pkgs.setColumnCount(4)
-            self.pkgs.setHorizontalHeaderLabels([_('Package'), _('Reason'),
-                                                 _('Merge group'), _('Final '
+            self.pkgs.setHorizontalHeaderLabels([tr('Package'), tr('Reason'),
+                                                 tr('Merge group'), tr('Final '
                                                  'package?')])
         else:
             self.pkgs.setColumnCount(2)
-            self.pkgs.setHorizontalHeaderLabels([_('Package'), _('Reason')])
+            self.pkgs.setHorizontalHeaderLabels([tr('Package'), tr('Reason')])
 
         self.gen()
 
@@ -142,7 +143,7 @@ class RequestDialog(QtGui.QDialog):
             rtype = 'disownment'
             subj = subj.format('Disownment', '{}')
         else:
-            errors.append(_('No request type chosen.'))
+            errors.append(tr('No request type chosen.'))
             rtype = None
 
         requests = []
@@ -152,17 +153,17 @@ class RequestDialog(QtGui.QDialog):
             except AttributeError:
                 reason = '' # Cheating, I hate code repetition.
             if not reason:
-                errors.append(_('No reason given for '
+                errors.append(tr('No reason given for '
                               '{}.').format(j.name))
             if self.rtype == 'merge':
                 try:
                     mg = int(self.pkgs.item(i, 2).text())
                 except AttributeError:
-                    errors.append(_('No merge group set '
+                    errors.append(tr('No merge group set '
                                   'for {}.').format(j.name))
                     mg = False
                 except ValueError:
-                    errors.append(_('Merge group for {} '
+                    errors.append(tr('Merge group for {} '
                                   'is not an integer.').format(j.name))
                     mg = False
                 try:
@@ -175,10 +176,10 @@ class RequestDialog(QtGui.QDialog):
                 mf = False
             if rtype == 'disownment':
                 if not j.human:
-                    errors.append(_('{} is already an '
+                    errors.append(tr('{} is already an '
                                   'orphan.').format(j.name))
                 elif j.human == DS.username:
-                    errors.append(_('{} is yours, you can'
+                    errors.append(tr('{} is yours, you can'
                                   ' orphan it yourself (search for it '
                                   'in aurqt or the AUR website.)').format(
                                   j.name))
@@ -188,7 +189,7 @@ class RequestDialog(QtGui.QDialog):
                              'Reason: {}'.format(j.name, j.name, reason)])
 
         if errors:
-            out = '<p>' + _('The following errors occured during '
+            out = '<p>' + tr('The following errors occured during '
                   'generation:') + '</p><ul><li>{}</li></ul>'.format(
                       '</li>\n<li>'.join(errors))
             self.subject.setText('')
@@ -255,13 +256,13 @@ class RequestDialog(QtGui.QDialog):
                                              QtCore.Qt.WaitCursor))
         pkgname = self.paddname.text()
         if not pkgname:
-            QtGui.QMessageBox.critical(self, 'aurqt', _('No package '
+            QtGui.QMessageBox.critical(self, 'aurqt', tr('No package '
                                        'specified.'), QtGui.QMessageBox.Ok)
         else:
             try:
                 self._pkginfo = None
                 pb = Qt.QProgressDialog()
-                pb.setLabelText(_('Fetching package information for '
+                pb.setLabelText(tr('Fetching package information for '
                                   '{0}…').format(pkgname))
                 pb.setMaximum(0)
                 pb.setValue(-1)
@@ -276,7 +277,7 @@ class RequestDialog(QtGui.QDialog):
                 pkg = pkgbuilder.utils.info([pkgname])[0]
             except IndexError:
                 pb.close()
-                QtGui.QMessageBox.critical(self, 'aurqt', _('No such package:'
+                QtGui.QMessageBox.critical(self, 'aurqt', tr('No such package:'
                                        ' {}').format(pkgname),
                                        QtGui.QMessageBox.Ok)
             else:

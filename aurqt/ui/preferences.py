@@ -14,7 +14,8 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import DS, _
+from . import tr
+from .. import DS
 from PyQt4 import Qt, QtGui, QtCore
 
 
@@ -26,13 +27,34 @@ class PreferencesDialog(QtGui.QDialog):
 
         lay = QtGui.QVBoxLayout(self)
 
-        # Group 1: favorite helper
-        helperg = QtGui.QGroupBox(_('AUR helper'), self)
+        # Group 1: favorite language
+        # TRANSLATORS: it would be nice to have '(Language)' at the end of your
+        # translation.
+        self.langindexes = {0: 'system', 1: 'C'}
+        self.langids = {'system': 0, 'C': 1}
+        langg = QtGui.QGroupBox(tr('Language'), self)
+        langl = QtGui.QHBoxLayout(langg)
+
+        self.langbox = QtGui.QComboBox(langg)
+
+        self.langbox.addItem(tr('System (if exists)'))
+        self.langbox.addItem('English')
+
+        for i, j in enumerate(DS.languages):
+            self.langbox.addItem(j[1])
+            self.langindexes.update({i + 2: j[0]})
+            self.langids.update({j[0]: i + 2})
+
+        langl.addWidget(QtGui.QLabel(tr('Language to use:'), langg))
+        langl.addWidget(self.langbox)
+
+        # Group 2: favorite helper
+        helperg = QtGui.QGroupBox(tr('AUR helper'), self)
         helperl = QtGui.QGridLayout(helperg)
 
         self.hname = QtGui.QComboBox(helperg)
         self.hname.setEditable(True)
-        self.hname.setToolTip(_('command'))
+        self.hname.setToolTip(tr('command'))
         # Sorting demi-alphabetically (to have PB as default and ignore sudo
         # in front of aura), but this is actually my order of AUR helper
         # preference.  Not adding PBWrapper because it would be a waste of time
@@ -45,9 +67,9 @@ class PreferencesDialog(QtGui.QDialog):
         self.hname.addItem('yaourt')
 
         self.hargs = QtGui.QLineEdit(helperg)
-        self.hargs.setToolTip(_('arguments used to install AUR packages'))
-        hlabel = QtGui.QLabel(_('packages to install'), helperg)
-        htext = QtGui.QLabel(_('The helper will run in a terminal window.\n'
+        self.hargs.setToolTip(tr('arguments used to install AUR packages'))
+        hlabel = QtGui.QLabel(tr('packages to install'), helperg)
+        htext = QtGui.QLabel(tr('The helper will run in a terminal window.\n'
                                'Requirements:\n1. dependency resolution\n'
                                '2. actually building and installing packages '
                                '(so no cower)'), helperg)
@@ -62,8 +84,9 @@ class PreferencesDialog(QtGui.QDialog):
         btn.setStandardButtons(QtGui.QDialogButtonBox.Ok |
                                QtGui.QDialogButtonBox.Cancel)
 
-        lay.addWidget(QtGui.QLabel(_('aurqt doesn’t have too many prefe'
-                                     'rences, unlike most of FOSS.'), self))
+        lay.addWidget(QtGui.QLabel(tr('aurqt doesn’t have too many prefe'
+                                      'rences, unlike most of FOSS.'), self))
+        lay.addWidget(langg)
         lay.addWidget(helperg)
         lay.addWidget(btn)
 
@@ -72,7 +95,7 @@ class PreferencesDialog(QtGui.QDialog):
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.ApplicationModal)
-        self.setWindowTitle(_('Preferences'))
+        self.setWindowTitle(tr('Preferences'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('preferences'))
         self.load()
         self.show()
@@ -82,10 +105,15 @@ class PreferencesDialog(QtGui.QDialog):
         self.hname.setEditText(DS.config['helper']['name'])
         self.hargs.setText(DS.config['helper']['args'])
 
+        self.langbox.setCurrentIndex(self.langids[
+            DS.config['i18n']['language']])
+
     def save(self):
         """Save the values."""
         DS.config['helper']['name'] = self.hname.currentText()
         DS.config['helper']['args'] = self.hargs.text()
+        DS.config['i18n']['language'] = self.langindexes[
+            self.langbox.currentIndex()]
         with open(DS.conffile, 'w') as cfile:
             DS.config.write(cfile)
 

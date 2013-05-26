@@ -14,7 +14,8 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import __version__, __pbversion__, _
+from . import tr
+from .. import __version__, __pbversion__
 from PyQt4 import Qt, QtGui, QtCore
 
 
@@ -27,13 +28,13 @@ class AboutDialog(QtGui.QDialog):
         lay = QtGui.QVBoxLayout(self)
 
         aurqt = QtGui.QLabel('aurqt v{}'.format(__version__), self)
-        tagline = QtGui.QLabel(_('A graphical AUR manager.'), self)
+        tagline = QtGui.QLabel(tr('A graphical AUR manager.'), self)
         copy = QtGui.QLabel('Copyright © 2012-2013, Kwpolska.', self)
-        localetxt = _('LANG locale by AUTHOR <MAIL@IF.YOU.WANT>')
-        if localetxt == 'LANG locale by AUTHOR <MAIL@IF.YOU.WANT>':
+        localetxt = tr('LANG locale by AUTHOR <MAIL @ IF.YOU.WANT>')
+        if localetxt == 'LANG locale by AUTHOR <MAIL @ IF.YOU.WANT>':
             localetxt = 'No locale in use.'
         locale = QtGui.QLabel(localetxt, self)
-        pbinf = QtGui.QLabel(_('Using PKGBUILDer v{}.').format(__pbversion__),
+        pbinf = QtGui.QLabel(tr('Using PKGBUILDer v{}.').format(__pbversion__),
                              self)
         okay = QtGui.QDialogButtonBox(self)
         okay.setStandardButtons(QtGui.QDialogButtonBox.Ok)
@@ -60,6 +61,6 @@ class AboutDialog(QtGui.QDialog):
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.ApplicationModal)
-        self.setWindowTitle(_('About aurqt'))
+        self.setWindowTitle(tr('About aurqt'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('help-about'))
         self.show()

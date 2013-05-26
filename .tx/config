@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[aurqt.aurqt]
+file_filter = locale/aurqt_<lang>.ts
+source_file = locale/aurqt_src.ts
+source_lang = en
+type = QT

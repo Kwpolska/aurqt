@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/locale">
+        <file alias="pl">locale/aurqt_pl.qm</file>
+    </qresource>
+</RCC>

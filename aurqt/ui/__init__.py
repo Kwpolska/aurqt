@@ -15,36 +15,41 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import DS, __version__, _, AQError
+from .. import DS, __version__, AQError
 DS.log.info('*** Loading...')
-DS.log.info(' 1/12 PyQt4')
+DS.log.info(' 1/13 PyQt4')
 from PyQt4 import Qt, QtGui, QtCore
-DS.log.info(' 2/12 about')
+DS.log.info(' 2/13 resources and translations')
+from .resources import qInitResources
+qInitResources()
+tr = lambda x: QtCore.QCoreApplication.translate(
+    '@default', x, None, QtGui.QApplication.UnicodeUTF8)
+DS.log.info(' 3/13 about')
 from .about import AboutDialog
-DS.log.info(' 3/12 account')
+DS.log.info(' 4/13 account')
 from .account import AccountDialog
-DS.log.info(' 4/12 info')
+DS.log.info(' 5/13 info')
 from .info import InfoBox
-DS.log.info(' 5/12 login')
+DS.log.info(' 6/13 login')
 from .login import LoginForm
-DS.log.info(' 6/12 preferences')
+DS.log.info(' 7/13 preferences')
 from .preferences import PreferencesDialog
-DS.log.info(' 7/12 request')
+DS.log.info(' 8/13 request')
 from .request import RequestDialog
-DS.log.info(' 8/12 search')
+DS.log.info(' 9/13 search')
 from .search import SearchDialog
-DS.log.info(' 9/12 upgrade')
+DS.log.info('10/13 upgrade')
 from .upgrade import UpgradeDialog
-DS.log.info('10/12 upload')
+DS.log.info('11/13 upload')
 from .upload import UploadDialog
-DS.log.info('11/12 external deps')
+DS.log.info('12/13 external deps')
 import sys
 import subprocess
 import threading
 import time
 import pickle
 import requests
-DS.log.info('12/12 pkgbuilder sub-modules')
+DS.log.info('13/13 pkgbuilder sub-modules')
 import pkgbuilder.upgrade
 import pkgbuilder.exceptions
 DS.log.info('*** Importing done')
@@ -56,10 +61,10 @@ class Main(QtGui.QMainWindow):
         """Generate the appropriate login/logout button."""
         if DS.sid:
             # TRANSLATORS: {} = username
-            self.loga.setText(_('&Log out [{}]').format(DS.username))
-            self.loga.setToolTip(_('Log out.'))
-            self.accedita.setText(_('Account se&ttings'))
-            self.accedita.setToolTip(_('Modify the settings of this '
+            self.loga.setText(tr('&Log out [{}]').format(DS.username))
+            self.loga.setToolTip(tr('Log out.'))
+            self.accedita.setText(tr('Account se&ttings'))
+            self.accedita.setToolTip(tr('Modify the settings of this '
                                        'account.'))
             self.accedita.setIcon(QtGui.QIcon.fromTheme(
                                   'user-group-properties'))
@@ -68,10 +73,10 @@ class Main(QtGui.QMainWindow):
             self.mypkgs.setEnabled(True)
             self.uploada.setEnabled(True)
         else:
-            self.loga.setText(_('&Log in'))
+            self.loga.setText(tr('&Log in'))
             self.loga.setToolTip(('Log in.'))
-            self.accedita.setText(_('Regis&ter'))
-            self.accedita.setToolTip(_('Register a new account.'))
+            self.accedita.setText(tr('Regis&ter'))
+            self.accedita.setToolTip(tr('Register a new account.'))
             self.accedita.setIcon(QtGui.QIcon.fromTheme('user-group-new'))
             self.loga.setEnabled(True)
             self.accedita.setEnabled(True)
@@ -86,11 +91,11 @@ class Main(QtGui.QMainWindow):
 
         self.upgradea.setText(str(len(ulist)))
         if ulist:
-            self.upgradea.setToolTip(_('Upgrade installed packages.  '
+            self.upgradea.setToolTip(tr('Upgrade installed packages.  '
                                        '({} upgrades available)').format(
                                      len(ulist)))
         else:
-            self.upgradea.setToolTip(_('Upgrade installed packages.').format(
+            self.upgradea.setToolTip(tr('Upgrade installed packages.').format(
                                      len(ulist)))
 
         self.upgradea.setEnabled(True)
@@ -112,10 +117,12 @@ class Main(QtGui.QMainWindow):
         self.logagenerate()
         DS.log.info('Session re-generation done.')
 
-    def __init__(self):
+    def __init__(self, app):
         """Initialize the window."""
         DS.log.info('Starting main window init...')
         super(Main, self).__init__()
+
+        self.app = app
 
         # MDI.
         self.mdiA = QtGui.QMdiArea(self)
@@ -130,113 +137,113 @@ class Main(QtGui.QMainWindow):
         self.upgradea = QtGui.QAction(QtGui.QIcon.fromTheme(
                                       'system-software-update'),
                                       '…', self, shortcut='Ctrl+U',
-                                      toolTip=_('Fetching upgrades list…'),
+                                      toolTip=tr('Fetching upgrades list…'),
                                       enabled=False, triggered=self.upgrade)
 
         upgrefresh = QtGui.QAction(QtGui.QIcon.fromTheme('view-refresh'),
                                    '', self, shortcut='Ctrl+Shift+R',
-                                   toolTip=_('Refresh the upgrade counter.'),
+                                   toolTip=tr('Refresh the upgrade counter.'),
                                    enabled=True,
                                    triggered=self.upgraderefresh)
 
         self.uploada = QtGui.QAction(QtGui.QIcon.fromTheme('list-add'),
-                                     _('Upl&oad…'), self,
+                                     tr('Upl&oad…'), self,
                                      shortcut='Ctrl+Shift+A',
-                                     toolTip=_('Upload a package to the '
+                                     toolTip=tr('Upload a package to the '
                                      'AUR.'), enabled=False,
                                      triggered=self.upload)
 
         search = QtGui.QAction(QtGui.QIcon.fromTheme('edit-find'),
-                               _('&Search…'), self, shortcut='Ctrl+F',
-                               toolTip=_('Search the AUR.'),
+                               tr('&Search…'), self, shortcut='Ctrl+F',
+                               toolTip=tr('Search the AUR.'),
                                triggered=self.search)
 
         prefs = QtGui.QAction(QtGui.QIcon.fromTheme('configure'),
-                              _('&Preferences'), self, shortcut='Ctrl+,',
-                              toolTip=_('Open the Preferences window.'),
+                              tr('&Preferences'), self, shortcut='Ctrl+,',
+                              toolTip=tr('Open the Preferences window.'),
                               triggered=self.prefs)
 
         quit = QtGui.QAction(QtGui.QIcon.fromTheme('application-exit'),
-                             _('&Quit'), self, shortcut='Ctrl+Q',
-                             toolTip=_('Quit aurqt'),
+                             tr('&Quit'), self, shortcut='Ctrl+Q',
+                             toolTip=tr('Quit aurqt'),
                              triggered=QtGui.qApp.quit)
 
         try:
-            with open(DS.sidfile, 'rb') as fh:
-                loganame = _('&Log out [{}]').format(pickle.load(fh)[1])
+            with open(DS.sessionfile, 'rb') as fh:
+                loganame = tr('&Log out [{}]').format(pickle.load(fh)[1])
         except IOError:
-            loganame = _('&Log in')
+            loganame = tr('&Log in')
 
         self.loga = QtGui.QAction(QtGui.QIcon.fromTheme('user-identity'),
                                   loganame, self, shortcut='CTRL+L',
-                                  toolTip=_('Working on authentication…'),
+                                  toolTip=tr('Working on authentication…'),
                                   enabled=False, triggered=self.log)
 
         self.mypkgs = QtGui.QAction(QtGui.QIcon.fromTheme('folder-tar'),
-                                    _('&My packages'), self,
+                                    tr('&My packages'), self,
                                     shortcut='Ctrl+M',
-                                    toolTip=_('Display packages maintained'
+                                    toolTip=tr('Display packages maintained'
                                               'by the current user'),
                                     triggered=self.mine)
 
         self.accedita = QtGui.QAction(QtGui.QIcon.fromTheme(
                                       'user-group-properties'),
-                                      _('Account se&ttings'), self,
+                                      tr('Account se&ttings'), self,
                                       shortcut='Ctrl+T',
-                                      toolTip=_('Working on authentication'
+                                      toolTip=tr('Working on authentication'
                                                 '…'), enabled=False,
                                       triggered=self.accedit)
 
         mkrequest = QtGui.QAction(QtGui.QIcon.fromTheme('internet-mail'),
-                                  _('Request &Generator'), self,
-                                  shortcut=('Ctrl+G'), toolTip=_('Open the '
+                                  tr('Request &Generator'), self,
+                                  shortcut=('Ctrl+G'), toolTip=tr('Open the '
                                   'Mail Request Generator.'),
                                   triggered=self.request)
 
         ohelp = QtGui.QAction(QtGui.QIcon.fromTheme('help-contents'),
-                              _('Online &Help'), self, shortcut=('F1'),
-                              toolTip=_('Show the online help for aurqt.'),
+                              tr('Online &Help'), self, shortcut=('F1'),
+                              toolTip=tr('Show the online help for aurqt.'),
                               triggered=self.halp)
 
         about = QtGui.QAction(QtGui.QIcon.fromTheme('help-about'),
-                              _('A&bout'), self, triggered=self.about)
+                              tr('A&bout'), self, triggered=self.about)
 
-        self.cls = QtGui.QAction(_('Cl&ose'), self,
-                                 toolTip=_('Close the active window'),
+        self.cls = QtGui.QAction(tr('Cl&ose'), self,
+                                 toolTip=tr('Close the active window'),
                                  triggered=self.mdiA.closeActiveSubWindow)
 
-        self.mmin = QtGui.QAction(_('&Minimize'), self,
-                                  toolTip=_('Minimize the active window'),
+        self.mmin = QtGui.QAction(tr('&Minimize'), self,
+                                  toolTip=tr('Minimize the active window'),
                                   shortcut='Ctrl+Shift+M', checkable=True,
                                   triggered=self.mdiminimize)
 
-        self.clsa = QtGui.QAction(_('Close &All'), self,
-                                  toolTip=_('Close all the windows'),
+        self.clsa = QtGui.QAction(tr('Close &All'), self,
+                                  toolTip=tr('Close all the windows'),
                                   triggered=self.mdiA.closeAllSubWindows)
 
-        self.tile = QtGui.QAction(_('&Tile'), self,
-                                  toolTip=_('Tile the windows'),
+        self.tile = QtGui.QAction(tr('&Tile'), self,
+                                  toolTip=tr('Tile the windows'),
                                   triggered=self.mdiA.tileSubWindows)
 
-        self.csc = QtGui.QAction(_('&Cascade'), self,
-                                 toolTip=_('Cascade the windows'),
+        self.csc = QtGui.QAction(tr('&Cascade'), self,
+                                 toolTip=tr('Cascade the windows'),
                                  triggered=self.mdiA.cascadeSubWindows)
 
-        self.nxtw = QtGui.QAction(_('Ne&xt'), self,
+        self.nxtw = QtGui.QAction(tr('Ne&xt'), self,
                                   shortcut=QtGui.QKeySequence.NextChild,
-                                  toolTip=_('Move the focus to the next '
+                                  toolTip=tr('Move the focus to the next '
                                   'window'),
                                   triggered=self.mdiA.activateNextSubWindow)
 
-        self.pw = QtGui.QAction(_('Pre&vious'), self,
+        self.pw = QtGui.QAction(tr('Pre&vious'), self,
                                 shortcut=QtGui.QKeySequence.PreviousChild,
-                                toolTip=_('Move the focus to the previous '
+                                toolTip=tr('Move the focus to the previous '
                                 'window'),
                                 triggered=self.mdiA.activatePreviousSubWindow)
 
         # Menu.
         menu = self.menuBar()
-        filemenu = menu.addMenu(_('&File'))
+        filemenu = menu.addMenu(tr('&File'))
 
         filemenu.addAction(self.upgradea)
         filemenu.addAction(upgrefresh)
@@ -248,23 +255,23 @@ class Main(QtGui.QMainWindow):
         filemenu.addAction(prefs)
         filemenu.addAction(quit)
 
-        accountmenu = menu.addMenu(_('&Account'))
+        accountmenu = menu.addMenu(tr('&Account'))
         accountmenu.addAction(self.loga)
         accountmenu.addAction(self.mypkgs)
         accountmenu.addAction(self.accedita)
 
-        self.windowmenu = menu.addMenu(_('&Window'))
+        self.windowmenu = menu.addMenu(tr('&Window'))
         self.update_window_menu()
         QtCore.QObject.connect(self.windowmenu,
                                QtCore.SIGNAL('aboutToShow()'),
                                self.update_window_menu)
 
-        helpmenu = menu.addMenu(_('&Help'))
+        helpmenu = menu.addMenu(tr('&Help'))
         helpmenu.addAction(ohelp)
         helpmenu.addAction(about)
 
         # Toolbars.
-        self.statustbar = self.addToolBar(_('Status'))
+        self.statustbar = self.addToolBar(tr('Status'))
         self.statustbar.setIconSize(QtCore.QSize(22, 22))
         self.statustbar.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
         self.statustbar.addAction(self.upgradea)
@@ -276,13 +283,13 @@ class Main(QtGui.QMainWindow):
         self.atoolbar.addAction(self.uploada)
         self.atoolbar.addAction(search)
         self.atoolbar.addAction(mkrequest)
-        self.utoolbar = self.addToolBar(_('Accounts'))
+        self.utoolbar = self.addToolBar(tr('Accounts'))
         self.utoolbar.setIconSize(QtCore.QSize(22, 22))
         self.utoolbar.setToolButtonStyle(QtCore.Qt.ToolButtonFollowStyle)
         self.utoolbar.addAction(self.loga)
         self.utoolbar.addAction(self.accedita)
         self.utoolbar.addSeparator()
-        self.mtoolbar = self.addToolBar(_('Meta'))
+        self.mtoolbar = self.addToolBar(tr('Meta'))
         self.mtoolbar.setIconSize(QtCore.QSize(22, 22))
         self.mtoolbar.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
         self.mtoolbar.addAction(prefs)
@@ -301,7 +308,7 @@ class Main(QtGui.QMainWindow):
         try:
             requests.get('https://aur.archlinux.org')
         except pkgbuilder.exceptions.NetworkError:
-            QtGui.QMessageBox.critical(self, _('aurqt'), _('Can’t connect '
+            QtGui.QMessageBox.critical(self, 'aurqt', tr('Can’t connect '
                 'to the AUR.  aurqt will now quit.'), QtGui.QMessageBox.Ok)
             QtGui.QApplication.quit()
             exit(1)
@@ -373,8 +380,19 @@ class Main(QtGui.QMainWindow):
 
     def prefs(self):
         """Show the preferences dialog."""
+        try:
+            lang = DS.config['i18n']['language']
+        except KeyError:
+            lang = 'system'
+
         p = PreferencesDialog(self)
         p.exec_()
+
+        if lang != DS.config['i18n']['language']:
+            p = QtGui.QMessageBox.information(self, tr('aurqt locale changed'),
+                                              tr('Restart aurqt in order to '
+                                                 'use the new language.'),
+                                              QtGui.QMessageBox.Ok)
 
     def request(self, wtfisthis, pkgnames=[]):
         """Open the request generator."""
@@ -400,7 +418,7 @@ class Main(QtGui.QMainWindow):
         if DS.sid:
             try:
                 pb = Qt.QProgressDialog()
-                pb.setLabelText(_('Logging out…'))
+                pb.setLabelText(tr('Logging out…'))
                 pb.setMaximum(0)
                 pb.setValue(-1)
                 pb.setWindowModality(QtCore.Qt.WindowModal)
@@ -451,12 +469,48 @@ def main():
     if '-h' in sys.argv or '--help' in sys.argv:
         print('aurqt v{0}'.format(__version__))
         print()
-        print(_('This is a GUI application.  There are no command-line '
-                'arguments you can pass.'))
-        print(_('For more information about using aurqt, please visit '
-                '{url}.').format('http://pkgbuilder.rtfd.org'))
+        print(tr('This is a GUI application.  There are no command-line '
+                 'arguments you can pass.'))
+        print(tr('For more information about using aurqt, please visit '
+                 '{url}.').format('http://pkgbuilder.rtfd.org'))
         sys.exit(0)
     app = QtGui.QApplication(sys.argv)
-    main = Main()
+    load_locale(app)
+    main = Main(app)
     main  # because vim python-mode doesn’t like NOQA
     return app.exec_()
+
+
+def load_translator(translation):
+    """Load a translator."""
+    trans = QtCore.QTranslator(None)
+    loaded = trans.load(translation, ':/locale/')
+    if loaded:
+        return trans
+
+    if not translation.startswith('en'):
+        DS.log.warning('Could not load translation {0}'.format(translation))
+
+    return None
+
+# The eric5 guys think a translator must not be deleted.  I believe listening
+# to them is a good idea.
+loaded_translators = {}
+
+def load_locale(app):
+    """Load the locale."""
+    loc = DS.config['i18n']['language']
+    if loc == "system":
+        loc = QtCore.QLocale.system().name()
+
+    if loc != "C":
+        translator = load_translator(loc)
+        loaded_translators[loc] = translator
+        if translator is not None:
+            app.installTranslator(translator)
+        else:
+            loc = 'C'
+    else:
+        loc = None
+    DS.log.info('Locale set to {0}'.format(loc))
+    return loc

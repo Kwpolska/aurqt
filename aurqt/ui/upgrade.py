@@ -14,7 +14,8 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import DS, _
+from . import tr
+from .. import DS
 from PyQt4 import Qt, QtGui, QtCore
 from pkgbuilder import DS as PBDS
 import pkgbuilder.upgrade as pu
@@ -44,7 +45,7 @@ class UpgradeDialog(QtGui.QDialog):
         dwn = self.dwnmode.checkState() == 2
         vcsup = self.vcsmode.checkState() == 2
         pb = Qt.QProgressDialog()
-        pb.setLabelText(_('Refreshing package information…'))
+        pb.setLabelText(tr('Refreshing package information…'))
         pb.setMaximum(0)
         pb.setValue(-1)
         pb.setWindowModality(QtCore.Qt.WindowModal)
@@ -82,12 +83,12 @@ class UpgradeDialog(QtGui.QDialog):
         pb.close()
 
         if self.ulist:
-            self.greet.setText(_('Found the following upgrades:'))
+            self.greet.setText(tr('Found the following upgrades:'))
             self.epilog.show()
             self.table.setColumnCount(3)
             self.table.setRowCount(len(self.ulist))
-            self.table.setHorizontalHeaderLabels([_('Name'), _('Current'),
-                                                  _('New')])
+            self.table.setHorizontalHeaderLabels([tr('Name'), tr('Current'),
+                                                  tr('New')])
             for i, j in enumerate(self.ulist):
                 item = QtGui.QTableWidgetItem()
                 item.setText(j[0])
@@ -102,7 +103,7 @@ class UpgradeDialog(QtGui.QDialog):
                 item.setText(j[2])
                 self.table.setItem(i, 2, item)
         else:
-            self.greet.setText(_('No upgrades found.'))
+            self.greet.setText(tr('No upgrades found.'))
             self.epilog.hide()
 
         self.table.setSortingEnabled(True)
@@ -159,27 +160,27 @@ class UpgradeDialog(QtGui.QDialog):
 
         lay = QtGui.QVBoxLayout(self)
 
-        refresh = QtGui.QPushButton(_('Refresh'), self)
+        refresh = QtGui.QPushButton(tr('Refresh'), self)
         refresh.setIcon(QtGui.QIcon.fromTheme('view-refresh'))
-        self.greet = QtGui.QLabel(_('Searching for upgrades…'), self)
-        self.epilog = QtGui.QLabel(_('Choose the packages you want to '
+        self.greet = QtGui.QLabel(tr('Searching for upgrades…'), self)
+        self.epilog = QtGui.QLabel(tr('Choose the packages you want to '
                                      'upgrade and press OK.'), self)
         self.greet.setWordWrap(True)
         self.epilog.setWordWrap(True)
         self.epilog.hide()
-        modeg = QtGui.QGroupBox(_('Show:'), self)
+        modeg = QtGui.QGroupBox(tr('Show:'), self)
         modelay = QtGui.QVBoxLayout(modeg)
-        self.dwnmode = QtGui.QCheckBox(_('Downgrades'), modeg)
-        self.vcsmode = QtGui.QCheckBox(_('VCS packages'), modeg)
+        self.dwnmode = QtGui.QCheckBox(tr('Downgrades'), modeg)
+        self.vcsmode = QtGui.QCheckBox(tr('VCS packages'), modeg)
         modelay.addWidget(self.dwnmode)
         modelay.addWidget(self.vcsmode)
 
-        checkg = QtGui.QGroupBox(_('Check:'), self)
+        checkg = QtGui.QGroupBox(tr('Check:'), self)
         checklay = QtGui.QHBoxLayout(checkg)
-        call = QtGui.QPushButton(_('All'), checkg)
-        cnone = QtGui.QPushButton(_('None'), checkg)
-        crev = QtGui.QPushButton(_('Reverse'), checkg,
-                                 toolTip=_('Revert the selection.'))
+        call = QtGui.QPushButton(tr('All'), checkg)
+        cnone = QtGui.QPushButton(tr('None'), checkg)
+        crev = QtGui.QPushButton(tr('Reverse'), checkg,
+                                 toolTip=tr('Revert the selection.'))
 
         checklay.addWidget(call)
         checklay.addWidget(cnone)
@@ -216,7 +217,7 @@ class UpgradeDialog(QtGui.QDialog):
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.WindowModal)
-        self.setWindowTitle(_('Upgrade'))
+        self.setWindowTitle(tr('Upgrade'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('system-software-update'))
         self.resize(450, 500)
         self.refresh()

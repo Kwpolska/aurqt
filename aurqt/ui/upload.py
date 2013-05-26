@@ -14,34 +14,13 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import DS, _
+from . import tr
+from .. import DS
 from PyQt4 import Qt, QtGui, QtCore
 from collections import OrderedDict
 import pkgbuilder.package
 
 QUEUE = []
-
-
-class UpThread(QtCore.QThread):
-    """The Upload thread."""
-    def __init__(self):
-        """Initializing the thread."""
-        QtCore.QThread.__init__(self)
-
-    def __del__(self):
-        self.wait()
-
-    def run(self):
-        global QUEUE
-        item = QUEUE.pop()
-        up = DS.w.upload(item[0], item[1])
-        if up[0]:
-            status = item[0] + '\n|\n' + _('Success')
-        else:
-            status = item[0] + '\n|\n' + _('Failure: {}').format(up[1])
-
-        self.emit(QtCore.SIGNAL('update(QString)'), status)
-        return
 
 
 class UploadDialog(QtGui.QDialog):
@@ -56,9 +35,9 @@ class UploadDialog(QtGui.QDialog):
 
         lay = QtGui.QHBoxLayout(self)
         self.fname = QtGui.QLineEdit(self)
-        browse = QtGui.QPushButton(_('Browse'), self)
+        browse = QtGui.QPushButton(tr('Browse'), self)
         self.category = QtGui.QComboBox(self)
-        addbtn = QtGui.QPushButton(_('Upload'), self)
+        addbtn = QtGui.QPushButton(tr('Upload'), self)
         addbtn.setIcon(QtGui.QIcon.fromTheme('list-add'))
 
         for i in pkgbuilder.package.CATEGORIES[1:]:
@@ -81,14 +60,14 @@ class UploadDialog(QtGui.QDialog):
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.ApplicationModal)
-        self.setWindowTitle(_('Upload'))
+        self.setWindowTitle(tr('Upload'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('list-add'))
         self.show()
 
     def browse(self):
         """Browse for files."""
-        fname = QtGui.QFileDialog.getOpenFileName(self, _('Browse for source '
-                                                  'packages'), '', _('Source '
+        fname = QtGui.QFileDialog.getOpenFileName(self, tr('Browse for source '
+                                                  'packages'), '', tr('Source '
                                                   'packages') +
                                                   '(*.src.tar.gz)')
 
@@ -103,7 +82,7 @@ class UploadDialog(QtGui.QDialog):
         fname = self.fname.text()
         if not fname:
             QtGui.QApplication.restoreOverrideCursor()
-            QtGui.QMessageBox.critical(self, 'aurqt', _('No file selected.'),
+            QtGui.QMessageBox.critical(self, 'aurqt', tr('No file selected.'),
                                        QtGui.QMessageBox.Ok)
         else:
             DS.w.upload(fname, cat)

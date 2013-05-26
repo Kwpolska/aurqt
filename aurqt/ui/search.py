@@ -14,7 +14,8 @@
     :License: BSD (see /LICENSE).
 """
 
-from .. import AQError, _
+from . import tr
+from .. import AQError
 from PyQt4 import Qt, QtGui, QtCore
 import pkgbuilder
 import pkgbuilder.utils
@@ -25,7 +26,7 @@ class SearchDialog(QtGui.QDialog):
     def __init__(self, parent=None, o=None, q=None, m=False, a=False):
         """Initialize the dialog."""
         super(SearchDialog, self).__init__(parent)
-        self.setWindowTitle(_('Search')) # changed by .search() later
+        self.setWindowTitle(tr('Search')) # changed by .search() later
 
         if o:
             self.o = o
@@ -41,18 +42,18 @@ class SearchDialog(QtGui.QDialog):
         # Top frame contents.
         self.query = QtGui.QLineEdit(frame)
         self.qtype = QtGui.QComboBox(frame)
-        self.qtype.insertItem(0, _('Name/Description'))
-        self.qtype.insertItem(1, _('Maintainer'))
-        btn = QtGui.QPushButton(_('Search'), frame)
+        self.qtype.insertItem(0, tr('Name/Description'))
+        self.qtype.insertItem(1, tr('Maintainer'))
+        btn = QtGui.QPushButton(tr('Search'), frame)
         btn.setDefault(True)
         btn.setIcon(QtGui.QIcon.fromTheme('edit-find'))
 
         self.table = QtGui.QTableWidget(self, sortingEnabled=True)
         self.table.setColumnCount(6)
-        self.table.setHorizontalHeaderLabels([_('Category'), _('Name'),
-                                              _('Version'), _('Votes'),
-                                              _('Description'),
-                                              _('Maintainer')])
+        self.table.setHorizontalHeaderLabels([tr('Category'), tr('Name'),
+                                              tr('Version'), tr('Votes'),
+                                              tr('Description'),
+                                              tr('Maintainer')])
         QtCore.QObject.connect(self.table,
                                QtCore.SIGNAL('itemDoubleClicked('
                                              'QTableWidgetItem *)'),
@@ -92,14 +93,14 @@ class SearchDialog(QtGui.QDialog):
                     itemcount = i
                     break
         else:
-            QtGui.QMessageBox.critical(self, 'aurqt', _('Internal error.')
+            QtGui.QMessageBox.critical(self, 'aurqt', tr('Internal error.')
                                        + '\nsearch/openpkg noname',
                                        QtGui.QMessageBox.Ok)
 
         if pkgname and itemcount is not None:
             self.o(pkgname, self.results[itemcount])
         else:
-            QtGui.QMessageBox.critical(self, 'aurqt', _('Internal error.')
+            QtGui.QMessageBox.critical(self, 'aurqt', tr('Internal error.')
                                        + '\nsearch/openpkg nocount',
                                        QtGui.QMessageBox.Ok)
 
@@ -118,16 +119,16 @@ class SearchDialog(QtGui.QDialog):
         self.table.clear()
         self.table.setColumnCount(6)
         self.table.setRowCount(0)
-        self.table.setHorizontalHeaderLabels([_('Category'), _('Name'),
-                                              _('Version'), _('Votes'),
-                                              _('Description'),
-                                              _('Maintainer')])
+        self.table.setHorizontalHeaderLabels([tr('Category'), tr('Name'),
+                                              tr('Version'), tr('Votes'),
+                                              tr('Description'),
+                                              tr('Maintainer')])
 
         if len(query) == 0:
             pass  # Ignore, because I have nothing to do.
         elif len(query) == 1:
                 QtGui.QApplication.restoreOverrideCursor()
-                QtGui.QMessageBox.critical(self, 'aurqt', _('Your query is too'
+                QtGui.QMessageBox.critical(self, 'aurqt', tr('Your query is too'
                                            ' short.'), QtGui.QMessageBox.Ok)
         else:
             if qtype == 'search':
@@ -193,8 +194,9 @@ class SearchDialog(QtGui.QDialog):
 
         self.table.setSortingEnabled(True)
         if qtype == 'msearch':
-            searchprefix = ' — [M] '
+            # TRANSLATORS: M as in Maintainer.
+            searchprefix = ' — [{0}] '.format(tr('M'))
         else:
             searchprefix = ' — '
-        self.setWindowTitle(_('Search') + searchprefix + query)
+        self.setWindowTitle(tr('Search') + searchprefix + query)
         QtGui.QApplication.restoreOverrideCursor()
