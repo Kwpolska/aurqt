@@ -183,7 +183,7 @@ class Main(QtGui.QMainWindow):
                                     tr('&My packages'), self,
                                     shortcut='Ctrl+M',
                                     toolTip=tr('Display packages maintained'
-                                              'by the current user'),
+                                               ' by the current user'),
                                     triggered=self.mine)
 
         self.accedita = QtGui.QAction(QtGui.QIcon.fromTheme(
@@ -502,6 +502,11 @@ def load_locale(app):
     loc = DS.config['i18n']['language']
     if loc == "system":
         loc = QtCore.QLocale.system().name()
+
+    # ignore national variants
+    # (except Portuguese which can get more messy)
+    if loc not in ['pt_BR', 'pt_PT']:
+        loc = loc.split('_')[0]
 
     if loc != "C":
         translator = load_translator(loc)

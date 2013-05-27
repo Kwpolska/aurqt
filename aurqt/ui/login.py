@@ -122,7 +122,7 @@ class LoginForm(QtGui.QDialog):
     def forgot(self):
         """Show the forgot password form."""
         email, ok = QtGui.QInputDialog.getText(self, tr('Forgot password'),
-                                               tr('Mail address:'))
+                                               tr('Mail Address'))
         if ok:
             if not email:
                 r = QtGui.QMessageBox.critical(self, tr('Forgot password'),

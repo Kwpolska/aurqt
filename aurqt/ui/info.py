@@ -362,7 +362,7 @@ class InfoBox(QtGui.QDialog):
                                 triggered=self.own)
         else:
             own = QtGui.QAction(QtGui.QIcon.fromTheme('list-add-user'),
-                                tr('&Adopt'), self, toolTip=tr('Adopt this '
+                                tr('A&dopt'), self, toolTip=tr('Adopt this '
                                 'package'), shortcut='Ctrl+Shift+O',
                                 triggered=self.own)
 
