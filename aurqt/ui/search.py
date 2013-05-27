@@ -194,8 +194,10 @@ class SearchDialog(QtGui.QDialog):
 
         self.table.setSortingEnabled(True)
         if qtype == 'msearch':
-            # TRANSLATORS: M as in Maintainer.
-            searchprefix = ' — [{0}] '.format(tr('M'))
+            searchprefix = ' — [{0}] '.format(tr('M|aintainer (TRANSLATORS: '
+                                                 'put | after the first '
+                                                 'character of the word for '
+                                                 'Maintainer)').split('|')[0])
         else:
             searchprefix = ' — '
         self.setWindowTitle(tr('Search') + searchprefix + query)

@@ -189,7 +189,7 @@ class RequestDialog(QtGui.QDialog):
                              'Reason: {}'.format(j.name, j.name, reason)])
 
         if errors:
-            out = '<p>' + tr('The following errors occured during '
+            out = '<p>' + tr('The following errors occured during '
                   'generation:') + '</p><ul><li>{}</li></ul>'.format(
                       '</li>\n<li>'.join(errors))
             self.subject.setText('')
