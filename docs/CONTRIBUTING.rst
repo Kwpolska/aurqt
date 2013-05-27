@@ -116,8 +116,6 @@ Localization
 
 .. index:: locale
 
-Not yet, please be patient.
-
-.. Translations are handled over at Transifex_.
+As of version 0.1.2, translations are handled over at Transifex_.
 
 .. _Transifex: https://www.transifex.com/projects/p/pkgbuilder/
