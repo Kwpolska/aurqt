@@ -1,8 +1,9 @@
 <RCC>
     <qresource prefix="/locale">
+        <file alias="en_US">locale/aurqt_en_US.qm</file>
         <file alias="pl">locale/aurqt_pl.qm</file>
         <file alias="es">locale/aurqt_es.qm</file>
         <file alias="it">locale/aurqt_it.qm</file>
-        <file alias="en_US">locale/aurqt_en_US.qm</file>
+        <file alias="sv">locale/aurqt_sv.qm</file>
     </qresource>
 </RCC>
