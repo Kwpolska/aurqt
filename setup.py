@@ -38,4 +38,4 @@ setup(name='aurqt',
                   ('share/icons/hicolor/128x128/apps', ['icons/128/aurqt.png']),
                   ('share/icons/hicolor/256x256/apps', ['icons/256/aurqt.png']),
                   ('share/icons/hicolor/scalable/apps', ['icons/aurqt.svg']),
-                  ('share/applicatons', ['aurqt.desktop'])])
+                  ('share/applications', ['aurqt.desktop'])])
