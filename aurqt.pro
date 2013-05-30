@@ -17,4 +17,5 @@ TRANSLATIONS = locale/aurqt_src.ts \
                locale/aurqt_pl.ts \
                locale/aurqt_tr.ts \
                locale/aurqt_it.ts \
-               locale/aurqt_es.ts
+               locale/aurqt_es.ts \
+               locale/aurqt_sv.ts

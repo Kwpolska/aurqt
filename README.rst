@@ -4,7 +4,7 @@ aurqt.  A graphical AUR manager.
 :Info: This is the README file for aurqt.
 :Author: Kwpolska <kwpolska@kwpolska.tk>
 :Date: 2013-05-30
-:Version: 0.2.0
+:Version: 0.2.1
 
 .. index: README
 

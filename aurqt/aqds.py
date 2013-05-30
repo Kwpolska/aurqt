@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.2.0
+# aurqt v0.2.1
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -31,7 +31,7 @@ class AQDS():
     sid = None
     username = None
     w = AurWeb()
-    languages = {'es': 'Español', 'it': 'Italiano', 'pl': 'Polski'}
+    languages = {'es': 'Español', 'it': 'Italiano', 'pl': 'Polski', 'sv': 'Svenska'}
 
     # Creating the configuration/log stuff...
     confhome = os.getenv('XDG_CONFIG_HOME')
