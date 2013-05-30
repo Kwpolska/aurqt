@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.1
+# aurqt v0.2.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -194,11 +194,11 @@ class SearchDialog(QtGui.QDialog):
 
         self.table.setSortingEnabled(True)
         if qtype == 'msearch':
-            searchprefix = ' — [{0}] '.format(tr('M|aintainer (TRANSLATORS: '
+            searchprefix = ' -- [{0}] '.format(tr('M|aintainer (TRANSLATORS: '
                                                  'put | after the first '
                                                  'character of the word for '
                                                  'Maintainer)').split('|')[0])
         else:
-            searchprefix = ' — '
+            searchprefix = ' -- '
         self.setWindowTitle(tr('Search') + searchprefix + query)
         QtGui.QApplication.restoreOverrideCursor()

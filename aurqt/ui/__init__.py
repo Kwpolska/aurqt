@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.1
+# aurqt v0.2.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -53,6 +53,9 @@ DS.log.info('13/13 pkgbuilder sub-modules')
 import pkgbuilder.upgrade
 import pkgbuilder.exceptions
 DS.log.info('*** Importing done')
+
+tagline = tr('A graphical AUR manager.')
+genericname = tr('AUR Manager')
 
 
 class Main(QtGui.QMainWindow):
@@ -136,8 +139,8 @@ class Main(QtGui.QMainWindow):
         # Actions.
         self.upgradea = QtGui.QAction(QtGui.QIcon.fromTheme(
                                       'system-software-update'),
-                                      '…', self, shortcut='Ctrl+U',
-                                      toolTip=tr('Fetching upgrades list…'),
+                                      '...', self, shortcut='Ctrl+U',
+                                      toolTip=tr('Fetching upgrades list...'),
                                       enabled=False, triggered=self.upgrade)
 
         upgrefresh = QtGui.QAction(QtGui.QIcon.fromTheme('view-refresh'),
@@ -147,14 +150,14 @@ class Main(QtGui.QMainWindow):
                                    triggered=self.upgraderefresh)
 
         self.uploada = QtGui.QAction(QtGui.QIcon.fromTheme('list-add'),
-                                     tr('Upl&oad…'), self,
+                                     tr('Upl&oad...'), self,
                                      shortcut='Ctrl+Shift+A',
                                      toolTip=tr('Upload a package to the '
                                      'AUR.'), enabled=False,
                                      triggered=self.upload)
 
         search = QtGui.QAction(QtGui.QIcon.fromTheme('edit-find'),
-                               tr('&Search…'), self, shortcut='Ctrl+F',
+                               tr('&Search...'), self, shortcut='Ctrl+F',
                                toolTip=tr('Search the AUR.'),
                                triggered=self.search)
 
@@ -176,7 +179,7 @@ class Main(QtGui.QMainWindow):
 
         self.loga = QtGui.QAction(QtGui.QIcon.fromTheme('user-identity'),
                                   loganame, self, shortcut='CTRL+L',
-                                  toolTip=tr('Working on authentication…'),
+                                  toolTip=tr('Logging in...'),
                                   enabled=False, triggered=self.log)
 
         self.mypkgs = QtGui.QAction(QtGui.QIcon.fromTheme('folder-tar'),
@@ -190,9 +193,8 @@ class Main(QtGui.QMainWindow):
                                       'user-group-properties'),
                                       tr('Account se&ttings'), self,
                                       shortcut='Ctrl+T',
-                                      toolTip=tr('Working on authentication'
-                                                '…'), enabled=False,
-                                      triggered=self.accedit)
+                                      toolTip=tr('Logging in...'),
+                                      enabled=False, triggered=self.accedit)
 
         mkrequest = QtGui.QAction(QtGui.QIcon.fromTheme('internet-mail'),
                                   tr('Request &Generator'), self,
@@ -308,7 +310,7 @@ class Main(QtGui.QMainWindow):
         try:
             requests.get('https://aur.archlinux.org')
         except pkgbuilder.exceptions.NetworkError:
-            QtGui.QMessageBox.critical(self, 'aurqt', tr('Can’t connect '
+            QtGui.QMessageBox.critical(self, 'aurqt', tr('Can\'t connect '
                 'to the AUR.  aurqt will now quit.'), QtGui.QMessageBox.Ok)
             QtGui.QApplication.quit()
             exit(1)
@@ -418,7 +420,7 @@ class Main(QtGui.QMainWindow):
         if DS.sid:
             try:
                 pb = Qt.QProgressDialog()
-                pb.setLabelText(tr('Logging out…'))
+                pb.setLabelText(tr('Logging out...'))
                 pb.setMaximum(0)
                 pb.setValue(-1)
                 pb.setWindowModality(QtCore.Qt.WindowModal)
@@ -446,7 +448,7 @@ class Main(QtGui.QMainWindow):
         e.exec_()
 
     def mine(self):
-        """Open search dialog with the users’ packages."""
+        """Open search dialog with the users' packages."""
         s = SearchDialog(o=self.openpkg, q=DS.username, m=True, a=True)
         s.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.mdiA.addSubWindow(s)
@@ -477,7 +479,7 @@ def main():
     app = QtGui.QApplication(sys.argv)
     load_locale(app)
     main = Main(app)
-    main  # because vim python-mode doesn’t like NOQA
+    main  # because vim python-mode doesn't like NOQA
     return app.exec_()
 
 
@@ -515,7 +517,13 @@ def load_locale(app):
             app.installTranslator(translator)
         else:
             loc = 'C'
-    else:
-        loc = None
+
+    if loc == 'C':
+        loc = 'en_US'
+        translator = load_translator(loc)
+        loaded_translators[loc] = translator
+        app.installTranslator(translator)
+        loc = 'C/en_US/en@specialchars'
+
     DS.log.info('Locale set to {0}'.format(loc))
     return loc

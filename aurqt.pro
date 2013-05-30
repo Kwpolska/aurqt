@@ -13,6 +13,7 @@ SOURCES      = aurqt/__init__.py \
                aurqt/ui/upload.py
 
 TRANSLATIONS = locale/aurqt_src.ts \
+               locale/aurqt_en_US.ts \
                locale/aurqt_pl.ts \
                locale/aurqt_tr.ts \
                locale/aurqt_it.ts \

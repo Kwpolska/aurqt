@@ -2,7 +2,7 @@
 pkgname=aurqt-git
 _pyname=aurqt
 _gitname=aurqt
-pkgver=20130504
+pkgver=20130530
 pkgrel=1
 pkgdesc='A graphical AUR manager.  (git version)'
 arch=('any')

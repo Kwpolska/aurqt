@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.1
+# aurqt v0.2.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -43,7 +43,7 @@ class CommentDialog(QtGui.QDialog):
         QtCore.QMetaObject.connectSlotsByName(self)
 
         self.setWindowModality(Qt.Qt.ApplicationModal)
-        self.setWindowTitle(tr('Comment…'))
+        self.setWindowTitle(tr('Comment...'))
         self.setWindowIcon(QtGui.QIcon.fromTheme('document-edit'))
         self.show()
 
@@ -147,7 +147,7 @@ class InfoBox(QtGui.QDialog):
         fields = [None, None, '<a href="{0}">{0}</a>'.format(aururl),
                   '<a href="{0}">{0}</a>'.format(self.pkg.url),
                   None, None]
-        self.oodbox = QtGui.QLabel('…', data)
+        self.oodbox = QtGui.QLabel('...', data)
         self.maintainer = QtGui.QLabel(self.pkg.human, data)
         self.numvotes = QtGui.QLabel(str(self.pkg.votes), data)
 
@@ -191,7 +191,7 @@ class InfoBox(QtGui.QDialog):
 
         self.cgroup = QtGui.QGroupBox(tr('Comments'), self)
         clay = QtGui.QVBoxLayout(self.cgroup)
-        cadd = QtGui.QPushButton(tr('Add a comment…'), self,
+        cadd = QtGui.QPushButton(tr('Add a comment...'), self,
                                  icon=QtGui.QIcon.fromTheme('document-edit'))
         QtCore.QObject.connect(cadd, QtCore.SIGNAL('pressed()'), self.comment)
         self.comments = QtGui.QTextBrowser(self.cgroup)
@@ -201,7 +201,7 @@ class InfoBox(QtGui.QDialog):
                               '.aq {}color: #888; text-align: right;{}'
                               '</style></head><body><p>{}</p>'
                               '<p class="aq">aurqt v{}</p></body>'
-                              '</html>'.format('{', '}', tr('Loading…'),
+                              '</html>'.format('{', '}', tr('Loading...'),
                                                __version__))
 
         clay.addWidget(cadd)
@@ -287,7 +287,7 @@ class InfoBox(QtGui.QDialog):
         elif not self.pkg.human:
             self.awpkg = DS.w.pkgaction(self.pkg, '+own')
         else:
-            DS.log.error('Tried to own() on a package that isn’t '
+            DS.log.error('Tried to own() on a package that isn\'t '
                          'yours/nobodys.')
         self.pkg = pkgbuilder.utils.info([self.pkg.name])[0]
         QtGui.QApplication.restoreOverrideCursor()
@@ -335,13 +335,13 @@ class InfoBox(QtGui.QDialog):
                              shortcut='Ctrl+Shift+F',
                              checkable=True, triggered=self.flag)
         comment = QtGui.QAction(QtGui.QIcon.fromTheme('document-edit'),
-                                tr('&Comment…'), self, toolTip=tr('Add a '
+                                tr('&Comment...'), self, toolTip=tr('Add a '
                                 'comment for this package'),
                                 shortcut='Ctrl+Shift+C',
                                 triggered=self.comment)
 
         req = QtGui.QAction(QtGui.QIcon.fromTheme('internet-mail'),
-                            tr('Make a &request…'), self,
+                            tr('Make a &request...'), self,
                             toolTip=tr('Request an action on this '
                             'package (remove, merge, orphan).'),
                             shortcut='Ctrl+Shift+C',

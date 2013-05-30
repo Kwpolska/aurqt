@@ -6,8 +6,8 @@ aurqt
 :Author: Kwpolska <kwpolska@kwpolska.tk>
 :Copyright: © 2012-2013, Kwpolska.
 :License: BSD (see /LICENSE or Appendix B.)
-:Date: 2013-05-04
-:Version: 0.1.1
+:Date: 2013-05-30
+:Version: 0.2.0
 :Manual section: 8
 :Manual group: aurqt manual
 

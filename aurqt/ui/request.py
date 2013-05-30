@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.1
+# aurqt v0.2.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -263,7 +263,7 @@ class RequestDialog(QtGui.QDialog):
                 self._pkginfo = None
                 pb = Qt.QProgressDialog()
                 pb.setLabelText(tr('Fetching package information for '
-                                  '{0}…').format(pkgname))
+                                  '{0}...').format(pkgname))
                 pb.setMaximum(0)
                 pb.setValue(-1)
                 pb.setWindowModality(QtCore.Qt.WindowModal)

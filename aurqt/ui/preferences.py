@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.1
+# aurqt v0.2.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -40,7 +40,7 @@ class PreferencesDialog(QtGui.QDialog):
         self.langbox.addItem(tr('System (if exists)'))
         self.langbox.addItem('English')
 
-        for i, j in enumerate(DS.languages):
+        for i, j in enumerate(DS.languages.items()):
             self.langbox.addItem(j[1])
             self.langindexes.update({i + 2: j[0]})
             self.langids.update({j[0]: i + 2})
@@ -70,9 +70,9 @@ class PreferencesDialog(QtGui.QDialog):
         self.hargs.setToolTip(tr('arguments used to install AUR packages'))
         hlabel = QtGui.QLabel(tr('packages to install'), helperg)
         htext = QtGui.QLabel(tr('The helper will run in a terminal window.\n'
-                               'Requirements:\n1. dependency resolution\n'
-                               '2. actually building and installing packages '
-                               '(so no cower)'), helperg)
+                                'Requirements:\n1. dependency resolution\n'
+                                '2. actually building and installing packages '
+                                '(so no cower)'), helperg)
         htext.setAlignment(QtCore.Qt.AlignJustify)
 
         helperl.addWidget(self.hname, 0, 0, 1, 1)
@@ -84,7 +84,7 @@ class PreferencesDialog(QtGui.QDialog):
         btn.setStandardButtons(QtGui.QDialogButtonBox.Ok |
                                QtGui.QDialogButtonBox.Cancel)
 
-        lay.addWidget(QtGui.QLabel(tr('aurqt doesn’t have too many prefe'
+        lay.addWidget(QtGui.QLabel(tr('aurqt doesn\'t have too many prefe'
                                       'rences, unlike most of FOSS.'), self))
         lay.addWidget(langg)
         lay.addWidget(helperg)
