@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.1
+# aurqt v0.2.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -31,7 +31,7 @@ class AQDS():
     sid = None
     username = None
     w = AurWeb()
-    languages = [('pl', 'Polish')]
+    languages = {'es': 'Español', 'it': 'Italiano', 'pl': 'Polski'}
 
     # Creating the configuration/log stuff...
     confhome = os.getenv('XDG_CONFIG_HOME')
@@ -66,7 +66,7 @@ class AQDS():
                         level=logging.DEBUG)
     log = logging.getLogger('aurqt')
     console = logging.StreamHandler()
-    console.setLevel(logging.INFO)  # Don’t want the requests spam.
+    console.setLevel(logging.INFO)  # Don't want the requests spam.
     console.setFormatter(logging.Formatter('[%(levelname)-7s] '
                          ':%(name)-10s: %(message)s'))
     logging.getLogger('').addHandler(console)
@@ -157,7 +157,7 @@ class AQDS():
         elif remember == 2:
             remember = True
         if not username or not password:
-            raise AQError('login', 'nodata', tr('You didn’t provide the '
+            raise AQError('login', 'nodata', tr('You didn\'t provide the '
                                                 'username or the password!'))
         else:
             try:

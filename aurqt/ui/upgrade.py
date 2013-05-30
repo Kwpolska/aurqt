@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.1
+# aurqt v0.2.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -45,7 +45,7 @@ class UpgradeDialog(QtGui.QDialog):
         dwn = self.dwnmode.checkState() == 2
         vcsup = self.vcsmode.checkState() == 2
         pb = Qt.QProgressDialog()
-        pb.setLabelText(tr('Refreshing package information…'))
+        pb.setLabelText(tr('Refreshing package information...'))
         pb.setMaximum(0)
         pb.setValue(-1)
         pb.setWindowModality(QtCore.Qt.WindowModal)
@@ -162,7 +162,7 @@ class UpgradeDialog(QtGui.QDialog):
 
         refresh = QtGui.QPushButton(tr('Refresh'), self)
         refresh.setIcon(QtGui.QIcon.fromTheme('view-refresh'))
-        self.greet = QtGui.QLabel(tr('Searching for upgrades…'), self)
+        self.greet = QtGui.QLabel(tr('Searching for upgrades...'), self)
         self.epilog = QtGui.QLabel(tr('Choose the packages you want to '
                                      'upgrade and press OK.'), self)
         self.greet.setWordWrap(True)

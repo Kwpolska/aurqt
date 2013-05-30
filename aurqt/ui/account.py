@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.1
+# aurqt v0.2.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -92,7 +92,7 @@ class AccountDialog(QtGui.QDialog):
             data = DS.w.get_account_data()
         except:
             QtGui.QMessageBox.critical(self, tr('Account settings') +
-                                       ' — aurqt', tr('Something went wrong.'
+                                       ' -- aurqt', tr('Something went wrong.'
                                        '  Cannot make a request to the AUR.'
                                        '  Try again.'), QtGui.QMessageBox.Ok)
             QtGui.QApplication.restoreOverrideCursor()
@@ -110,7 +110,7 @@ class AccountDialog(QtGui.QDialog):
         # Sanity checks.
         if not self.uid and self.register:
             QtGui.QMessageBox.critical(self, tr('Account settings') +
-                                       ' — aurqt', tr('Something went '
+                                       ' -- aurqt', tr('Something went '
                                        'wrong.'), QtGui.QMessageBox.Ok)
             self.reject()
 

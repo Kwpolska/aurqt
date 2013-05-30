@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.1
+# aurqt v0.2.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -87,7 +87,7 @@ class LoginForm(QtGui.QDialog):
                                              QtCore.Qt.WaitCursor))
         try:
             pb = Qt.QProgressDialog()
-            pb.setLabelText(tr('Logging in…'))
+            pb.setLabelText(tr('Logging in...'))
             pb.setMaximum(0)
             pb.setValue(-1)
             pb.setWindowModality(QtCore.Qt.WindowModal)

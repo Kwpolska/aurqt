@@ -33,7 +33,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/about.py" line="31"/>
+        <location filename="../aurqt/ui/__init__.py" line="57"/>
         <source>A graphical AUR manager.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -283,237 +283,237 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="173"/>
+        <location filename="../aurqt/ui/__init__.py" line="176"/>
         <source>&amp;Log out [{}]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="65"/>
+        <location filename="../aurqt/ui/__init__.py" line="68"/>
         <source>Log out.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="189"/>
+        <location filename="../aurqt/ui/__init__.py" line="192"/>
         <source>Account se&amp;ttings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="67"/>
+        <location filename="../aurqt/ui/__init__.py" line="70"/>
         <source>Modify the settings of this account.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="175"/>
+        <location filename="../aurqt/ui/__init__.py" line="178"/>
         <source>&amp;Log in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="78"/>
+        <location filename="../aurqt/ui/__init__.py" line="81"/>
         <source>Regis&amp;ter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="79"/>
+        <location filename="../aurqt/ui/__init__.py" line="82"/>
         <source>Register a new account.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="94"/>
+        <location filename="../aurqt/ui/__init__.py" line="97"/>
         <source>Upgrade installed packages.  ({} upgrades available)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="98"/>
+        <location filename="../aurqt/ui/__init__.py" line="101"/>
         <source>Upgrade installed packages.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="143"/>
+        <location filename="../aurqt/ui/__init__.py" line="146"/>
         <source>Refresh the upgrade counter.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="149"/>
+        <location filename="../aurqt/ui/__init__.py" line="152"/>
         <source>Upload a package to the AUR.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="156"/>
+        <location filename="../aurqt/ui/__init__.py" line="159"/>
         <source>Search the AUR.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="161"/>
+        <location filename="../aurqt/ui/__init__.py" line="164"/>
         <source>&amp;Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="161"/>
+        <location filename="../aurqt/ui/__init__.py" line="164"/>
         <source>Open the Preferences window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="166"/>
+        <location filename="../aurqt/ui/__init__.py" line="169"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="166"/>
+        <location filename="../aurqt/ui/__init__.py" line="169"/>
         <source>Quit aurqt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="182"/>
+        <location filename="../aurqt/ui/__init__.py" line="185"/>
         <source>&amp;My packages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="197"/>
+        <location filename="../aurqt/ui/__init__.py" line="199"/>
         <source>Request &amp;Generator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="197"/>
+        <location filename="../aurqt/ui/__init__.py" line="199"/>
         <source>Open the Mail Request Generator.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="203"/>
+        <location filename="../aurqt/ui/__init__.py" line="205"/>
         <source>Online &amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="203"/>
+        <location filename="../aurqt/ui/__init__.py" line="205"/>
         <source>Show the online help for aurqt.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="208"/>
+        <location filename="../aurqt/ui/__init__.py" line="210"/>
         <source>A&amp;bout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="211"/>
+        <location filename="../aurqt/ui/__init__.py" line="213"/>
         <source>Cl&amp;ose</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="211"/>
+        <location filename="../aurqt/ui/__init__.py" line="213"/>
         <source>Close the active window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="215"/>
+        <location filename="../aurqt/ui/__init__.py" line="217"/>
         <source>&amp;Minimize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="215"/>
+        <location filename="../aurqt/ui/__init__.py" line="217"/>
         <source>Minimize the active window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="220"/>
+        <location filename="../aurqt/ui/__init__.py" line="222"/>
         <source>Close &amp;All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="220"/>
+        <location filename="../aurqt/ui/__init__.py" line="222"/>
         <source>Close all the windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="224"/>
+        <location filename="../aurqt/ui/__init__.py" line="226"/>
         <source>&amp;Tile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="224"/>
+        <location filename="../aurqt/ui/__init__.py" line="226"/>
         <source>Tile the windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="228"/>
+        <location filename="../aurqt/ui/__init__.py" line="230"/>
         <source>&amp;Cascade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="228"/>
+        <location filename="../aurqt/ui/__init__.py" line="230"/>
         <source>Cascade the windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="232"/>
+        <location filename="../aurqt/ui/__init__.py" line="234"/>
         <source>Ne&amp;xt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="232"/>
+        <location filename="../aurqt/ui/__init__.py" line="234"/>
         <source>Move the focus to the next window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="238"/>
+        <location filename="../aurqt/ui/__init__.py" line="240"/>
         <source>Pre&amp;vious</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="238"/>
+        <location filename="../aurqt/ui/__init__.py" line="240"/>
         <source>Move the focus to the previous window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="246"/>
+        <location filename="../aurqt/ui/__init__.py" line="248"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="258"/>
+        <location filename="../aurqt/ui/__init__.py" line="260"/>
         <source>&amp;Account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="263"/>
+        <location filename="../aurqt/ui/__init__.py" line="265"/>
         <source>&amp;Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="269"/>
+        <location filename="../aurqt/ui/__init__.py" line="271"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="274"/>
+        <location filename="../aurqt/ui/__init__.py" line="276"/>
         <source>Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="286"/>
+        <location filename="../aurqt/ui/__init__.py" line="288"/>
         <source>Accounts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="292"/>
+        <location filename="../aurqt/ui/__init__.py" line="294"/>
         <source>Meta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="392"/>
+        <location filename="../aurqt/ui/__init__.py" line="394"/>
         <source>aurqt locale changed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="392"/>
+        <location filename="../aurqt/ui/__init__.py" line="394"/>
         <source>Restart aurqt in order to use the new language.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="472"/>
+        <location filename="../aurqt/ui/__init__.py" line="474"/>
         <source>This is a GUI application.  There are no command-line arguments you can pass.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="474"/>
+        <location filename="../aurqt/ui/__init__.py" line="476"/>
         <source>For more information about using aurqt, please visit {url}.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -854,7 +854,7 @@ Please consult the package maintainers before sending.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="182"/>
+        <location filename="../aurqt/ui/__init__.py" line="185"/>
         <source>Display packages maintained by the current user</source>
         <translation type="unfinished"></translation>
     </message>
@@ -869,88 +869,88 @@ Please consult the package maintainers before sending.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="160"/>
-        <source>You didn’t provide the username or the password!</source>
+        <location filename="../aurqt/ui/__init__.py" line="58"/>
+        <source>AUR Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="46"/>
-        <source>Comment…</source>
+        <source>Comment...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="194"/>
-        <source>Add a comment…</source>
+        <source>Add a comment...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="199"/>
-        <source>Loading…</source>
+        <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="337"/>
-        <source>&amp;Comment…</source>
+        <source>&amp;Comment...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="343"/>
-        <source>Make a &amp;request…</source>
+        <source>Make a &amp;request...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="137"/>
-        <source>Fetching upgrades list…</source>
+        <location filename="../aurqt/ui/__init__.py" line="140"/>
+        <source>Fetching upgrades list...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="149"/>
-        <source>Upl&amp;oad…</source>
+        <location filename="../aurqt/ui/__init__.py" line="152"/>
+        <source>Upl&amp;oad...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="156"/>
-        <source>&amp;Search…</source>
+        <location filename="../aurqt/ui/__init__.py" line="159"/>
+        <source>&amp;Search...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/ui/__init__.py" line="189"/>
-        <source>Working on authentication…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aurqt/ui/__init__.py" line="311"/>
-        <source>Can’t connect to the AUR.  aurqt will now quit.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aurqt/ui/__init__.py" line="421"/>
-        <source>Logging out…</source>
+        <location filename="../aurqt/ui/__init__.py" line="423"/>
+        <source>Logging out...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="90"/>
-        <source>Logging in…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../aurqt/ui/preferences.py" line="87"/>
-        <source>aurqt doesn’t have too many preferences, unlike most of FOSS.</source>
+        <source>Logging in...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="265"/>
-        <source>Fetching package information for {0}…</source>
+        <source>Fetching package information for {0}...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="48"/>
-        <source>Refreshing package information…</source>
+        <source>Refreshing package information...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="165"/>
-        <source>Searching for upgrades…</source>
+        <source>Searching for upgrades...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aurqt/aqds.py" line="160"/>
+        <source>You didn&apos;t provide the username or the password!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aurqt/ui/__init__.py" line="313"/>
+        <source>Can&apos;t connect to the AUR.  aurqt will now quit.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aurqt/ui/preferences.py" line="87"/>
+        <source>aurqt doesn&apos;t have too many preferences, unlike most of FOSS.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

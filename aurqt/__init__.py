@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.1.1
+# aurqt v0.2.0
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # All rights reserved.
@@ -44,7 +44,7 @@
 """
 
 __title__ = 'aurqt'
-__version__ = '0.1.1'
+__version__ = '0.2.0'
 __author__ = 'Kwpolska'
 __license__ = '3-clause BSD'
 __docformat__ = 'restructuredtext en'
@@ -66,19 +66,19 @@ class AQError(Exception):
         self.msg = msg
 
     def __str__(self):
-        """You want to see error messages, don’t you?"""
+        """You want to see error messages, don't you?"""
         return self.msg
 
 from .aqds import AQDS
 DS = AQDS()
 
-# It’s here to get logging right.  If it was on the top, all the logs from
-# aurqt would go over to pkgbuilder.  Now, it’s the other way around.
+# It's here to get logging right.  If it was on the top, all the logs from
+# aurqt would go over to pkgbuilder.  Now, it's the other way around.
 import pkgbuilder
 __pbversion__ = pkgbuilder.__version__
 DS.log.info('*** PKGBUILDer v{}'.format(__pbversion__))
 
-# Temporary workaround…
+# Temporary workaround...
 
 from .ui import tr
 import aurqt.aurweb
