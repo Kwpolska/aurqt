@@ -28,9 +28,9 @@
         <translation>No se pudo iniciar sesión en AUR.</translation>
     </message>
     <message>
-        <location filename="../aurqt/aurweb.py" line="109"/>
+        <location filename="../../aurqt/aurweb.py" line="109"/>
         <source>Hint:</source>
-        <translation>Consejo:</translation>
+        <translation type="obsolete">Consejo:</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="57"/>
@@ -958,6 +958,11 @@ Por favor, consulte los mantenedores de los paquetes antes de enviarlos
         <location filename="../aurqt/ui/preferences.py" line="87"/>
         <source>aurqt doesn&apos;t have too many preferences, unlike most of FOSS.</source>
         <translation>aurqt no tiene demasiadas preferencias, a diferencia de la mayor parte del software libre.</translation>
+    </message>
+    <message>
+        <location filename="../aurqt/aurweb.py" line="109"/>
+        <source>&lt;strong&gt;Hint:&lt;/strong&gt; use gpg --fingerprint</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

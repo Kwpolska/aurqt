@@ -27,7 +27,7 @@ class AboutDialog(QtGui.QDialog):
 
         lay = QtGui.QVBoxLayout(self)
 
-        aurqt = QtGui.QLabel('aurqt v{}'.format(__version__), self)
+        aurqt = QtGui.QLabel('aurqt v' + __version__, self)
         tagline = QtGui.QLabel(tr('A graphical AUR manager.'), self)
         copy = QtGui.QLabel('Copyright © 2012-2013, Kwpolska.', self)
         localetxt = tr('LANG locale by AUTHOR <MAIL @ IF.YOU.WANT>')

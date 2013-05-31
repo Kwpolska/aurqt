@@ -28,9 +28,9 @@
         <translation>Could not log into the AUR.</translation>
     </message>
     <message>
-        <location filename="../aurqt/aurweb.py" line="109"/>
+        <location filename="../../aurqt/aurweb.py" line="109"/>
         <source>Hint:</source>
-        <translation>Hint:</translation>
+        <translation type="obsolete">Hint:</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="57"/>
@@ -958,6 +958,11 @@ Please consult the package maintainers before sending.
         <location filename="../aurqt/ui/preferences.py" line="87"/>
         <source>aurqt doesn&apos;t have too many preferences, unlike most of FOSS.</source>
         <translation>aurqt doesn’t have too many preferences, unlike most of FOSS.</translation>
+    </message>
+    <message>
+        <location filename="../aurqt/aurweb.py" line="109"/>
+        <source>&lt;strong&gt;Hint:&lt;/strong&gt; use gpg --fingerprint</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
