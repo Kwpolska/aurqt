@@ -94,7 +94,7 @@ class AurWeb():
         if rtype == 'UpdateAccount':
             data.update({'ID': self.get_account_data()['id'],
                          'token': self.sid})
-            aurl = self.url + 'account/{}/update/'.format(username)
+            aurl = self.url + 'account/{0}/update/'.format(username)
         else:
             aurl = self.url + 'register/'
 
@@ -106,8 +106,8 @@ class AurWeb():
         if error:
             error = error.prettify()
             if 'PGP' in error:
-                error += '<p><strong>{}</strong> {}'.format(
-                    tr('Hint:'), 'gpg --fingerprint')
+                error += '<p>%s' % tr('<strong>Hint:</strong> use gpg '
+                                      '--fingerprint')
 
             raise AQError('aurweb', 'accedit', error)
         else:
@@ -154,7 +154,7 @@ class AurWeb():
                       '-flag': 'unflag'}
         formactions = {'+own': 'do_Adopt', '-own': 'do_Disown'}
 
-        url = self.url + 'packages/{}/?comments=all'.format(pkg.name)
+        url = self.url + 'packages/{0}/?comments=all'.format(pkg.name)
 
         data = {'token': self.sid, 'ID': pkg.id}
         if action == 'category':
@@ -164,12 +164,12 @@ class AurWeb():
             data.update({'comment': params})
             r = self.session.post(url, data=data)
         elif action in urlactions.keys():
-            url = self.url + 'packages/{}/{}/?comments=all'.format(
+            url = self.url + 'packages/{0}/{1}/?comments=all'.format(
                 pkg.name, urlactions[action])
             r = self.session.get(url)
         elif action in formactions.keys():
             data.update({formactions[action]: 'aurqt',
-                         'IDs[{}]'.format(pkg.id): '1'})
+                         'IDs[{0}]'.format(pkg.id): '1'})
             r = self.session.post(url, data=data)
         else:
             raise AQError('aurweb', 'pkgaction', 'unknown action type')

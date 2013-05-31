@@ -28,9 +28,9 @@
         <translation>AUR &apos;a giriş yapılamıyor.</translation>
     </message>
     <message>
-        <location filename="../aurqt/aurweb.py" line="109"/>
+        <location filename="../../aurqt/aurweb.py" line="109"/>
         <source>Hint:</source>
-        <translation>İpucu:</translation>
+        <translation type="obsolete">İpucu:</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="57"/>
@@ -958,6 +958,11 @@ Göndermeden önce paket sağlayacılıya danışın.⏎
         <location filename="../aurqt/ui/preferences.py" line="87"/>
         <source>aurqt doesn&apos;t have too many preferences, unlike most of FOSS.</source>
         <translation>aurqt nin fazla seçeneği yok. </translation>
+    </message>
+    <message>
+        <location filename="../aurqt/aurweb.py" line="109"/>
+        <source>&lt;strong&gt;Hint:&lt;/strong&gt; use gpg --fingerprint</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -76,10 +76,9 @@ DS = AQDS()
 # aurqt would go over to pkgbuilder.  Now, it's the other way around.
 import pkgbuilder
 __pbversion__ = pkgbuilder.__version__
-DS.log.info('*** PKGBUILDer v{}'.format(__pbversion__))
+DS.log.info('*** PKGBUILDer v' + __pbversion__)
 
-# Temporary workaround...
-
+# Workaround...
 from .ui import tr
 import aurqt.aurweb
 import aurqt.aqds

@@ -132,14 +132,14 @@ class AQDS():
             self.w.session = login_data[0]
             self.w.sid = login_data[0].cookies['AURSID']
             if self.w.loggedin:
-                self.log.info('Continuing session: {}'.format(login_data[1]))
+                self.log.info('Continuing session: ' + login_data[1])
                 self.w.sid = login_data[0].cookies['AURSID']
                 self.w.username = login_data[1]
                 self.remember = True
                 self.sid = login_data[0].cookies['AURSID']
                 self.username = login_data[1]
             else:
-                self.log.info('Session of {} expired.'.format(login_data[1]))
+                self.log.info('Session of {0} expired.'.format(login_data[1]))
                 os.remove(self.sessionfile)
                 self.w.new_session()
                 self.remember = False

@@ -28,11 +28,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/aurweb.py" line="109"/>
-        <source>Hint:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../aurqt/ui/__init__.py" line="57"/>
         <source>A graphical AUR manager.</source>
         <translation type="unfinished"></translation>
@@ -951,6 +946,11 @@ Please consult the package maintainers before sending.
     <message>
         <location filename="../aurqt/ui/preferences.py" line="87"/>
         <source>aurqt doesn&apos;t have too many preferences, unlike most of FOSS.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../aurqt/aurweb.py" line="109"/>
+        <source>&lt;strong&gt;Hint:&lt;/strong&gt; use gpg --fingerprint</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
