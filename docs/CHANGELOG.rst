@@ -10,4 +10,11 @@ Appendix C. Changelog
 
 .. index:: CHANGELOG
 
-No releases yet!
+0.2.1
+    Swedish added.
+0.2.0
+    Locale support (es, it, pl)
+0.1.1
+    MANIFEST.in and PKGBUILD fixes.
+0.1.0
+    Initial release.
