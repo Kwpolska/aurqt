@@ -3,22 +3,22 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../aurqt/aqds.py" line="59"/>
+        <location filename="../aurqt/aqds.py" line="60"/>
         <source>ERROR:</source>
         <translation>HATA:</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="59"/>
+        <location filename="../aurqt/aqds.py" line="60"/>
         <source>Cannot create the configuration directory.</source>
         <translation>Yapılandırma dizini oluşturulamıyor</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="171"/>
+        <location filename="../aurqt/aqds.py" line="172"/>
         <source>Cannot log in (wrong credentials?)</source>
         <translation>Giriş yapılamıyor (hatalı yetkilendirme?)</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="184"/>
+        <location filename="../aurqt/aqds.py" line="185"/>
         <source>Cannot log out.</source>
         <translation>Çıkış yapılamıyor.</translation>
     </message>
@@ -28,7 +28,7 @@
         <translation>AUR &apos;a giriş yapılamıyor.</translation>
     </message>
     <message>
-        <location filename="../../aurqt/aurweb.py" line="109"/>
+        <location filename="../../../../aurweb.py" line="109"/>
         <source>Hint:</source>
         <translation type="obsolete">İpucu:</translation>
     </message>
@@ -945,7 +945,7 @@ Göndermeden önce paket sağlayacılıya danışın.⏎
         <translation>Yükseltmeler için bakılıyor...</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="160"/>
+        <location filename="../aurqt/aqds.py" line="161"/>
         <source>You didn&apos;t provide the username or the password!</source>
         <translation>Geçerli bir şifre veya isim girmediniz!</translation>
     </message>
