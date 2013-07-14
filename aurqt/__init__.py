@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.2.1
+# aurqt v0.2.2
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # All rights reserved.
@@ -44,7 +44,7 @@
 """
 
 __title__ = 'aurqt'
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 __author__ = 'Kwpolska'
 __license__ = '3-clause BSD'
 __docformat__ = 'restructuredtext en'
