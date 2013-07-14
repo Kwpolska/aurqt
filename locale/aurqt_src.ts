@@ -3,22 +3,22 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../aurqt/aqds.py" line="59"/>
+        <location filename="../aurqt/aqds.py" line="60"/>
         <source>ERROR:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="59"/>
+        <location filename="../aurqt/aqds.py" line="60"/>
         <source>Cannot create the configuration directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="171"/>
+        <location filename="../aurqt/aqds.py" line="172"/>
         <source>Cannot log in (wrong credentials?)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="184"/>
+        <location filename="../aurqt/aqds.py" line="185"/>
         <source>Cannot log out.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -934,7 +934,7 @@ Please consult the package maintainers before sending.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="160"/>
+        <location filename="../aurqt/aqds.py" line="161"/>
         <source>You didn&apos;t provide the username or the password!</source>
         <translation type="unfinished"></translation>
     </message>

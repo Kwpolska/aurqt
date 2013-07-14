@@ -3,22 +3,22 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../aurqt/aqds.py" line="59"/>
+        <location filename="../aurqt/aqds.py" line="60"/>
         <source>ERROR:</source>
         <translation>BŁĄD:</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="59"/>
+        <location filename="../aurqt/aqds.py" line="60"/>
         <source>Cannot create the configuration directory.</source>
         <translation>Nie można utworzyć katalogu z konfiguracją.</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="171"/>
+        <location filename="../aurqt/aqds.py" line="172"/>
         <source>Cannot log in (wrong credentials?)</source>
         <translation>Nie można się zalogować (złe dane)?</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="184"/>
+        <location filename="../aurqt/aqds.py" line="185"/>
         <source>Cannot log out.</source>
         <translation>Nie można się wylogować.</translation>
     </message>
@@ -28,7 +28,7 @@
         <translation>Nie można zalogować się do AUR.</translation>
     </message>
     <message>
-        <location filename="../../aurqt/aurweb.py" line="109"/>
+        <location filename="../../../../aurweb.py" line="109"/>
         <source>Hint:</source>
         <translation type="obsolete">Podpowiedź:</translation>
     </message>
@@ -946,7 +946,7 @@ Skonsultuj się z opiekunami pakietów przed wysłaniem
         <translation>Szukanie aktualizacji…</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="160"/>
+        <location filename="../aurqt/aqds.py" line="161"/>
         <source>You didn&apos;t provide the username or the password!</source>
         <translation>Nie podałeś nazwy użytkownika lub hasła!</translation>
     </message>
