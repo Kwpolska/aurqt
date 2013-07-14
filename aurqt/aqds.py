@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- encoding: utf-8 -*-
-# aurqt v0.2.1
+# aurqt v0.2.2
 # A graphical AUR manager.
 # Copyright © 2012-2013, Kwpolska.
 # See /LICENSE for licensing information.
@@ -31,7 +31,8 @@ class AQDS():
     sid = None
     username = None
     w = AurWeb()
-    languages = {'es': 'Español', 'it': 'Italiano', 'pl': 'Polski', 'sv': 'Svenska'}
+    languages = {'es': 'Español', 'it': 'Italiano', 'pl': 'Polski', 'sv':
+                 'Svenska', 'vi': 'Tiếng Việt', 'tr': 'Türkçe'}
 
     # Creating the configuration/log stuff...
     confhome = os.getenv('XDG_CONFIG_HOME')
@@ -132,14 +133,14 @@ class AQDS():
             self.w.session = login_data[0]
             self.w.sid = login_data[0].cookies['AURSID']
             if self.w.loggedin:
-                self.log.info('Continuing session: ' + login_data[1])
+                self.log.info('Continuing session: {}'.format(login_data[1]))
                 self.w.sid = login_data[0].cookies['AURSID']
                 self.w.username = login_data[1]
                 self.remember = True
                 self.sid = login_data[0].cookies['AURSID']
                 self.username = login_data[1]
             else:
-                self.log.info('Session of {0} expired.'.format(login_data[1]))
+                self.log.info('Session of {} expired.'.format(login_data[1]))
                 os.remove(self.sessionfile)
                 self.w.new_session()
                 self.remember = False

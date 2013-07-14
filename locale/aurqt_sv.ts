@@ -3,22 +3,22 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../aurqt/aqds.py" line="59"/>
+        <location filename="../aurqt/aqds.py" line="60"/>
         <source>ERROR:</source>
         <translation>FEL: </translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="59"/>
+        <location filename="../aurqt/aqds.py" line="60"/>
         <source>Cannot create the configuration directory.</source>
         <translation>Kan inte skapa konfigurationskatalog.</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="171"/>
+        <location filename="../aurqt/aqds.py" line="172"/>
         <source>Cannot log in (wrong credentials?)</source>
         <translation>Kan inte logga in (Felaktiga behörigheter?)</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="184"/>
+        <location filename="../aurqt/aqds.py" line="185"/>
         <source>Cannot log out.</source>
         <translation>Kan inte logga ut. </translation>
     </message>
@@ -28,7 +28,7 @@
         <translation>Kan inte logga in till AUR. </translation>
     </message>
     <message>
-        <location filename="../../aurqt/aurweb.py" line="109"/>
+        <location filename="../../../../aurweb.py" line="109"/>
         <source>Hint:</source>
         <translation type="obsolete">Ledtråd: </translation>
     </message>
@@ -946,7 +946,7 @@ Kontakte paketets ansvariga innan du skickar.
         <translation>Söker efter uppdateringar…</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="160"/>
+        <location filename="../aurqt/aqds.py" line="161"/>
         <source>You didn&apos;t provide the username or the password!</source>
         <translation>Du glömde användarnamn eller lösenord!</translation>
     </message>
