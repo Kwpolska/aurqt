@@ -15,13 +15,20 @@ GitHub holds releases, too
 
 More information can be found on GitHub in the `releases section <https://github.com/Kwpolska/aurqt/releases>`_.
 
+Version History
+===============
+
 0.2.2
     Added Turkish and Vietnamese.
+
 0.2.1
     Swedish added.
+
 0.2.0
     Locale support (es, it, pl)
+
 0.1.1
     MANIFEST.in and PKGBUILD fixes.
+
 0.1.0
     Initial release.
