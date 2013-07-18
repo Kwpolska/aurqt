@@ -123,7 +123,7 @@ class AurWeb():
 
         soup = bs4.BeautifulSoup(r.text, 'html.parser')
 
-        if r.url.startswith('https://aur.archlinux.org/packages/'):
+        if r.url.startswith(self.url + '/packages/'):
             return [True, r.url[35:-1]]
         else:
             return [False, soup.find(class_='pkgoutput').string]
