@@ -31,13 +31,13 @@ class AccountDialog(QtGui.QDialog):
         self.uid = None
 
         # TRANSLATORS: see aurweb.
-        labels = [tr('Username'), tr('Mail Address'), tr('Password'),
-                  tr('Re-type password'), tr('Real Name'), tr('IRC Nick'),
-                  tr('PGP Key Fingerprint')]
+        labels = [tr('Username'), tr('Inactive?'), tr('Mail Address'),
+                  tr('Password'), tr('Re-type password'), tr('Real Name'),
+                  tr('IRC Nick'), tr('PGP Key Fingerprint')]
 
         for i, j in enumerate(labels):
-            lay.setWidget(i, QtGui.QFormLayout.LabelRole, QtGui.QLabel(j,
-                                                                       self))
+            lay.setWidget(i, QtGui.QFormLayout.LabelRole,
+                          QtGui.QLabel(j, self))
 
         self.username = QtGui.QLineEdit(self)
         self.mail = QtGui.QLineEdit(self)
@@ -47,14 +47,16 @@ class AccountDialog(QtGui.QDialog):
         self.irc = QtGui.QLineEdit(self)
         self.pgp = QtGui.QLineEdit(self)
         self.pgp.setToolTip(tr('gpg --fingerprint (40 characters long).'))
+        self.inactive = QtGui.QCheckBox(self)
 
         lay.setWidget(0, QtGui.QFormLayout.FieldRole, self.username)
-        lay.setWidget(1, QtGui.QFormLayout.FieldRole, self.mail)
-        lay.setWidget(2, QtGui.QFormLayout.FieldRole, self.pwd)
-        lay.setWidget(3, QtGui.QFormLayout.FieldRole, self.pwd2)
-        lay.setWidget(4, QtGui.QFormLayout.FieldRole, self.rname)
-        lay.setWidget(5, QtGui.QFormLayout.FieldRole, self.irc)
-        lay.setWidget(6, QtGui.QFormLayout.FieldRole, self.pgp)
+        lay.setWidget(1, QtGui.QFormLayout.FieldRole, self.inactive)
+        lay.setWidget(2, QtGui.QFormLayout.FieldRole, self.mail)
+        lay.setWidget(3, QtGui.QFormLayout.FieldRole, self.pwd)
+        lay.setWidget(4, QtGui.QFormLayout.FieldRole, self.pwd2)
+        lay.setWidget(5, QtGui.QFormLayout.FieldRole, self.rname)
+        lay.setWidget(6, QtGui.QFormLayout.FieldRole, self.irc)
+        lay.setWidget(7, QtGui.QFormLayout.FieldRole, self.pgp)
 
         self.pwd.setEchoMode(QtGui.QLineEdit.Password)
         self.pwd2.setEchoMode(QtGui.QLineEdit.Password)
@@ -104,6 +106,7 @@ class AccountDialog(QtGui.QDialog):
             self.rname.setText(data['rname'])
             self.irc.setText(data['irc'])
             self.pgp.setText(data['pgp'])
+            self.inactive.setCheckState(2 if data['inactive'] else 0)
 
     def save(self):
         """Save the form."""
@@ -121,6 +124,8 @@ class AccountDialog(QtGui.QDialog):
         rname = self.rname.text()
         irc = self.irc.text()
         pgp = self.pgp.text()
+        inactive = self.inactive.checkState() == 2
+
         if pwd != pwd2:
             QtGui.QMessageBox.critical(self, 'aurqt', tr('Passwords differ.'),
                                        QtGui.QMessageBox.Ok)
@@ -135,7 +140,7 @@ class AccountDialog(QtGui.QDialog):
                                                  QtCore.Qt.WaitCursor))
             try:
                 e = DS.w.account_edit(self.rtype, username, pwd, mail, rname,
-                                      irc, pgp)
+                                      irc, pgp, inactive)
                 QtGui.QMessageBox.information(self, 'aurqt', e.strip(),
                                               QtGui.QMessageBox.Ok)
             except AQError as e:

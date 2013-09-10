@@ -18,6 +18,7 @@ from . import AQError
 import requests
 import bs4
 
+# LATER OVERWRITTEN BY aurqt.__init__
 tr = lambda x: x
 
 class AurWeb():
@@ -74,14 +75,20 @@ class AurWeb():
             for i in form.find_all('input'):
                 if i['type'] in ['text', 'hidden']:
                     v.update({i['name']: i['value']})
+                elif i['type'] == 'checkbox':
+                    try:
+                        v.update({i['name']: i['checked'] == 'checked'})
+                    except KeyError:
+                        v.update({i['name']: False})
             return {'id': v['ID'], 'username': v['U'], 'mail': v['E'],
-                    'rname': v['R'], 'irc': v['I'], 'pgp': v['K']}
+                    'rname': v['R'], 'irc': v['I'], 'pgp': v['K'], 'inactive':
+                    v['J']}
         else:
             return {'id': '', 'username': '', 'mail': '', 'rname': '',
-                    'irc': '', 'pgp': ''}
+                    'irc': '', 'pgp': '', 'inactive': False}
 
     def account_edit(self, rtype, username, password, mail, rname='',
-                     irc='', pgp=''):
+                     irc='', pgp='', inactive=False):
         """Modify/add an account."""
         if self.session.cookies:
             lang = self.session.cookies['AURLANG']
@@ -90,6 +97,9 @@ class AurWeb():
 
         data = {'U': username, 'P': password, 'C': password, 'E': mail,
                 'R': rname, 'I': irc, 'L': lang, 'K': pgp, 'Action': rtype}
+
+        if inactive:
+            data.update({'J': 'on'})
 
         if rtype == 'UpdateAccount':
             data.update({'ID': self.get_account_data()['id'],
