@@ -23,6 +23,7 @@ import configparser
 import pickle
 import subprocess
 
+# LATER OVERWRITTEN BY aurqt.__init__
 tr = lambda x: x
 
 class AQDS():

@@ -44,17 +44,11 @@
 """
 
 __title__ = 'aurqt'
-__version__ = '0.2.2'
+__version__ = '0.2.3-candidate'
 __author__ = 'Kwpolska'
 __license__ = '3-clause BSD'
 __docformat__ = 'restructuredtext en'
 
-# import gettext
-#
-# G = gettext.translation('aurqt', '/usr/share/locale', fallback='C')
-
-
-### AQError         errors raised here      ###
 class AQError(Exception):
     """Exceptions raised by aurqt."""
 
