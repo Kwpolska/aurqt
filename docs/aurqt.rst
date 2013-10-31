@@ -3,7 +3,7 @@ aurqt
 =====
 
 :Subtitle: A graphical AUR manager.
-:Author: Kwpolska <kwpolska@kwpolska.tk>
+:Author: Chris “Kwpolska” Warrick <kwpolska@kwpolska.tk>
 :Copyright: © 2012-2013, Kwpolska.
 :License: BSD (see /LICENSE or Appendix B.)
 :Date: 2013-07-14
