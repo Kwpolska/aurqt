@@ -2,8 +2,8 @@
 aurqt.  A graphical AUR manager.
 ================================
 :Info: This is the README file for aurqt.
-:Author: Chris “Kwpolska” Warrick <kwpolska@kwpolska.tk>
-:Date: 2013-07-14
+:Author: Chris Warrick <chris@chriswarrick.com>
+:Date: 2015-01-01
 :Version: 0.2.2
 
 .. index: README
@@ -15,16 +15,11 @@ This is a desktop GUI for the AUR.
 INSTALLATION
 ------------
 
-::
-
-    pkgbuilder -S aurqt
-
-You need PKGBUILDer to run aurqt, so using any other AUR helper for
-installation is pointless.
+aurqt is abandoned.  Please do not attempt to install it.
 
 COPYRIGHT
 ---------
-Copyright © 2012-2013, Chris “Kwpolska” Warrick.
+Copyright © 2012-2015, Chris Warrick.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

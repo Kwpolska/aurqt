@@ -2,11 +2,11 @@
 Appendix C. Changelog
 =====================
 :Info: This is the changelog for aurqt.
-:Author: Chris “Kwpolska” Warrick <kwpolska@kwpolska.tk>
-:Copyright: © 2012-2013, Kwpolska.
+:Author: Chris Warrick <chris@chriswarrick.com>
+:Copyright: © 2012-2015, Kwpolska.
 :License: BSD (see /LICENSE or :doc:`Appendix B <LICENSE>`.)
-:Date: 2013-07-14
-:Version: 0.2.2
+:Date: 2015-01-01
+:Version: abandoned
 
 .. index:: CHANGELOG
 
@@ -17,6 +17,9 @@ More information can be found on GitHub in the `releases section <https://github
 
 Version History
 ===============
+
+2015-01-01
+    aurqt is now abandoned.
 
 0.2.2
     Added Turkish and Vietnamese.
