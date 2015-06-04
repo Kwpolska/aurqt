@@ -1,4 +1,0 @@
-requests
-pkgbuilder
-beautifulsoup4
-PyQt4

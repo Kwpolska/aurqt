@@ -1,0 +1,1 @@
+Search.setIndex({envversion:42,terms:{pleas:0,code:0,over:0,apolog:0,itself:0,want:0,statu:0,multipl:0,would:0,due:0,been:0,avail:0,rewrit:0,aur:0,anyon:0,take:0,full:0,base:0,develop:0,requir:0,graphic:0,inconveni:0,anymor:0,contact:0,abandon:0,chang:0,manag:0},objtypes:{},objnames:{},filenames:["index"],titles:["aurqt is dead"],objects:{},titleterms:{aurqt:0,dead:0}})

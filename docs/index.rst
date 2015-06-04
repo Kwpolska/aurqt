@@ -1,34 +1,9 @@
-aurqt.  A graphical AUR manager.
-================================
+=============
+aurqt is dead
+=============
 
+aurqt, the graphical AUR manager, has been abandoned and is not available
+anymore due to multiple changes in the AUR itself and the status of the code
+base that would require a full rewrite.  I apologize for the inconvenience.
 
-.. note::
-    This documentation is compatible with version |release| of
-    aurqt.
-
-    The current version on your system can be checked in the About window.
-
-    Most of the documentation is likely compatible with previous
-    releases of the |version| series.
-
-aurqt is a desktop client for the AUR.  It integrates the JSON and,
-unfortunately, web scraping, to provide a nice AUR experience.
-
-Table of Contents
------------------
-
-.. toctree::
-   :numbered:
-
-   aurqt man page <aurqt>
-   README
-   CONTRIBUTING
-   LICENSE
-   CHANGELOG
-
-Indices and tables
-------------------
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+(If anyone wants to take over development, please contact me.)

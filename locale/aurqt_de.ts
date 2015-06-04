@@ -1,150 +1,150 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sv" version="2.0">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.0">
 <context>
     <name>@default</name>
     <message>
         <location filename="../aurqt/aqds.py" line="59"/>
         <source>ERROR:</source>
-        <translation>FEL: </translation>
+        <translation>FEHLER:</translation>
     </message>
     <message>
         <location filename="../aurqt/aqds.py" line="59"/>
         <source>Cannot create the configuration directory.</source>
-        <translation>Kan inte skapa konfigurationskatalog.</translation>
+        <translation>Konfigurationsverzeichnis kann nicht erstellt werden.</translation>
     </message>
     <message>
         <location filename="../aurqt/aqds.py" line="171"/>
         <source>Cannot log in (wrong credentials?)</source>
-        <translation>Kan inte logga in (Felaktiga behörigheter?)</translation>
+        <translation>Login nicht möglich (falsche zugansdaten?)</translation>
     </message>
     <message>
         <location filename="../aurqt/aqds.py" line="184"/>
         <source>Cannot log out.</source>
-        <translation>Kan inte logga ut. </translation>
+        <translation>Ausloggen nicht möglich.</translation>
     </message>
     <message>
         <location filename="../aurqt/aurweb.py" line="44"/>
         <source>Could not log into the AUR.</source>
-        <translation>Kan inte logga in till AUR. </translation>
+        <translation>Login in AUR nicht möglich.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="57"/>
         <source>A graphical AUR manager.</source>
-        <translation>En grafisk hanterare för AUR.</translation>
+        <translation>Eine Grafische AUR Verwaltung. </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/about.py" line="37"/>
         <source>Using PKGBUILDer v{}.</source>
-        <translation>Använder PKGBUILDer v{}.</translation>
+        <translation>Nutze PKGBUILDer v{}</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/about.py" line="64"/>
         <source>About aurqt</source>
-        <translation>Om aurqt</translation>
+        <translation>Über aurqt</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="32"/>
         <source>Username</source>
-        <translation>Användarnamn</translation>
+        <translation>Nutzername</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="124"/>
         <source>Mail Address</source>
-        <translation>E-Mail adress</translation>
+        <translation>E-Mail Adresse </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="33"/>
         <source>Password</source>
-        <translation>Lösenord</translation>
+        <translation>Passwort</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/account.py" line="35"/>
         <source>Re-type password</source>
-        <translation>Lösenord igen</translation>
+        <translation>Passwort erneut eingeben</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/account.py" line="35"/>
         <source>Real Name</source>
-        <translation>Riktigt namn</translation>
+        <translation>Echter Name</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/account.py" line="35"/>
         <source>IRC Nick</source>
-        <translation>IRC Smeknamn</translation>
+        <translation>IRC Name</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/account.py" line="36"/>
         <source>PGP Key Fingerprint</source>
-        <translation>PGP Nyckel</translation>
+        <translation>PGP Key Fingerprint</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/account.py" line="49"/>
         <source>gpg --fingerprint (40 characters long).</source>
-        <translation>gpg --fingerprint (40 tecken).</translation>
+        <translation>gpg --fingerprint (40 zeichen lang).</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="42"/>
         <source>Register</source>
-        <translation>Registrera</translation>
+        <translation>Registrieren</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/account.py" line="112"/>
         <source>Account settings</source>
-        <translation>Kontoinställningar</translation>
+        <translation>Account Einstellungen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/account.py" line="94"/>
         <source>Something went wrong.  Cannot make a request to the AUR.  Try again.</source>
-        <translation>Något blev fel. Kommer inte åt AUR. Försök igen.</translation>
+        <translation>Ein Fehler ist aufgetreten. Anfrage an AUR nicht möglich. Bitte versuchen sie es erneut.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/account.py" line="112"/>
         <source>Something went wrong.</source>
-        <translation>Något blev fel.</translation>
+        <translation>Ein Fehler ist aufgetreten.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/account.py" line="125"/>
         <source>Passwords differ.</source>
-        <translation>Lösenorden är olika.</translation>
+        <translation>Passwörter stimmen nicht überein. </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/account.py" line="128"/>
         <source>Username is empty.</source>
-        <translation>Användarfältet är tomt.</translation>
+        <translation>Es wurde kein Nutzername eingegeben.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/account.py" line="131"/>
         <source>Mail address is empty.</source>
-        <translation>E-Mail fältet är tomt.</translation>
+        <translation>Es wurde keine E-Mail Adresse eingegeben.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="449"/>
         <source>Install</source>
-        <translation>Installera</translation>
+        <translation>Installieren</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="96"/>
         <source>Update</source>
-        <translation>Uppdatera</translation>
+        <translation>Aktualisierung </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="111"/>
         <source>Actions</source>
-        <translation>Händelser</translation>
+        <translation>Aktionen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="135"/>
         <source>Data</source>
-        <translation>Data</translation>
+        <translation>Daten</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="140"/>
         <source>Out of Date</source>
-        <translation>Inaktuell</translation>
+        <translation>Veraltet</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/search.py" line="122"/>
         <source>Category</source>
-        <translation>Kategori</translation>
+        <translation>Kategorie</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="140"/>
@@ -159,322 +159,322 @@
     <message>
         <location filename="../aurqt/ui/search.py" line="122"/>
         <source>Maintainer</source>
-        <translation>Ansvarig</translation>
+        <translation>Betreuer</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/search.py" line="122"/>
         <source>Votes</source>
-        <translation>Röster</translation>
+        <translation>Stimmen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="142"/>
         <source>First submitted</source>
-        <translation>Först uppdaterad</translation>
+        <translation>Erste mal eingereicht</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="142"/>
         <source>Last updated</source>
-        <translation>Senast uppdaterad</translation>
+        <translation>Letzes update</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="192"/>
         <source>Comments</source>
-        <translation>Kommentarer</translation>
+        <translation>Kommentare</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="323"/>
         <source>&amp;Vote</source>
-        <translation>&amp;Rösta</translation>
+        <translation>&amp;Abstimmen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="323"/>
         <source>Vote for this package</source>
-        <translation>Rösta på detta paket</translation>
+        <translation>Für dieses Paket abstimmen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="327"/>
         <source>&amp;Notify</source>
-        <translation>&amp;Påminna</translation>
+        <translation>&amp;Benachrichtigen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="327"/>
         <source>Enable comment notifications for this package</source>
-        <translation>Slå på kommentarer för detta paket</translation>
+        <translation>Benachrichtigung bei Kommentaren Aktivieren </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="332"/>
         <source>&amp;Flag as outdated</source>
-        <translation>&amp;Makera som inaktuellt</translation>
+        <translation>&amp;als veraltet Markieren</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="332"/>
         <source>Flag the package as outdated.</source>
-        <translation>Markera detta paket som inaktuellt.</translation>
+        <translation>Das Paket als veraltet Markieren.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="337"/>
         <source>Add a comment for this package</source>
-        <translation>Lägg till en kommentar för detta paket</translation>
+        <translation>Einen Kommentar zu dem Paket schreiben</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="343"/>
         <source>Request an action on this package (remove, merge, orphan).</source>
-        <translation>Begär en åtgärd för detta paket (ta bort, slå ihop).</translation>
+        <translation>Antrag dieses Paket zu löschen zusammenzuführen oder zu verweisen. </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="359"/>
         <source>&amp;Disown</source>
-        <translation>&amp;Disown</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="359"/>
         <source>Disown this package</source>
-        <translation>Sluta äga detta paket</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="364"/>
         <source>Adopt this package</source>
-        <translation>Anpassa detta paket</translation>
+        <translation>Betreuung des Pakets übernehmen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="371"/>
         <source>Only the maintainer can unflag a package.</source>
-        <translation>Bara ägaren kan avmarkera ett paket.</translation>
+        <translation>Nur der Betreuer des Pakets kann Kennzeichnungen entfernen.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="404"/>
         <source>yes, since {}</source>
-        <translation>Ja, sen {}</translation>
+        <translation>Ja, seit {}</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="407"/>
         <source>no</source>
-        <translation>nej</translation>
+        <translation>Nein</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="421"/>
         <source>There are currently no comments for this package.</source>
-        <translation>Det finns just nu inte några kommentarer för paketet.</translation>
+        <translation>Noch keine Kommentare vorhanden</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="421"/>
         <source>In order to add one, hit the button above.</source>
-        <translation>För att lägga till en, tryck på knappen ovan.</translation>
+        <translation>Um ein Kommentar zu Hinterlassen drücken sie oben.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="439"/>
         <source>Uninstall</source>
-        <translation>Avinstallera</translation>
+        <translation>Deinstallieren</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="442"/>
         <source>Reinstall</source>
-        <translation>Återinstallera</translation>
+        <translation>Neu Installation</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="220"/>
         <source>Upgrade</source>
-        <translation>Uppdatera</translation>
+        <translation>Upgrade</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="176"/>
         <source>&amp;Log out [{}]</source>
-        <translation>&amp;Logga ut [{}]</translation>
+        <translation>&amp;Ausloggen [{}]</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="68"/>
         <source>Log out.</source>
-        <translation>Logga ut.</translation>
+        <translation>Ausloggen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="192"/>
         <source>Account se&amp;ttings</source>
-        <translation>Användarins&amp;tällningar</translation>
+        <translation>Account ein&amp;stellungen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="70"/>
         <source>Modify the settings of this account.</source>
-        <translation>Kontoinställningar.</translation>
+        <translation>Die Einstellungen des Accounts Verwalten.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="178"/>
         <source>&amp;Log in</source>
-        <translation>&amp;Logga in</translation>
+        <translation>&amp;Einloggen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="81"/>
         <source>Regis&amp;ter</source>
-        <translation>Regis&amp;trera</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="82"/>
         <source>Register a new account.</source>
-        <translation>Skapa ett nytt konto.</translation>
+        <translation>Neuen Account einrichten.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="97"/>
         <source>Upgrade installed packages.  ({} upgrades available)</source>
-        <translation>Uppdatera installerade paket.  ({} uppdateringar tillgängliga)</translation>
+        <translation>Installierte Pakete Aktualisieren. ({} Neuerungen verfügbar)</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="101"/>
         <source>Upgrade installed packages.</source>
-        <translation>Uppdatera installerade paket.</translation>
+        <translation>Installierte Pakete Aktualisieren. </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="146"/>
         <source>Refresh the upgrade counter.</source>
-        <translation>Uppdatera.</translation>
+        <translation>Zähler für Aktualisierung erneuern. </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="152"/>
         <source>Upload a package to the AUR.</source>
-        <translation>Ladda upp ett paket till AUR.</translation>
+        <translation>Das Paket in die AUR Hochladen.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="159"/>
         <source>Search the AUR.</source>
-        <translation>Sök i AUR.</translation>
+        <translation>AUR durchsuchen. </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="164"/>
         <source>&amp;Preferences</source>
-        <translation>&amp;Inställningar</translation>
+        <translation>&amp;Präferenzen </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="164"/>
         <source>Open the Preferences window.</source>
-        <translation>Inställningar..</translation>
+        <translation>Öffne das präferenzen Fenster. </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="169"/>
         <source>&amp;Quit</source>
-        <translation>&amp;Avsluta</translation>
+        <translation>&amp;Beenden </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="169"/>
         <source>Quit aurqt</source>
-        <translation>Avsluta aurqt</translation>
+        <translation>Beende aurqt</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="185"/>
         <source>&amp;My packages</source>
-        <translation>&amp;Mina paket</translation>
+        <translation>&amp;Meine Pakete</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="199"/>
         <source>Request &amp;Generator</source>
-        <translation>Be&amp;gär</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="199"/>
         <source>Open the Mail Request Generator.</source>
-        <translation>Öppna e-mail förfrågningar</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="205"/>
         <source>Online &amp;Help</source>
-        <translation>Online &amp;Hjälp</translation>
+        <translation>Online &amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="205"/>
         <source>Show the online help for aurqt.</source>
-        <translation>Visa onlinehjälp för aurqt.</translation>
+        <translation>Online Hilfe für aurqt anzeigen. </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="210"/>
         <source>A&amp;bout</source>
-        <translation>&amp;Om</translation>
+        <translation>Ü&amp;ber</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="213"/>
         <source>Cl&amp;ose</source>
-        <translation>&amp;Stäng</translation>
+        <translation>Sch&amp;liesen </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="213"/>
         <source>Close the active window</source>
-        <translation>Stäng fönstret</translation>
+        <translation>Das Aktive Fenster schließen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="217"/>
         <source>&amp;Minimize</source>
-        <translation>&amp;Minimera</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="217"/>
         <source>Minimize the active window</source>
-        <translation>Minimera aktivt fönster</translation>
+        <translation>Aktives Fenster minimieren.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="222"/>
         <source>Close &amp;All</source>
-        <translation>Stäng &amp;alla</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="222"/>
         <source>Close all the windows</source>
-        <translation>Stäng alla fönser</translation>
+        <translation>Alle Fenster schließen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="226"/>
         <source>&amp;Tile</source>
-        <translation>S&amp;tapla</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="226"/>
         <source>Tile the windows</source>
-        <translation>Stapla fönster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="230"/>
         <source>&amp;Cascade</source>
-        <translation>&amp;Kaskad</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="230"/>
         <source>Cascade the windows</source>
-        <translation>Kaskad fönster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="234"/>
         <source>Ne&amp;xt</source>
-        <translation>&amp;Nästa</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="234"/>
         <source>Move the focus to the next window</source>
-        <translation>Flytta fokus till nästa fönster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="240"/>
         <source>Pre&amp;vious</source>
-        <translation>&amp;Föregående</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="240"/>
         <source>Move the focus to the previous window</source>
-        <translation>Flytta fokus till föregående fönster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="248"/>
         <source>&amp;File</source>
-        <translation>&amp;Fil</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="260"/>
         <source>&amp;Account</source>
-        <translation>&amp;Konto</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="265"/>
         <source>&amp;Window</source>
-        <translation>&amp;Fönster</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="271"/>
         <source>&amp;Help</source>
-        <translation>&amp;Hjälp</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="276"/>
@@ -484,94 +484,94 @@
     <message>
         <location filename="../aurqt/ui/__init__.py" line="288"/>
         <source>Accounts</source>
-        <translation>Konton</translation>
+        <translation>Accounts</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="294"/>
         <source>Meta</source>
-        <translation>Meta</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="394"/>
         <source>aurqt locale changed</source>
-        <translation>aurqt språk ändrat</translation>
+        <translation>aurqt Sprache geändert</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="394"/>
         <source>Restart aurqt in order to use the new language.</source>
-        <translation>Starta om aurqt för att använda nytt språk.</translation>
+        <translation>Starten sie aurqt neu, um die neue Sprache zu verwenden.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="474"/>
         <source>This is a GUI application.  There are no command-line arguments you can pass.</source>
-        <translation>Detta är ett grafiskt program. Det finns inte några kommandon för terminalen.</translation>
+        <translation>Dies ist eine GUI Anwendung. Sie können keine Kommando-Zeile befehle abgeben.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="476"/>
         <source>For more information about using aurqt, please visit {url}.</source>
-        <translation>För mer information om aurqt, besök {url}.</translation>
+        <translation>Für weitere Information zu aurqt besuchen sie bitte {url}.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="38"/>
         <source>Remember me</source>
-        <translation>Kom ihåg mig</translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="143"/>
         <source>Forgot password</source>
-        <translation>Glömt lösenord</translation>
+        <translation>Passwort vergessen?</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="67"/>
         <source>Log in</source>
-        <translation>Logga in</translation>
+        <translation>Log in</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="105"/>
         <source>Login failed.</source>
-        <translation>Login misslyckades.</translation>
+        <translation>Login fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="110"/>
         <source>Something went wrong.
 Error message: {}</source>
-        <translation>Något gick fel.
-Fel: {}</translation>
+        <translation>Ein Fehler ist aufgetreten.
+Fehler Bericht: {}</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="128"/>
         <source>Please enter an address.</source>
-        <translation>Skriv en adress.</translation>
+        <translation>Bitte E-Mail Adresse eingeben.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="139"/>
         <source>Check your mailbox.</source>
-        <translation>Kolla din inkorg. </translation>
+        <translation>Bitte überprüfen sie ihren Posteingang.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="143"/>
         <source>Request failed.  Check your Internet connection.</source>
-        <translation>Beägran misslyckades. Säkerställ om du har internet åtkomst.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/preferences.py" line="35"/>
         <source>Language</source>
-        <translation>Språk</translation>
+        <translation>Sprachen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/preferences.py" line="40"/>
         <source>System (if exists)</source>
-        <translation>System (om det finns)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/preferences.py" line="48"/>
         <source>Language to use:</source>
-        <translation>Språk att använda: </translation>
+        <translation>Sprache:</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/preferences.py" line="52"/>
         <source>AUR helper</source>
-        <translation>AUR hjälp</translation>
+        <translation>AUR Hilfe</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/preferences.py" line="57"/>
@@ -581,12 +581,12 @@ Fel: {}</translation>
     <message>
         <location filename="../aurqt/ui/preferences.py" line="70"/>
         <source>arguments used to install AUR packages</source>
-        <translation>argument som används för att installera paket från AUR</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/preferences.py" line="71"/>
         <source>packages to install</source>
-        <translation>paket att installera</translation>
+        <translation>Zu installierendes Paket</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/preferences.py" line="72"/>
@@ -594,139 +594,134 @@ Fel: {}</translation>
 Requirements:
 1. dependency resolution
 2. actually building and installing packages (so no cower)</source>
-        <translation>Hjälpen körs i ett terminalfönster
-Krav:
-1. Beroenden
-2. skapa och installera paket</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/preferences.py" line="98"/>
         <source>Preferences</source>
-        <translation>Inställningar</translation>
+        <translation>Einstellugen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="33"/>
         <source>Request type</source>
-        <translation>Förfrågningstyp</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="36"/>
         <source>Remove</source>
-        <translation>Ta bort</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="37"/>
         <source>Merge</source>
-        <translation>Slå ihop</translation>
+        <translation>Verbinden</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="38"/>
         <source>Orphan</source>
-        <translation>Föräldralös</translation>
+        <translation>verwiesen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="44"/>
         <source>Packages</source>
-        <translation>Paket</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="49"/>
         <source>Add</source>
-        <translation>Lägg till</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="50"/>
         <source>Remove selected</source>
-        <translation>Ta bort markerade</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="121"/>
         <source>Package</source>
-        <translation>Paket</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="121"/>
         <source>Reason</source>
-        <translation>Orsak</translation>
+        <translation>Grund</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="60"/>
         <source>Copy this message and send it to aur-general@archlinux.org (no subscription necessary).
 Please consult the package maintainers before sending.
 (Give them two weeks to answer.)</source>
-        <translation>Kopiera detta meddelande och sänd det till aur-general@archlinux.org.
-Kontakte paketets ansvariga innan du skickar.
-(Ge dom 2 veckor på sig att svar)</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="96"/>
         <source>Mail Request Generator</source>
-        <translation>Skapa e-mail förfrågan</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="116"/>
         <source>Merge group</source>
-        <translation>Slå ihop grupp</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="116"/>
         <source>Final package?</source>
-        <translation>Slutgiltigt paket?</translation>
+        <translation>Finales Paket?</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="146"/>
         <source>No request type chosen.</source>
-        <translation>Ingen förfråganstyp vald.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="156"/>
         <source>No reason given for {}.</source>
-        <translation>Inget skäl valt för {}.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="162"/>
         <source>No merge group set for {}.</source>
-        <translation>Inte några grupper att slå ihop valda för {}.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="166"/>
         <source>Merge group for {} is not an integer.</source>
-        <translation>Slå ihop grupp för {} är inte en siffra.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="179"/>
         <source>{} is already an orphan.</source>
-        <translation>{} är redan föräldralös.</translation>
+        <translation>{} ist bereits verwiesen</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="182"/>
         <source>{} is yours, you can orphan it yourself (search for it in aurqt or the AUR website.)</source>
-        <translation>{} är ditt, du kan adopetera det själv (sök efter paketet).</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="259"/>
         <source>No package specified.</source>
-        <translation>Inget paket valt.</translation>
+        <translation>Kein Paket ausgesucht</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="280"/>
         <source>No such package: {}</source>
-        <translation>Ingen träff för: {}</translation>
+        <translation>Es gibt kein Paket namens: {}</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/search.py" line="203"/>
         <source>Search</source>
-        <translation>Sök</translation>
+        <translation>Sucht</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/search.py" line="45"/>
         <source>Name/Description</source>
-        <translation>Namn/Beskrivning</translation>
+        <translation>Name/Beschreibung</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="90"/>
         <source>Name</source>
-        <translation>Namn</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/search.py" line="122"/>
@@ -736,223 +731,222 @@ Kontakte paketets ansvariga innan du skickar.
     <message>
         <location filename="../aurqt/ui/search.py" line="122"/>
         <source>Description</source>
-        <translation>Beskrivning</translation>
+        <translation>Beschreibung</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/search.py" line="103"/>
         <source>Internal error.</source>
-        <translation>Internt fel.</translation>
+        <translation>Interner Fehler</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/search.py" line="131"/>
         <source>Your query is too short.</source>
-        <translation>Din förfrågan är för kort.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="86"/>
         <source>Found the following upgrades:</source>
-        <translation>Hittade dessa uppdateringar.</translation>
+        <translation>Folgende neuerungen gefunden:</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="90"/>
         <source>Current</source>
-        <translation>Nuvarande</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="90"/>
         <source>New</source>
-        <translation>Ny</translation>
+        <translation>Neu</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="106"/>
         <source>No upgrades found.</source>
-        <translation>Inga uppdateringar funna.</translation>
+        <translation>Keine Neuerungen gefunden.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="163"/>
         <source>Refresh</source>
-        <translation>Uppdatera</translation>
+        <translation>Erneuern</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="166"/>
         <source>Choose the packages you want to upgrade and press OK.</source>
-        <translation>Välj paket att uppdatera och tryck OK.</translation>
+        <translation>Wählen sie die Pakete aus die sie erneuern wollen, und drücken sie OK.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="171"/>
         <source>Show:</source>
-        <translation>Visa:</translation>
+        <translation>Zeigen:</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="173"/>
         <source>Downgrades</source>
-        <translation>Nedgradera</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="174"/>
         <source>VCS packages</source>
-        <translation>VCS paket</translation>
+        <translation>VCS Pakete</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="178"/>
         <source>Check:</source>
-        <translation>Undersök: </translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="180"/>
         <source>All</source>
-        <translation>Alla</translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="181"/>
         <source>None</source>
-        <translation>Inga</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="182"/>
         <source>Reverse</source>
-        <translation>Backa</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="182"/>
         <source>Revert the selection.</source>
-        <translation>Backa markering.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/upload.py" line="38"/>
         <source>Browse</source>
-        <translation>Bläddra</translation>
+        <translation>Durchsuchen </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upload.py" line="63"/>
         <source>Upload</source>
-        <translation>Ladda upp</translation>
+        <translation>Hochladen </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upload.py" line="69"/>
         <source>Browse for source packages</source>
-        <translation>Sök efter källpaket</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/upload.py" line="69"/>
         <source>Source packages</source>
-        <translation>Källkodspaket</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/upload.py" line="85"/>
         <source>No file selected.</source>
-        <translation>Ingen fil vald.</translation>
+        <translation>Keine Datei ausgewählt.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/about.py" line="33"/>
         <source>LANG locale by AUTHOR &lt;MAIL @ IF.YOU.WANT&gt;</source>
-        <translation>Språk se_SV av tsw &lt;tarvidsson7834@gmail.com&gt;</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="364"/>
         <source>A&amp;dopt</source>
-        <translation>A&amp;doptera</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="185"/>
         <source>Display packages maintained by the current user</source>
-        <translation>Visa paket skapade av vald användare</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="192"/>
         <source>The following errors occured during generation:</source>
-        <translation>Följande fel uppstod vid skapade av: </translation>
+        <translation>Die folgenden Fehler sind bei der generierung aufgetreten.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/search.py" line="197"/>
         <source>M|aintainer (TRANSLATORS: put | after the first character of the word for Maintainer)</source>
-        <translation>F|örfattare: tsw</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="58"/>
         <source>AUR Manager</source>
-        <translation>AUR ägare</translation>
+        <translation>AUR verwalter.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="46"/>
         <source>Comment...</source>
-        <translation>Kommentera…</translation>
+        <translation>Kommentar ...</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="194"/>
         <source>Add a comment...</source>
-        <translation>Lägg till en kommentar…</translation>
+        <translation>Kommentar hinzufügen...</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="199"/>
         <source>Loading...</source>
-        <translation>Laddar…</translation>
+        <translation>Lade...</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="337"/>
         <source>&amp;Comment...</source>
-        <translation>&amp;Kommentera…</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="343"/>
         <source>Make a &amp;request...</source>
-        <translation>Skapa en förf&amp;rågan…</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="140"/>
         <source>Fetching upgrades list...</source>
-        <translation>Laddar ner uppdateringslista…</translation>
+        <translation>Liste mit neuerungen erstellen.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="152"/>
         <source>Upl&amp;oad...</source>
-        <translation>Ladda u&amp;pp…</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="159"/>
         <source>&amp;Search...</source>
-        <translation>&amp;Sök…</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="423"/>
         <source>Logging out...</source>
-        <translation>Loggar ut…</translation>
+        <translation>Logge aus...</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/login.py" line="90"/>
         <source>Logging in...</source>
-        <translation>Loggar in…</translation>
+        <translation>Logge ein...</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/request.py" line="265"/>
         <source>Fetching package information for {0}...</source>
-        <translation>Laddar ner paketinformation för {0}…
-</translation>
+        <translation>Hole Paket informationen für {0}...</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="48"/>
         <source>Refreshing package information...</source>
-        <translation>Uppdaterar paketinformation…</translation>
+        <translation>Aktuallisiere Paket informationen...</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/upgrade.py" line="165"/>
         <source>Searching for upgrades...</source>
-        <translation>Söker efter uppdateringar…</translation>
+        <translation>Suche nach neuerungen...</translation>
     </message>
     <message>
         <location filename="../aurqt/aqds.py" line="160"/>
         <source>You didn&apos;t provide the username or the password!</source>
-        <translation>Du glömde användarnamn eller lösenord!</translation>
+        <translation>Sie haben keinen Nutzername oder kein Passwort angegeben!</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="313"/>
         <source>Can&apos;t connect to the AUR.  aurqt will now quit.</source>
-        <translation>Kan inte ansluta till AUR. aurqt avslutas.</translation>
+        <translation>Verbindung mit dem AUR nicht möglich. aurqt beendet sich nun. </translation>
     </message>
     <message>
         <location filename="../aurqt/ui/preferences.py" line="87"/>
         <source>aurqt doesn&apos;t have too many preferences, unlike most of FOSS.</source>
-        <translation>aurqt har inte så många inställningar.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../aurqt/aurweb.py" line="109"/>

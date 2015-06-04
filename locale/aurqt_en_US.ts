@@ -1,24 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="en_US" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="en_US" version="2.0">
 <context>
     <name>@default</name>
     <message>
-        <location filename="../aurqt/aqds.py" line="60"/>
+        <location filename="../aurqt/aqds.py" line="59"/>
         <source>ERROR:</source>
         <translation>ERROR:</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="60"/>
+        <location filename="../aurqt/aqds.py" line="59"/>
         <source>Cannot create the configuration directory.</source>
         <translation>Cannot create the configuration directory.</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="172"/>
+        <location filename="../aurqt/aqds.py" line="171"/>
         <source>Cannot log in (wrong credentials?)</source>
         <translation>Cannot log in (wrong credentials?)</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="185"/>
+        <location filename="../aurqt/aqds.py" line="184"/>
         <source>Cannot log out.</source>
         <translation>Cannot log out.</translation>
     </message>
@@ -26,11 +25,6 @@
         <location filename="../aurqt/aurweb.py" line="44"/>
         <source>Could not log into the AUR.</source>
         <translation>Could not log into the AUR.</translation>
-    </message>
-    <message>
-        <location filename="../../../../aurweb.py" line="109"/>
-        <source>Hint:</source>
-        <translation type="obsolete">Hint:</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/__init__.py" line="57"/>
@@ -945,7 +939,7 @@ Please consult the package maintainers before sending.
         <translation>Searching for upgrades…</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="161"/>
+        <location filename="../aurqt/aqds.py" line="160"/>
         <source>You didn&apos;t provide the username or the password!</source>
         <translation>You didn’t provide the username or the password!</translation>
     </message>
@@ -962,7 +956,7 @@ Please consult the package maintainers before sending.
     <message>
         <location filename="../aurqt/aurweb.py" line="109"/>
         <source>&lt;strong&gt;Hint:&lt;/strong&gt; use gpg --fingerprint</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;Hint:&lt;/strong&gt; use gpg --fingerprint</translation>
     </message>
 </context>
 </TS>

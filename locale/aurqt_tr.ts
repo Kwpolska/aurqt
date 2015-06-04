@@ -1,24 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="tr" sourcelanguage="">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.0">
 <context>
     <name>@default</name>
     <message>
-        <location filename="../aurqt/aqds.py" line="60"/>
+        <location filename="../aurqt/aqds.py" line="59"/>
         <source>ERROR:</source>
         <translation>HATA:</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="60"/>
+        <location filename="../aurqt/aqds.py" line="59"/>
         <source>Cannot create the configuration directory.</source>
         <translation>Yapılandırma dizini oluşturulamıyor</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="172"/>
+        <location filename="../aurqt/aqds.py" line="171"/>
         <source>Cannot log in (wrong credentials?)</source>
         <translation>Giriş yapılamıyor (hatalı yetkilendirme?)</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="185"/>
+        <location filename="../aurqt/aqds.py" line="184"/>
         <source>Cannot log out.</source>
         <translation>Çıkış yapılamıyor.</translation>
     </message>
@@ -28,11 +27,6 @@
         <translation>AUR &apos;a giriş yapılamıyor.</translation>
     </message>
     <message>
-        <location filename="../../../../aurweb.py" line="109"/>
-        <source>Hint:</source>
-        <translation type="obsolete">İpucu:</translation>
-    </message>
-    <message>
         <location filename="../aurqt/ui/__init__.py" line="57"/>
         <source>A graphical AUR manager.</source>
         <translation>Grafiksel AUR yöneticisi.</translation>
@@ -40,7 +34,7 @@
     <message>
         <location filename="../aurqt/ui/about.py" line="37"/>
         <source>Using PKGBUILDer v{}.</source>
-        <translation type="unfinished"></translation>
+        <translation>v{} PKGBUILD yapıcı kullanılıyor.</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/about.py" line="64"/>
@@ -877,7 +871,7 @@ Göndermeden önce paket sağlayacılıya danışın.⏎
     <message>
         <location filename="../aurqt/ui/__init__.py" line="58"/>
         <source>AUR Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>AUR Yönetici</translation>
     </message>
     <message>
         <location filename="../aurqt/ui/info.py" line="46"/>
@@ -945,7 +939,7 @@ Göndermeden önce paket sağlayacılıya danışın.⏎
         <translation>Yükseltmeler için bakılıyor...</translation>
     </message>
     <message>
-        <location filename="../aurqt/aqds.py" line="161"/>
+        <location filename="../aurqt/aqds.py" line="160"/>
         <source>You didn&apos;t provide the username or the password!</source>
         <translation>Geçerli bir şifre veya isim girmediniz!</translation>
     </message>
@@ -962,7 +956,7 @@ Göndermeden önce paket sağlayacılıya danışın.⏎
     <message>
         <location filename="../aurqt/aurweb.py" line="109"/>
         <source>&lt;strong&gt;Hint:&lt;/strong&gt; use gpg --fingerprint</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;Hint:&lt;/strong&gt; kullan gpg --fingerprint</translation>
     </message>
 </context>
 </TS>
